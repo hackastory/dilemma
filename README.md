@@ -43,6 +43,7 @@ Use the following snippet to communicate with the multi user server
     socket.emit('your-event', 'your data' );
     
     // Be sure to handle these events in simple-server/lib/GameEngine.js
+    // for a list of events also see the GameEngine class.
 
 </script>
 ```
