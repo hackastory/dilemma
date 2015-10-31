@@ -27,8 +27,8 @@ $(function () {
 
             $gameContainer.append( ''.concat(
                 '<h1>Choose your player</h1>',
-                '<button id="manic">Manic</button>',
-                '<button id="depressed">Depressed</button>'
+                '<button id="manic">Light</button>',
+                '<button id="depressed">Dark</button>'
             ) );
 
             $('#manic' ).on('click', function () {
