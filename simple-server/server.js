@@ -11,6 +11,9 @@ var io = socketIo( server );
 var port = process.env.PORT || 4000;
 
 app.use( express.static( __dirname +'/test' ) );
+app.use( '/gamecode', express.static( __dirname +'/../server/examples' ) );
+
+
 
     // binding to 0.0.0.0 allows connections from any other computer in the network
     // to your ip address
