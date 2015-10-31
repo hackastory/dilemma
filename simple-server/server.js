@@ -10,6 +10,7 @@ var io = socketIo( server );
 
 var port = process.env.PORT || 4000;
 
+app.use( '/prototypes', express.static( __dirname +'/../server/examples' ) );
 app.use( express.static( __dirname +'/game' ) );
 app.use( '/vendor', express.static( __dirname +'/node_modules' ) );
 app.use( '/admin', express.static( __dirname +'/admin' ) );
