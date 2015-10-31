@@ -80,9 +80,12 @@ Game.prototype = {
 
         client.emit('grid', gridMatrix);
 
-        if ( this.state.depressedChosen && this.state.manicChosen ) {
-            this.socket.emit('start');
-        }
+        //if ( this.state.depressedChosen && this.state.manicChosen ) {
+        //    this.socket.emit('start');
+        //}
+
+        // For now, just activate the chooser
+        client.emit('start');
     },
 
     handleLost : function () {
