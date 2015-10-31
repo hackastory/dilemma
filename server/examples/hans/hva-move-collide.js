@@ -79,8 +79,10 @@ function render () {
 
     cube.rotation.x += 0.1;
     cube.rotation.y += 0.1;
-
-    renderer.render(scene, camera);
+	effect = new THREE.StereoEffect( renderer );
+	effect.eyeSeparation = 10;
+	effect.setSize( window.innerWidth, window.innerHeight );
+    effect.render(scene, camera);
 };
 
 document.onkeydown = function(e){
