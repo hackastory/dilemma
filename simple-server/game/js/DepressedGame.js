@@ -1,5 +1,7 @@
 (function ( ThreeDeeWorld ){
 
+    var socket;
+
     /***************************************************************
      * Depressed player
      */
@@ -25,6 +27,7 @@
                   player.tryMovement( 'add' )
               }
           } ],
+
           tryMovement: function ( which ) {
 
               var cubes = ThreeDeeWorld.getCubes();
@@ -102,8 +105,6 @@
     /***************************************************************
      * DepressedGame
      */
-
-    var socket;
 
     var DepressedGame = {
 
