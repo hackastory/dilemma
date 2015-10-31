@@ -1,4 +1,5 @@
 
+    // TODO: obsolete? Not dynamically needed anymore?
 var gridMatrix = [
         
     /* Ground level */    
@@ -30,7 +31,7 @@ var gridMatrix = [
 ];
 
 
-var Game = function ( socket ) {
+var GameEngine = function ( socket ) {
 
     this.state = {
         manicChosen: false,
@@ -43,7 +44,7 @@ var Game = function ( socket ) {
     this.bindSocketEvents();
 };
 
-Game.prototype = {
+GameEngine.prototype = {
 
     bindSocketEvents: function () {
 
@@ -80,9 +81,12 @@ Game.prototype = {
 
         client.emit('grid', gridMatrix);
 
-        if ( this.state.depressedChosen && this.state.manicChosen ) {
-            this.socket.emit('start');
-        }
+        //if ( this.state.depressedChosen && this.state.manicChosen ) {
+        //    this.socket.emit('start');
+        //}
+
+        // For now, just activate the chooser
+        client.emit('start');
     },
 
     handleLost : function () {
@@ -124,4 +128,4 @@ Game.prototype = {
 
 };
 
-module.exports = Game;
+module.exports = GameEngine;

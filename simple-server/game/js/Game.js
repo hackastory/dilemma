@@ -1,41 +1,42 @@
-$(function () {
+(function ( ManicGame, DepressedGame ) {
 
     var dl = document.location;
     var socketServer = dl.origin;
 
     var socket = io( socketServer );
 
-    var $gameContainer = $('#app');
+    var $gameContainer = $('#app'); // for rendering the intro/outro etc
+                                    // The 3D game is rendered in a body > canvas
 
     var Game = {
 
         setup: function () {
 
-
-            // bind socket events
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
 
-
-            // create the intro
             Game.createIntro();
         },
 
         createIntro: function () {
 
             // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
-
             $gameContainer.append( ''.concat(
                 '<h1>Choose your player</h1>',
                 '<button id="manic">Light</button>',
                 '<button id="depressed">Dark</button>'
             ) );
 
+            // For now, clicking on a button above automatically starts the game
+            // by emitting the 'start' event.
+            // When merging both worlds emitting the 'start' event should depend
+            // on both players having clicked a button
+
             $('#manic' ).on('click', function () {
 
                 $gameContainer.hide();
 
-                ManicGame.setup();
+                ManicGame.setup( socket );
                 socket.emit('login', 'manic');
             });
 
@@ -43,7 +44,7 @@ $(function () {
 
                 $gameContainer.hide();
 
-                DepressedGame.setup();
+                DepressedGame.setup( socket );
                 socket.emit('login', 'depressed');
             });
         },
@@ -57,52 +58,8 @@ $(function () {
         }
     };
 
-    /***************************************************************
-     * ManicGame
-     */
-
-    var ManicGame = {
-
-        setup: function () {
-            socket.on('grid', ManicGame.handleGrid );
-            socket.on('start', ManicGame.handleStart );
-        },
-
-        handleGrid: function ( gridData ) {
-            console.log( 'grid received', gridData );
-        },
-
-        handleStart: function () {
-
-            // create the 3D world
-
-            console.log('we can start creating the Manic game!');
-        }
-    };
-
-    /***************************************************************
-     * DepressedGame
-     */
-
-    var DepressedGame = {
-
-        setup: function () {
-            socket.on('grid', DepressedGame.handleGrid );
-            socket.on('start', DepressedGame.handleStart );
-        },
-
-        handleGrid: function ( gridData ) {
-            console.log( 'grid received', gridData );
-        },
-
-        handleStart: function () {
-
-            // create the 3D world
-
-            console.log('we can start creating the Depressed game!');
-        }
-    };
 
     /****************************/
     Game.setup();
-});
+
+})( window.ManicGame, window.DepressedGame );
