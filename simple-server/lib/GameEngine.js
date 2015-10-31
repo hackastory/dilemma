@@ -96,6 +96,8 @@ Game.prototype = {
     handleReset : function () {
 
         this.state.started = false;
+        this.state.manicChosen = false;
+        this.state.depressedChosen = false;
 
         console.log('reset');
         this.socket.emit( 'reset' );

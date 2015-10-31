@@ -6,7 +6,6 @@ $(function () {
     var socket = io( socketServer );
 
     var $gameContainer = $('#app');
-    var playerType;
 
     var Game = {
 
@@ -58,6 +57,9 @@ $(function () {
         }
     };
 
+    /***************************************************************
+     * ManicGame
+     */
 
     var ManicGame = {
 
@@ -71,9 +73,16 @@ $(function () {
         },
 
         handleStart: function () {
+
+            // create the 3D world
+
             console.log('we can start creating the Manic game!');
         }
     };
+
+    /***************************************************************
+     * DepressedGame
+     */
 
     var DepressedGame = {
 
@@ -87,6 +96,9 @@ $(function () {
         },
 
         handleStart: function () {
+
+            // create the 3D world
+
             console.log('we can start creating the Depressed game!');
         }
     };

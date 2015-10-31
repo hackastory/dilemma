@@ -1,5 +1,5 @@
-var express = require('express'); // http://expressjs.com/
-var socketIo = require('socket.io'); // http://socket.io/
+var express = require('express'); // Docs http://expressjs.com/
+var socketIo = require('socket.io'); // Docs http://socket.io/
 
 var GameEngine = require('./lib/GameEngine');
 
@@ -11,6 +11,7 @@ var io = socketIo( server );
 var port = process.env.PORT || 4000;
 
 app.use( express.static( __dirname +'/game' ) );
+app.use( '/vendor', express.static( __dirname +'/node_modules' ) );
 app.use( '/admin', express.static( __dirname +'/admin' ) );
 
 
