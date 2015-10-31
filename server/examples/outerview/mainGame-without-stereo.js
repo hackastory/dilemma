@@ -148,6 +148,13 @@ var worldIsRotating = false;
 var worldRotationCurrent = new THREE.Vector3( 0, 0, 0 );
 var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
 var world = new THREE.Object3D();
+var hypercube = new THREE.Object3D();
+
+camera.position.z = 50;
+
+hypercube.position.x = -10;
+hypercube.position.y = -10;
+hypercube.position.z = -10;
 
 var cubes = [];
 
@@ -206,13 +213,13 @@ var player = {
             }
         }
 
-        camera.position.x = player.pos.x;
-        camera.position.y = player.pos.y;
-        camera.position.z = player.pos.z + 50;
+        //camera.position.x = player.pos.x;
+        //camera.position.y = player.pos.y;
+        //camera.position.z = player.pos.z + 50;
 
-        camera.rotation.x = player.rot.x;
-        camera.rotation.y = player.rot.y;
-        camera.rotation.z = player.rot.z;
+        world.rotation.x = player.rot.x;
+        world.rotation.y = player.rot.y;
+        world.rotation.z = player.rot.z;
 
         light.position.set(player.pos.x,player.pos.y,player.pos.z);
 
@@ -231,7 +238,10 @@ function setup() {
 
     var texture1 = THREE.ImageUtils.loadTexture( "floor_tile.jpg" );
 
-    var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
+    //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
+    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.1, transparent: true});
+    //material.color = 0xff9999;
+    //material.opacity = 0.5;
 
     for (var z = 0; z < map.length; z++) {
         for (var x = 0; x < map[z].length; x++) {
@@ -255,7 +265,7 @@ function setup() {
                     }
 
                     cubes.push(cube);
-                    world.add(mesh);
+                    hypercube.add(mesh);
                 }
 
             }
@@ -274,7 +284,8 @@ function setup() {
     ground.rotation.x = -Math.PI*0.5;
     ground.position.y = -1;
 
-    world.add(ground);
+    //world.add(ground);
+    world.add(hypercube);
     scene.add(world);
     scene.add(light);
 
