@@ -154,12 +154,12 @@ var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
 var world = new THREE.Object3D();
 var hypercube = new THREE.Object3D();
 
-var geometry = new THREE.SphereGeometry(1.5);
+var geometry = new THREE.CubeGeometry(2,2,2);
 
 var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
-mesh.position.x = -2;
-mesh.position.y = -2;
-mesh.position.z = -2;
+//mesh.position.x = -1;
+//mesh.position.y = -1;
+//mesh.position.z = -1;
 mesh.name = "marker";
 
 var marker = {
@@ -271,7 +271,7 @@ function setup() {
     var texture1 = THREE.ImageUtils.loadTexture( "floor_tile.jpg" );
 
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
-    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.1, transparent: true});
+    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.3, transparent: true});
     //material.color = 0xff9999;
     //material.opacity = 0.5;
 
