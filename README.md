@@ -16,7 +16,7 @@ Navigate to `/simple-server`, run `npm install` to install all requirements.
 After that, do `npm start` en visit [http://localhost:4000](localhost:4000).
 
 To access the prototypes just navigate to
-[http://localhost:4000/prototype](localhost:4000/prototype/prototype-directory-name)
+[http://localhost:4000/prototypes](localhost:4000/prototypes/prototype-directory-name)
 
 ### Connecting prototypes to the multi user server
 
