@@ -1,7 +1,41 @@
 
+var gridMatrix = [
+        
+    /* Ground level */    
+    [
+        /* row */            
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1]
+    ],
+    [
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,1,1,1,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]
+    ]
+];
+
+
 var Game = function ( socket ) {
 
     this.state = {
+        manicChosen: false,
+        depressedChosen: false,
+        grid: gridMatrix,
         started: false
     };
     this.socket = socket;
@@ -31,8 +65,24 @@ Game.prototype = {
 
         console.log( loginData );
 
-        // send client an intro event
-        client.emit('intro');
+        switch ( loginData ) {
+
+            case 'manic':
+                this.state.manicChosen = true;
+                break;
+
+            case 'depressed':
+                this.state.depressedChosen = true;
+                break;
+        }
+
+        this.socket.emit('playertaken', loginData );
+
+        client.emit('grid', gridMatrix);
+
+        if ( this.state.depressedChosen && this.state.manicChosen ) {
+            this.socket.emit('start');
+        }
     },
 
     handleLost : function () {

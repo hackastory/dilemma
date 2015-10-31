@@ -1,7 +1,7 @@
 var express = require('express'); // http://expressjs.com/
 var socketIo = require('socket.io'); // http://socket.io/
 
-var Game = require('./lib/Game');
+var GameEngine = require('./lib/GameEngine');
 
 
 var app = express();
@@ -10,8 +10,8 @@ var io = socketIo( server );
 
 var port = process.env.PORT || 4000;
 
-app.use( express.static( __dirname +'/test' ) );
-app.use( '/gamecode', express.static( __dirname +'/../server/examples' ) );
+app.use( express.static( __dirname +'/game' ) );
+app.use( '/admin', express.static( __dirname +'/admin' ) );
 
 
 
@@ -21,5 +21,5 @@ server.listen( port, '0.0.0.0', function () {
 
     console.log('game server started on localhost:'+ port );
 
-    new Game( io );
+    new GameEngine( io );
 } );
