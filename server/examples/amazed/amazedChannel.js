@@ -64,8 +64,8 @@ mobUtil.extend(Amazed.prototype, {
     //return all runners and their positions
     getMazeRunners: function(){
         var returned = [];
-        for(var i in this.runners){
-            var runner = this.runners[i];
+        for(var d in this.runners){
+            var runner = this.runners[d];
             returned.push({
                 username: runner.username,
                 position: runner.getPosition(),
