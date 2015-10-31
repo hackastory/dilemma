@@ -40,7 +40,7 @@ var DeviceOrientationController = function ( object, domElement ) {
 
     var CONTROLLER_STATE = {
         AUTO: 0,
-        MANUAL_ROTATE: 1,
+        MANUAL_ROTATE: 0,
         MANUAL_ZOOM: 2
     };
 

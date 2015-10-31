@@ -1,11 +1,13 @@
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 60, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
 var light = new THREE.HemisphereLight(0xffffff,0,0.6);
 var ism = false;
-
+var effect;
 var rayCaster = new THREE.Raycaster();
 var rayVector = new THREE.Vector3();
+var width = window.innerWidth;
+var height = window.innerHeight;
 
 var debug = document.createElement('div');
 debug.style.position = 'absolute';
@@ -226,8 +228,10 @@ var player = {
 function setup() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
-
-
+	effect = new THREE.StereoEffect(renderer);
+	effect.setSize(window.innerWidth, window.innerHeight);
+	camera.aspect = width / height;
+	camera.updateProjectionMatrix();
 
     var texture1 = THREE.ImageUtils.loadTexture( "floor_tile.jpg" );
 
@@ -347,10 +351,7 @@ function render () {
     player.move();
 
     rotateWorld();
-    //cube.rotation.x += 0.1;
-    //cube.rotation.y += 0.1;
-    //controls.update();
-    renderer.render(scene, camera);
+    effect.render(scene, camera);
 
 };
 
