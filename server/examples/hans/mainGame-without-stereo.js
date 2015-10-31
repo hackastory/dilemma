@@ -283,8 +283,6 @@ function setup() {
 
 function worldEvents(which) {
     if (!worldIsRotating) {
-        console.log(which);
-
         worldRotationTarget = new THREE.Vector3(worldRotationCurrent.x, worldRotationCurrent.y, worldRotationCurrent.z);
 
         switch (which) {
@@ -308,7 +306,7 @@ function worldEvents(which) {
             world.children[i].position.add(offset);
         }
         player.pos = new THREE.Vector3(0, 0, 0);
-        //worldIsRotating = true;
+        worldIsRotating = true;
         updateHitBoxes();
     }
 }
