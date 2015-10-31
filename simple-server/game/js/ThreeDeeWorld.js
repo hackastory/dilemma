@@ -5,13 +5,6 @@
 
 (function ( $ ) {
 
-    var camera;
-    var cubes = [];
-    var light;
-    var renderer;
-    var scene;
-    var world;
-
     var map = [];
 
     map[0] =[[1,1,1,1,1,1,1,1,1,1,1,1],
@@ -144,6 +137,13 @@
             [1,1,1,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1]];
 
+    var camera;
+    var cubes = [];
+    var effect;
+    var light;
+    var renderer;
+    var scene;
+    var world;
 
     var ThreeDeeWorld = {
 

@@ -1,34 +1,6 @@
 
     // TODO: obsolete? Not dynamically needed anymore?
-var gridMatrix = [
-        
-    /* Ground level */    
-    [
-        /* row */            
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1],
-        [1,1,1,1,1,1,1,1,1,1]
-    ],
-    [
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,1,1,1,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0]
-    ]
-];
+var gridMatrix = [];
 
 
 var GameEngine = function ( socket ) {
@@ -89,7 +61,7 @@ GameEngine.prototype = {
         //    this.socket.emit('start');
         //}
 
-        // For now, just emit start to the client that pressed a login button
+        // but for now, just emit start to the client that pressed a login button
         client.emit('start');
     },
 
@@ -135,7 +107,6 @@ GameEngine.prototype = {
         console.log('won');
         this.socket.emit('won');
     }
-
 };
 
 module.exports = GameEngine;

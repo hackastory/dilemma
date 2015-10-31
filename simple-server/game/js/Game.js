@@ -15,10 +15,13 @@
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
 
-            Game.createIntro();
+            socket.on('lost', Game.handleLost );
+            socket.on('won', Game.handleWon );
+
+            Game.createChooser();
         },
 
-        createIntro: function () {
+        createChooser: function () {
 
             // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
             $gameContainer.append( ''.concat(
@@ -49,11 +52,27 @@
             });
         },
 
+        createIntro: function () {
+            // Intro movie? Animated Gif?
+        },
+
+        createOutro: function () {
+
+        },
+
+        handleLost: function () {
+
+        },
+
         handlePlayerTaken: function ( playerName ) {
             $('#'+ playerName ).hide(); // hide the button option
         },
 
         handleReset: function () {
+
+        },
+
+        handleWon: function () {
 
         }
     };
