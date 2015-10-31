@@ -6,19 +6,15 @@
     var socket = io( socketServer );
 
     var $gameContainer = $('#app'); // for rendering the intro/outro etc
-                                    // The 3D game is rendered in a body>canvas
+                                    // The 3D game is rendered in a body > canvas
 
     var Game = {
 
         setup: function () {
 
-
-            // bind socket events
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
 
-
-            // create the intro
             Game.createIntro();
         },
 
@@ -31,7 +27,7 @@
                 '<button id="depressed">Dark</button>'
             ) );
 
-            // For now, clicking on a button automatically starts the game
+            // For now, clicking on a button above automatically starts the game
             // by emitting the 'start' event.
             // When merging both worlds emitting the 'start' event should depend
             // on both players having clicked a button
