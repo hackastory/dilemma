@@ -1,103 +1,120 @@
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-var renderer = new THREE.WebGLRenderer();
-var effect = new THREE.StereoEffect( renderer );
-var cube;
+var camera, scene, renderer;
+var effect, controls;
+var element, container;
 
-var player = {
-    pos : new THREE.Vector3( 0, 0, 5 )
-    //rot : new THREE.Vector3( 0, 0, 0 ),
-    //keys : [    {keyCode: 37, isDown: false, action : function(){player.rot.y += 0.1}},
-    //            {keyCode: 38, isDown: false, action : function(){player.pos.sub(player.getMovement())}},
-    //            {keyCode: 39, isDown: false, action : function(){player.rot.y -= 0.1}},
-    //            {keyCode: 40, isDown: false, action : function(){player.pos.add(player.getMovement())}}
-    //        ],
-    //getMovement : function(){
-    //    var v = new THREE.Vector3(1,0,1);
-    //    v.applyQuaternion(new THREE.Quaternion().setFromAxisAngle( new THREE.Vector3(0,1,0),player.rot.y - (Math.PI *.25)));
-    //    v.setLength(0.1);
-    //    console.log(v);
-    //    return v;
-    //},
-    //updateVel : function(input) {
-    //    for (var i = 0; i < player.keys.length; i++){
-    //        if (player.keys[i].keyCode == input.key){
-    //            player.keys[i].isDown = input.isPressed;
-    //        }
-    //    }
-    //},
-    //move : function() {
-    //    for (var i = 0; i < player.keys.length; i++) {
-    //        if(player.keys[i].isDown) {
-    //            player.keys[i].action();
-    //        }
-    //    }
-    //
-    //    camera.position.x = player.pos.x;
-    //    camera.position.y = player.pos.y;
-    //    camera.position.z = player.pos.z;
-    //
-    //    camera.rotation.x = player.rot.x;
-    //    camera.rotation.y = player.rot.y;
-    //    camera.rotation.z = player.rot.z;
-    //
-    //    if (player.rot.y >= 2* Math.PI || player.rot.y <= -(2* Math.PI)) player.rot.y = 0;
-    //
-    //}
-};
+var clock = new THREE.Clock();
 
-function setup() {
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
+init();
+animate();
 
-    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    cube = new THREE.Mesh( geometry, material );
+function init() {
+	renderer = new THREE.WebGLRenderer();
+	element = renderer.domElement;
+	container = document.getElementById('game');
+	container.appendChild(element);
+
+	effect = new THREE.StereoEffect(renderer);
+
+	scene = new THREE.Scene();
+
+	camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
+	camera.position.set(0, 10, 0);
+	scene.add(camera);
+
+	controls = new THREE.OrbitControls(camera, element);
+	controls.rotateUp(Math.PI / 4);
+	controls.target.set(
+		camera.position.x + 0.1,
+		camera.position.y,
+		camera.position.z
+	);
+	controls.noZoom = true;
+	controls.noPan = true;
+
+	function setOrientationControls(e) {
+		if (!e.alpha) {
+			return;
+		}
+
+		controls = new THREE.DeviceOrientationControls(camera, true);
+		controls.connect();
+		controls.update();
+
+		element.addEventListener('click', fullscreen, false);
+
+		window.removeEventListener('deviceorientation', setOrientationControls, true);
+	}
+	window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
-    var ggeometry = new THREE.PlaneGeometry( 1000,1000 );
-    var texture = THREE.ImageUtils.loadTexture( "checkerboard.png" );
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
+	var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+	scene.add(light);
 
-    texture.repeat.set( 100, 100 );
-    var groundmaterial = new THREE.MeshBasicMaterial( { map: texture } );
-    var ground = new THREE.Mesh( ggeometry, groundmaterial );
-    ground.rotation.x = -Math.PI*0.5;
-    ground.position.y = -1;
+	var texture = THREE.ImageUtils.loadTexture(
+		'checkerboard.png'
+	);
+	
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat = new THREE.Vector2(50, 50);
+	texture.anisotropy = renderer.getMaxAnisotropy();
 
-    scene.add( cube );
-    scene.add(ground);
+	var material = new THREE.MeshPhongMaterial({
+		color: 0xffffff,
+		specular: 0xffffff,
+		shininess: 20,
+		shading: THREE.FlatShading,
+		map: texture
+	});
 
+	var geometry = new THREE.PlaneGeometry(1000, 1000);
 
-    effect.eyeSeparation = 10;
-    effect.setSize(window.innerWidth, window.innerHeight);
+	var mesh = new THREE.Mesh(geometry, material);
+	mesh.rotation.x = -Math.PI / 2;
+	scene.add(mesh);
 
-
-    render();
+	window.addEventListener('resize', resize, false);
+	setTimeout(resize, 1);
 }
 
+function resize() {
+	var width = container.offsetWidth;
+	var height = container.offsetHeight;
 
-function render () {
-    requestAnimationFrame( render );
+	camera.aspect = width / height;
+	camera.updateProjectionMatrix();
 
-    //player.move();
+	renderer.setSize(width, height);
+	effect.setSize(width, height);
+}
 
-    cube.rotation.x += 0.1;
-    cube.rotation.y += 0.1;
-    controls.update();
-    effect.render(scene, camera);
+function update(dt) {
+	resize();
 
-};
+	camera.updateProjectionMatrix();
 
-//document.onkeydown = function(e){
-//    player.updateVel({key: e.keyCode, isPressed: true});
-//}
-//document.onkeyup = function(e){
-//    player.updateVel({key: e.keyCode, isPressed: false});
-//}
+	controls.update(dt);
+}
 
-controls = new DeviceOrientationController( camera, renderer.domElement );
-controls.connect();
+function render(dt) {
+	effect.render(scene, camera);
+}
 
-setup();
+function animate(t) {
+	requestAnimationFrame(animate);
+
+	update(clock.getDelta());
+	render(clock.getDelta());
+}
+
+function fullscreen() {
+	if (container.requestFullscreen) {
+		container.requestFullscreen();
+	} else if (container.msRequestFullscreen) {
+		container.msRequestFullscreen();
+	} else if (container.mozRequestFullScreen) {
+		container.mozRequestFullScreen();
+	} else if (container.webkitRequestFullscreen) {
+		container.webkitRequestFullscreen();
+	}
+}
