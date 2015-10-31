@@ -371,21 +371,6 @@ document.onkeyup = function(e){
     player.updateVel({key: e.keyCode, isPressed: false});
 }
 
-document.onmousemove = function(e){
-    //
-    //rayVector.x = 2 * (e.clientX / window.innerWidth) - 1;
-    //rayVector.y = 1 - 2 * ( e.clientY / window.innerHeight );
-    //rayCaster.setFromCamera( rayVector, camera );
-    //var intersects = rayCaster.intersectObjects( scene.children );
-    //for ( var i = 0; i < intersects.length; i++ ) {
-    //
-    //    if(intersects[ i].object.name == "cube"){
-    //        intersects[ i].object.material.color.set(0xff0000);
-    //    };
-    //
-    //}
-}
-
 //controls = new DeviceOrientationController( camera, renderer.domElement );
 //controls.connect();
 
