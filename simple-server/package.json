@@ -1,0 +1,12 @@
+{
+  "name": "hackathon-escape",
+  "version": "1.0.0",
+  "description": "Escape it",
+  "devDependencies": {
+    "express": "^4.8.5"
+  },
+  "dependencies": {
+    "socket.io": "^1.3.5",
+    "wii-controller": "^0.1.0"
+  }
+}
