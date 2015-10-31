@@ -303,7 +303,6 @@ function setup() {
                 else {
                     var validPos = new THREE.Vector3(x * 2, y * 2, z * 2);
                     validPositions.push(validPos);
-                    console.log(validPos.x);
                 }
 
             }
