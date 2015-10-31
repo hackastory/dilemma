@@ -20,9 +20,9 @@
 
 
                         <h2>Send coordinates</h2>
-                        <input class="coord-x" type="text" style="width: 50px;">
-                        <input class="coord-y" type="text" style="width: 50px;">
-                        <input class="coord-z" type="text" style="width: 50px;">
+                        <input class="coord coord-x" type="text" style="width: 50px;" value="1">
+                        <input class="coord coord-y" type="text" style="width: 50px;" value="1">
+                        <input class="coord coord-z" type="text" style="width: 50px;" value="1">
 
                         <button class="coordinates">send</button><br/><br/>
                         <hr/>
@@ -52,21 +52,29 @@
 
                     var $button = $(this);
 
-                    $button.click(function () {
+                    $button.click(sendEvent);
 
+                    function sendEvent() {
                         socket.emit( $button[0].className );
-                    });
+                    };
 
                 });
 
-                $('.coordinates').click(function () {
+                $('.coordinates').click(sendCoords);
+                $(document).keydown(function(e) {
+                    if(e.keyCode == 13){
+                        sendCoords();
+                    }
+                });
 
+
+                function sendCoords() {
                     socket.emit( 'player-coordinates', {
                         x: parseFloat( $('.coord-x').val() ) || 0,
                         y: parseFloat( $('.coord-y').val() ) || 0,
                         z: parseFloat( $('.coord-z').val() ) || 0
                     } );
-                });
+                };
             });
 
         </script>

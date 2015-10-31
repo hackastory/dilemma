@@ -17,6 +17,26 @@ debug.style.zIndex = 999;
 
 var map = [];
 
+function initSocket() {
+    var dl = document.location;
+    var socketServer = dl.origin;
+
+    var socket = io( socketServer );
+
+    // receiving
+
+    socket.on('player-coordinates', function ( eventData ) {
+        console.log('mainGame-without-stereo -> ', eventData);
+        eventData.x = eventData.x * 2;
+        eventData.y = eventData.y * 2;
+        eventData.z = eventData.z * 2;
+        marker.mesh.position.copy(eventData);
+    });
+
+}
+
+initSocket();
+
 map[0] =[[1,1,1,1,1,1,1,1,1,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1],
@@ -256,7 +276,7 @@ var player = {
                 currentPosition = 0;
             }
 
-            marker.mesh.position.copy(validPositions[currentPosition]);
+            //marker.mesh.position.copy(validPositions[currentPosition]);
         }
 
     }
