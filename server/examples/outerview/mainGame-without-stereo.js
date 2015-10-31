@@ -4,6 +4,10 @@ var renderer = new THREE.WebGLRenderer();
 var light = new THREE.HemisphereLight(0xffffff,0,0.6);
 var ism = false;
 
+var validPositions = [];
+var currentPosition = 0;
+var positionInterval = 5;
+
 var rayCaster = new THREE.Raycaster();
 var rayVector = new THREE.Vector3();
 
@@ -150,6 +154,21 @@ var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
 var world = new THREE.Object3D();
 var hypercube = new THREE.Object3D();
 
+var geometry = new THREE.SphereGeometry(1.5);
+
+var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+mesh.position.x = -2;
+mesh.position.y = -2;
+mesh.position.z = -2;
+mesh.name = "marker";
+
+var marker = {
+    mesh: mesh,
+    //box: new THREE.Sphere(new THREE.Vector3(0,0,0), 2),
+    //cubetype: map[z][x][y]
+};
+
+
 camera.position.z = 50;
 
 hypercube.position.x = -10;
@@ -227,6 +246,19 @@ var player = {
 
         debug.innerHTML = "x: " + player.pos.x + " y: " + player.pos.y + " z: " + player.pos.z;
 
+
+        positionInterval++;
+        positionInterval %= 15;
+
+        if (positionInterval == 0) {
+            currentPosition++;
+            if (currentPosition >= validPositions.length) {
+                currentPosition = 0;
+            }
+
+            marker.mesh.position.copy(validPositions[currentPosition]);
+        }
+
     }
 };
 
@@ -268,6 +300,12 @@ function setup() {
                     hypercube.add(mesh);
                 }
 
+                else {
+                    var validPos = new THREE.Vector3(x * 2, y * 2, z * 2);
+                    validPositions.push(validPos);
+                    console.log(validPos.x);
+                }
+
             }
         }
     }
@@ -286,6 +324,7 @@ function setup() {
 
     //world.add(ground);
     world.add(hypercube);
+    hypercube.add(marker.mesh);
     scene.add(world);
     scene.add(light);
 
