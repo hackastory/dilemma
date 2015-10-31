@@ -65,6 +65,7 @@
 
               //return v;
           },
+
           updateVel: function ( input ) {
               for ( var i = 0; i < player.keys.length; i++ ) {
                   if ( player.keys[ i ].keyCode == input.key ) {
@@ -72,6 +73,7 @@
                   }
               }
           },
+
           move: function () {
 
               var camera = ThreeDeeWorld.getCamera();
