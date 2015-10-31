@@ -1,4 +1,4 @@
-# Escape Room server
+# Game server
 Simple WebSocket server.
 The communication logic is specifically targeted at the hackathon
 Game it was built for.

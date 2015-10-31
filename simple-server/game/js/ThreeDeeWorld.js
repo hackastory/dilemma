@@ -1,3 +1,8 @@
+/**
+ * ThreeDeeWorld only creates the basic game world that both players need.
+ * Add game specific effects and gameplay in the respective ...Game.js classes
+ */
+
 (function ( $ ) {
 
     var camera;
@@ -250,7 +255,7 @@
             camera.updateProjectionMatrix();
         },
 
-        // called from the implementing Game, because it probably needs to do
+        // called from the implementing Game class, because it probably needs to do
         // some extra stuff prior to rendering
         render: function () {
 			

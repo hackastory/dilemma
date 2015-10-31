@@ -32,7 +32,9 @@
 
             console.log('we can start creating the Manic game!');
 
+            ThreeDeeWorld.create();
 
+            ManicGame.render();
         },
 
         render: function () {

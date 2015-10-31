@@ -1,5 +1,12 @@
 (function ( ThreeDeeWorld ){
 
+    var socket;
+
+    var worldRotationSpeed = 0.03;
+    var worldIsRotating = false;
+    var worldRotationCurrent = new THREE.Vector3( 0, 0, 0 );
+    var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
+
     /***************************************************************
      * Depressed player
      */
@@ -25,6 +32,7 @@
                   player.tryMovement( 'add' )
               }
           } ],
+
           tryMovement: function ( which ) {
 
               var cubes = ThreeDeeWorld.getCubes();
@@ -62,6 +70,7 @@
 
               //return v;
           },
+
           updateVel: function ( input ) {
               for ( var i = 0; i < player.keys.length; i++ ) {
                   if ( player.keys[ i ].keyCode == input.key ) {
@@ -69,18 +78,19 @@
                   }
               }
           },
+
           move: function () {
 
               var camera = ThreeDeeWorld.getCamera();
               var light = ThreeDeeWorld.getLight();
 
-              //if ( ! worldIsRotating ) {
+              if ( ! worldIsRotating ) {
                   for ( var i = 0; i < player.keys.length; i++ ) {
                       if ( player.keys[ i ].isDown ) {
                           player.keys[ i ].action();
                       }
                   }
-              //}
+              }
 
               camera.position.x = player.pos.x;
               camera.position.y = player.pos.y;
@@ -100,10 +110,81 @@
 
 
     /***************************************************************
-     * DepressedGame
+     * Depressed world
      */
 
-    var socket;
+    function worldEvents ( which ) {
+
+        var world = ThreeDeeWorld.getWorld();
+
+        if ( ! worldIsRotating ) {
+            worldRotationTarget = new THREE.Vector3( worldRotationCurrent.x, worldRotationCurrent.y, worldRotationCurrent.z );
+
+            switch ( which ) {
+                case 72: //H
+                    worldRotationTarget.z = worldRotationTarget.z + (Math.PI * .5);
+                    break;
+                case 75: //K
+                    worldRotationTarget.z = worldRotationTarget.z - (Math.PI * .5);
+                    break;
+                case 85: //U
+                    worldRotationTarget.x = worldRotationTarget.x - (Math.PI * .5);
+                    break;
+                case 74: //J
+                    worldRotationTarget.x = worldRotationTarget.x + (Math.PI * .5);
+                    break;
+            }
+
+            var offset = new THREE.Vector3();
+            offset.subVectors( new THREE.Vector3( 0, 0, 0 ), player.pos );
+            for ( var i = 0; i < world.children.length; i++ ) {
+                world.children[ i ].position.add( offset );
+            }
+            player.pos = new THREE.Vector3( 0, 0, 0 );
+            worldIsRotating = true;
+            updateHitBoxes();
+        }
+    }
+
+    function rotateWorld () {
+
+        var world = ThreeDeeWorld.getWorld();
+
+        if ( worldIsRotating ) {
+            //console.log("rotation start");
+            var delta = new THREE.Vector3();
+            delta.subVectors( worldRotationTarget, worldRotationCurrent );
+
+            if ( delta.length() < worldRotationSpeed ) {
+                worldRotationCurrent = worldRotationTarget;
+                worldIsRotating = false;
+                updateHitBoxes();
+            } else {
+                delta.setLength( worldRotationSpeed );
+                worldRotationCurrent.add( delta );
+            }
+
+            world.rotation.x = worldRotationCurrent.x;
+            world.rotation.y = worldRotationCurrent.y;
+            world.rotation.z = worldRotationCurrent.z;
+
+        }
+
+    }
+
+    function updateHitBoxes () {
+
+        var cubes = ThreeDeeWorld.getCubes();
+
+        for ( var i = 0; i < cubes.length; i++ ) {
+            cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );
+        }
+    }
+
+
+    /***************************************************************
+     * DepressedGame
+     */
 
     var DepressedGame = {
 
@@ -126,7 +207,7 @@
                         player.updateVel( { key: e.keyCode, isPressed: true } );
                         break;
                     default:
-              //          worldEvents( e.keyCode );
+                        worldEvents( e.keyCode );
                         break;
                 }
             };
@@ -160,7 +241,7 @@
 
             player.move();
 
-          //  rotateWorld();
+            rotateWorld();
 
             ThreeDeeWorld.render();
         }
