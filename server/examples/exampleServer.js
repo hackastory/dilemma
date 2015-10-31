@@ -9,6 +9,7 @@ var server = http.createServer(fileServingHandler); //add a simple file serving 
     server.listen( 8080, '0.0.0.0' );
 
 
+mob.addChannel('Amazed', __dirname+'/amazed/amazedChannel.js');
 mob.addChannel('SimpleChat', __dirname+'/simpleChat/simpleChatChannel.js');
 mob.addChannel('DuckPond', __dirname+'/duckpond/duckPondChannel.js');
 
