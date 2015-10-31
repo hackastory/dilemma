@@ -143,15 +143,18 @@
     var ThreeDeeWorld = {
 
         create: function () {
-
             camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
             light = new THREE.HemisphereLight( 0xffffff, 0, 0.6 );
             renderer = new THREE.WebGLRenderer();
+
+            effect = new THREE.StereoEffect(renderer);
+     
+            
             scene = new THREE.Scene();
             world = new THREE.Object3D();
 
             renderer.setSize( window.innerWidth, window.innerHeight );
-
+			effect.setSize( window.innerWidth, window.innerHeight );
             document.body.appendChild( renderer.domElement );
 
             ThreeDeeWorld._createGrid();
@@ -159,7 +162,7 @@
 
             scene.add(world);
             scene.add(light);
-
+			
             $( window ).on('resize', ThreeDeeWorld.handleResize );
         },
 
@@ -240,6 +243,9 @@
             var windowHeight = $( window ).height();
 
             renderer.setSize( windowWidth, windowHeight );
+
+            effect.setSize( windowWidth, windowHeight );
+
             camera.aspect = windowWidth / windowHeight;
             camera.updateProjectionMatrix();
         },
@@ -247,7 +253,9 @@
         // called from the implementing Game, because it probably needs to do
         // some extra stuff prior to rendering
         render: function () {
+			
             renderer.render( scene, camera );
+            
         }
     };
 

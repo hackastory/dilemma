@@ -11,12 +11,12 @@ THREE.StereoEffect = function ( renderer ) {
 
 	// API
 
-	this.separation = 0;
+	this.separation = 3;
 
 	/*
 	 * Distance to the non-parallax or projection plane
 	 */
-	this.focalLength = 1;
+	this.focalLength = 15;
 
 	// internals
 
