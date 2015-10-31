@@ -120,7 +120,8 @@ Game.prototype = {
 
         console.log('won');
         this.socket.emit('won');
-    },
+    }
+
 };
 
 module.exports = Game;
