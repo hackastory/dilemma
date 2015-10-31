@@ -52,6 +52,7 @@ GameEngine.prototype = {
 
             console.log('connected!');
 
+            // login here means choosing to play either the Depressive or Manic game
             client.on('login', this.handleLogin.bind( this, client ) );
 
             client.on('start', this.handleStart.bind( this ) );
@@ -85,7 +86,7 @@ GameEngine.prototype = {
         //    this.socket.emit('start');
         //}
 
-        // For now, just activate the chooser
+        // For now, just emit start to the client that pressed a login button
         client.emit('start');
     },
 
