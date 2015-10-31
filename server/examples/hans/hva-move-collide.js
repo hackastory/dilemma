@@ -1,6 +1,7 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
+var effect = new THREE.StereoEffect( renderer );
 var cube;
 
 var player = {
@@ -68,6 +69,11 @@ function setup() {
     scene.add( cube );
     scene.add(ground);
 
+
+    effect.eyeSeparation = 10;
+    effect.setSize(window.innerWidth, window.innerHeight);
+
+
     render();
 }
 
@@ -80,7 +86,8 @@ function render () {
     cube.rotation.x += 0.1;
     cube.rotation.y += 0.1;
     controls.update();
-    renderer.render(scene, camera);
+    effect.render(scene, camera);
+
 };
 
 //document.onkeydown = function(e){
