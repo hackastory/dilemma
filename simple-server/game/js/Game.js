@@ -67,11 +67,11 @@ $(function () {
         },
 
         handleGrid: function ( gridData ) {
-            console.log( gridData );
+            console.log( 'grid received', gridData );
         },
 
         handleStart: function () {
-            console.log('we can start!');
+            console.log('we can start creating the Manic game!');
         }
     };
 
@@ -83,11 +83,11 @@ $(function () {
         },
 
         handleGrid: function ( gridData ) {
-            console.log( gridData );
+            console.log( 'grid received', gridData );
         },
 
         handleStart: function () {
-            console.log('we can start!');
+            console.log('we can start creating the Depressed game!');
         }
     };
 
