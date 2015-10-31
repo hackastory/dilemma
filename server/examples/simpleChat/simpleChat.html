@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SimpleChat channel - part of the Mob example server</title>
+    <style>
+
+        body{
+            background-color:#fff;
+            font-family: "Georgia", "Arial", sans-serif;
+            overflow:auto;
+            font-size:100%;
+            line-height:22px;
+        }
+        textarea,
+        input,
+        select{
+            font-family: "Georgia", "Arial", sans-serif;
+            font-size:14px;
+        }
+
+        h1{
+            font-size:22px;
+        }
+        h2{
+            font-size:18px;
+        }
+
+        div.status{
+            width:130px;
+            height:auto;
+            float:left;
+        }
+        
+
+        div.users{
+            width:230px;
+            height:130px;
+            float:left;
+        }
+
+
+        div.chat{
+            width:530px;
+            float:left;
+        }
+            div#chat{
+                border:1px solid #000;
+                margin-bottom: 22px;
+                padding: 5px 10px;
+            }
+
+    </style>
+</head>
+<body>
+
+    <h1>SimpleChat channel</h1>
+
+    <div class="status">
+        <h2>status:</h2>
+        <div id="status"></div>
+    </div>
+
+    <div class="users">
+        <h2>users:</h2>
+        <ul id="users">
+
+        </ul>
+    </div>
+
+    <div class="chat">
+        <h2>chat</h2>
+        <div id="chat"></div>
+        <input type="text" id="input" />
+        <input type="submit" id="submit" value="chat" />
+    </div>
+
+    <script src="../global/js/fb.js"></script>
+    <script src="simpleChatClient.js"></script>
+    <script src="/mob/mob.js"></script>
+    <script>
+
+     var chatInput = document.getElementById("input"),
+         chatSubmit = document.getElementById("submit");
+
+     SimpleChat.init(mob, {
+         status : document.getElementById("status"),
+         users : document.getElementById("users"),
+         chat : document.getElementById("chat")
+     });
+
+     FB.addEvent(chatSubmit, 'click', function(){
+         SimpleChat.chat(chatInput.value);
+     });
+
+    </script>
+
+</body>
+</html>
