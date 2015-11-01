@@ -629,7 +629,4 @@ document.addEventListener('mousemove', function(e){
 
 });
 
-//controls = new DeviceOrientationController( camera, renderer.domElement );
-//controls.connect();
-
 setup();
