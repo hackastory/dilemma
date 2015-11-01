@@ -382,19 +382,19 @@ function worldEvents(which) {
         switch (which) {
             case 72: //H
                 worldRotationTarget.z = worldRotationTarget.z + (Math.PI * .5);
-                socket.emit( 'rotate-h' );
+                socket.emit( 'rotate-h', 'rotate-h' );
                 break;
             case 75: //K
                 worldRotationTarget.z = worldRotationTarget.z - (Math.PI * .5);
-                socket.emit( 'rotate-k' );
+                socket.emit( 'rotate-k', 'rotate-k' );
                 break;
             case 85: //U
                 worldRotationTarget.x = worldRotationTarget.x - (Math.PI * .5);
-                socket.emit( 'rotate-u' );
+                socket.emit( 'rotate-u', 'rotate-u' );
                 break;
             case 74: //J
                 worldRotationTarget.x = worldRotationTarget.x + (Math.PI * .5);
-                socket.emit( 'rotate-j' );
+                socket.emit( 'rotate-j', 'rotate-j' );
                 break;
         }
 
