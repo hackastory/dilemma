@@ -172,8 +172,6 @@ var hoverCooldownTimer = 0;
 var hoverCooldown = 1000;
 
 
-
-
 var cubes = [];
 
 var player = {
@@ -250,7 +248,6 @@ var player = {
         light.position.set(player.pos.x,player.pos.y,player.pos.z);
 
         if (player.rot.y >= 2* Math.PI || player.rot.y <= -(2* Math.PI)) player.rot.y = 0;
-
     }
 };
 

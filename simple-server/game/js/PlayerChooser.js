@@ -1,12 +1,19 @@
-(function ( ThreeDeeWorld ){
+(function ( ManicGame, DepressedGame, ThreeDeeWorld ){
 
 
     var socket;
 
+    var rayCaster = new THREE.Raycaster();
+    var rayVector = new THREE.Vector3();
+    var camera;
+
+    var chosen = false;
 
     /***************************************************************
      * PlayerChooser
      */
+
+    var chooseTimeout;
 
     var PlayerChooser = {
 
@@ -14,20 +21,20 @@
 
             socket = socketConnection;
 
-            socket.on('start', PlayerChooser.handleStart );
+            socket.on('playertaken', PlayerChooser.handlePlayerTaken );
 
             ThreeDeeWorld.createChooserWorld();
 
-            PlayerChooser.render();
+            ThreeDeeWorld.getLight().intensity = 1;
+
+            camera = ThreeDeeWorld.getCamera();
 
             PlayerChooser.bindKeyEvents();
+
+            PlayerChooser.render();
         },
 
         bindKeyEvents : function () {
-
-            var camera = ThreeDeeWorld.getCamera();
-
-            camera.rotation.y = ( Math.PI / 4 ) * 2;
 
             document.addEventListener('keydown', function ( e ) {
                 switch ( e.keyCode ) {
@@ -43,23 +50,96 @@
 
         checkChoice: function () {
             // checked through the player's gaze
+
+            var manicChoice = ThreeDeeWorld.getGameChoiceManic();
+            var depressedChoice = ThreeDeeWorld.getGameChoiceDepressed();
+
+            rayVector.x = .125;
+            rayVector.y = .25;
+            rayCaster.setFromCamera( rayVector, camera );
+
+            var intersects = rayCaster.intersectObjects( [
+                depressedChoice, manicChoice
+            ] );
+
+            if (  intersects.length > 0 ) {
+
+                switch ( intersects[0].object.name ) {
+
+                    case 'manic':
+
+                        manicChoice.material.emissive = new THREE.Color( 0xFFFFFF );
+
+                        if ( ! chooseTimeout ) {
+                            chooseTimeout = setTimeout( function () {
+
+                                chosen = true;
+                                PlayerChooser.clearChooser();
+                                ManicGame.setup( socket );
+                                socket.emit( 'login', 'manic' );
+
+                            }, 1200 );
+                        }
+
+                        break;
+
+                    case 'depressed':
+
+                        depressedChoice.material.emissive = new THREE.Color( 0xFFFFFF );
+
+                        if ( ! chooseTimeout ) {
+                            chooseTimeout = setTimeout( function () {
+
+                                chosen = true;
+                                PlayerChooser.clearChooser();
+                                DepressedGame.setup( socket );
+                                socket.emit( 'login', 'depressed' );
+
+                            }, 1200 );
+                        }
+
+                        break;
+                }
+            } else {
+
+                manicChoice.material.emissive = new THREE.Color( 0x000000 );
+                depressedChoice.material.emissive = new THREE.Color( 0x000000 );
+
+                if ( chooseTimeout ) {
+                    clearTimeout( chooseTimeout );
+                    chooseTimeout = null;
+                }
+            }
         },
 
-        handleStart: function () {
+        clearChooser: function () {
 
-            // erase this world
+            // erase this world's objects
+            var scene = ThreeDeeWorld.getScene();
 
+            scene.remove( scene.getObjectByName( 'manic' ) );
+            scene.remove( scene.getObjectByName( 'depressed' ) );
+        },
+
+        handlePlayerTaken: function ( playerName ) {
+            var scene = ThreeDeeWorld.getScene();
+
+            scene.remove( scene.getObjectByName( playerName ) );
         },
 
         render: function () {
 
-            requestAnimationFrame( PlayerChooser.render );
+            if ( ! chosen ) {
+                requestAnimationFrame( PlayerChooser.render );
 
-            ThreeDeeWorld.render();
+                PlayerChooser.checkChoice();
+
+                ThreeDeeWorld.render();
+            }
         }
     };
 
 
     window.PlayerChooser = PlayerChooser;
 
-})( window.ThreeDeeWorld );
+})( window.ManicGame, window.DepressedGame, window.ThreeDeeWorld );
