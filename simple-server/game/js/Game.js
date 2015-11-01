@@ -5,6 +5,8 @@
 
     var socket = io( socketServer );
 
+    var $gameContainer = $('#app');
+
     var Game = {
 
         setup: function () {
@@ -15,6 +17,7 @@
             socket.on('lost', Game.handleLost );
             socket.on('won', Game.handleWon );
 
+            // When choosing backup chooser
             ThreeDeeWorld.create();
 
             Game.createChooser();
@@ -24,7 +27,8 @@
 
             //PlayerChooser.setup( socket );
 
-            // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
+            // BACKUP
+
             //$gameContainer.append( ''.concat(
             //    '<h1>Choose your player</h1>',
             //    '<button id="manic">Man</button>',
