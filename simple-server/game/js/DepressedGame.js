@@ -400,6 +400,8 @@
             socket.on('rotate-k', DepressedGame.handleRotation );
             socket.on('rotate-u', DepressedGame.handleRotation );
             socket.on('rotate-j', DepressedGame.handleRotation );
+            
+            socket.on('start', DepressedGame.handleStart );
         },
 
         bindUserEvents: function () {
@@ -474,6 +476,43 @@
 
         handleGrid: function ( gridData ) {
             console.log( 'grid received', gridData );
+        },
+        
+        handleStart: function () {
+
+            DepressedGame.createIntro();
+        },
+        
+        createIntro: function () {
+	        console.log('Showing Intro');
+	        
+            // Intro movie? Animated Gif? 3D world?
+            createjs.Sound.registerSound("audio/backgroundTrack.mp3", 'sound');
+            
+            var introVideo = document.getElementById('introVideo');
+            $(introVideo).fadeIn();
+            $(introVideo).attr({'src': 'video/hell_intro.mp4'});
+            
+			if (introVideo.requestFullscreen) {
+				introVideo.requestFullscreen();
+			} else if (introVideo.mozRequestFullScreen) {
+				introVideo.mozRequestFullScreen();
+			} else if (introVideo.webkitRequestFullscreen) {
+				introVideo.webkitRequestFullscreen();
+			}
+            introVideo.play();
+            
+            introVideo.addEventListener('ended', function() {
+	            $(introVideo).get(0).webkitExitFullScreen();
+	        	$(introVideo).addClass('done').fadeOut(2000, function () {
+
+                    console.log('introoo');
+                    
+                });
+                
+                socket.emit('intro-finished');
+	        	createjs.Sound.play('sound');
+	        }, false);
         },
 
         handleRotation: function ( rotation ) {
