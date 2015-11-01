@@ -456,7 +456,7 @@ document.onkeydown = function(e){
             player.updateVel({key: e.keyCode, isPressed: true});
             break;
         default:
-            worldEvents(e.keyCode);
+            //worldEvents(e.keyCode);
             break;
     }
 }
