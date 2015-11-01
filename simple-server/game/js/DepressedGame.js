@@ -293,7 +293,7 @@
             delta.subVectors(worldMoveTarget, world.position);
 
             if (delta.length() < worldMoveSpeed) {
-                world.position.set(worldMoveTarget.x, worldMoveTarget.y, worldMoveTarget.z)
+                world.position.set(worldMoveTarget.x, worldMoveTarget.y, worldMoveTarget.z);
                 worldIsMoving = false;
                 hoverCooldownTimer = Date.now();
 
@@ -348,8 +348,6 @@
     }
 
     function worldEvents ( which ) {
-
-        var world = ThreeDeeWorld.getWorld();
 
         if ( ! worldIsRotating ) {
             worldRotationTarget = new THREE.Vector3( worldRotationCurrent.x, worldRotationCurrent.y, worldRotationCurrent.z );
