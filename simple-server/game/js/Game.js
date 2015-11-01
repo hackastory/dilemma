@@ -2,7 +2,6 @@
 
     var dl = document.location;
     var socketServer = dl.origin;
-
     var socket = io( socketServer );
 
     var $gameContainer = $('#app'); // for rendering the intro/outro etc
@@ -19,6 +18,10 @@
             socket.on('won', Game.handleWon );
 
             Game.createChooser();
+            
+            // Preload the audio
+            createjs.Sound.registerSound("audio/threebirds.mp3", "story");
+            
         },
 
         createChooser: function () {
@@ -41,6 +44,7 @@
 
                 ManicGame.setup( socket );
                 socket.emit('login', 'manic');
+                
             });
 
             $('#depressed' ).on('click', function () {
@@ -49,6 +53,8 @@
 
                 DepressedGame.setup( socket );
                 socket.emit('login', 'depressed');
+	        	createjs.Sound.play("story");
+	        	
             });
         },
 
@@ -75,10 +81,10 @@
         handleWon: function () {
 
         }
+        
     };
 
 
     /****************************/
     Game.setup();
-
 })( window.ManicGame, window.DepressedGame );
