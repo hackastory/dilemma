@@ -25,12 +25,13 @@ debug.style.position = 'absolute';
 debug.style.zIndex = 999;
 
 var map = [];
+var socket;
 
 function initSocket() {
     var dl = document.location;
     var socketServer = dl.origin;
 
-    var socket = io( socketServer );
+    socket = io( socketServer );
 
     // receiving
 
@@ -381,15 +382,19 @@ function worldEvents(which) {
         switch (which) {
             case 72: //H
                 worldRotationTarget.z = worldRotationTarget.z + (Math.PI * .5);
+                socket.emit( 'rotate-h' );
                 break;
             case 75: //K
                 worldRotationTarget.z = worldRotationTarget.z - (Math.PI * .5);
+                socket.emit( 'rotate-k' );
                 break;
             case 85: //U
                 worldRotationTarget.x = worldRotationTarget.x - (Math.PI * .5);
+                socket.emit( 'rotate-u' );
                 break;
             case 74: //J
                 worldRotationTarget.x = worldRotationTarget.x + (Math.PI * .5);
+                socket.emit( 'rotate-j' );
                 break;
         }
 
