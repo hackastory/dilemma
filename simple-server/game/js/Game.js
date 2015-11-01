@@ -2,6 +2,7 @@
 
     var dl = document.location;
     var socketServer = dl.origin;
+
     var socket = io( socketServer );
 
     var Game = {
@@ -17,26 +18,12 @@
             ThreeDeeWorld.create();
 
             Game.createChooser();
-            
-            // Preload the audio
-            createjs.Sound.registerSound("audio/threebirds.mp3", "story");
-            
         },
 
         createChooser: function () {
 
             //PlayerChooser.setup( socket );
 
-            $('#manic' ).on('click', function () {
-
-                $gameContainer.hide();
-
-                ManicGame.setup( socket );
-                socket.emit('login', 'manic');
-                
-            });
-
-            $('#depressed' ).on('click', function () {
             // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
             //$gameContainer.append( ''.concat(
             //    '<h1>Choose your player</h1>',
@@ -72,9 +59,6 @@
 
                 DepressedGame.setup( socket );
                 socket.emit('login', 'depressed');
-	        	createjs.Sound.play("story");
-	        	
-            });
         },
 
         createIntro: function () {
@@ -100,9 +84,10 @@
         handleWon: function () {
 
         }
-        
     };
 
 
+    /****************************/
     Game.setup();
+
 })( window.ManicGame, window.DepressedGame, window.PlayerChooser, window.ThreeDeeWorld );
