@@ -146,13 +146,14 @@
     var scene;
     var world;
 
-    var clock = new THREE.Clock();
+    var clock;
 
     var ThreeDeeWorld = {
 
         create: function () {
 
             camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100000 );
+            clock  = new THREE.Clock();
 
             light = new THREE.HemisphereLight( 0xffffff, 0, 0.6 );
             renderer = new THREE.WebGLRenderer();
@@ -186,8 +187,8 @@
             var texture = THREE.ImageUtils.loadTexture( 'textures/checkerboard.png' );
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-
             texture.repeat.set( 100, 100 );
+
             var groundmaterial = new THREE.MeshBasicMaterial( { map: texture } );
             var ground = new THREE.Mesh( geometry, groundmaterial );
             ground.rotation.x = -Math.PI*0.5;
@@ -198,8 +199,8 @@
 
         _createGrid: function () {
 
-            var texture1 = THREE.ImageUtils.loadTexture( 'textures/floor_tile.jpg' );
-            var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
+            var texture = THREE.ImageUtils.loadTexture( 'textures/floor_tile.jpg' );
+            var material = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
             var geometry = new THREE.BoxGeometry(2, 2, 2);
 
             for (var z = 0; z < map.length; z++) {
