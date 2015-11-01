@@ -88,7 +88,7 @@
         
         handleLost: function() {
 	        console.log('LOST');
-        }
+        },
         
         start: function () {
 
