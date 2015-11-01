@@ -98,7 +98,6 @@
 
             var camera = ThreeDeeWorld.getCamera();
             var light = ThreeDeeWorld.getLight();
-            var newPosition;
 
             if ( ! worldIsRotating ) {
                 for ( var i = 0; i < player.keys.length; i++ ) {

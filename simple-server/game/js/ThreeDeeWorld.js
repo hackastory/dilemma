@@ -207,7 +207,10 @@
 
         _createGrid: function () {
 
-            var outerWallTexture = THREE.ImageUtils.loadTexture( "textures/checkerboard.png" );
+            var outerWallTexture = THREE.ImageUtils.loadTexture( "textures/floor_tile.jpg" );
+            outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
+               outerWallTexture.repeat.set(12.5,12.5)
+
                var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture} );
                var oGeometry = new THREE.BoxGeometry(2, 25, 25);
                var wall = new THREE.Mesh(oGeometry, outerWallMaterial);

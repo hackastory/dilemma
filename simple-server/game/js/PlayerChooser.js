@@ -116,8 +116,8 @@
             // erase this world's objects
             var scene = ThreeDeeWorld.getScene();
 
-            scene.remove( scene.getObjectByName( 'depressed' ) );
-            scene.remove( scene.getObjectByName( 'manic' ) );
+            scene.remove( ThreeDeeWorld.getGameChoiceDepressed() );
+            scene.remove( ThreeDeeWorld.getGameChoiceManic() );
         },
 
         handleIntroFinished: function () {
