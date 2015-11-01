@@ -8,11 +8,22 @@
             background-size: cover;
         }
         canvas { width: 100%; height: 100% }
+        .turnUp {
+            margin-left: 79px;
+        }
+        .turn {
+            width: 75px;
+        }
     </style>
 </head>
 <body>
+<button class="turn turnUp" data-key="85">Up (U)</button><br>
+<button class="turn turnLeft" data-key="72">Left (H)</button>
+<button class="turn turnDown" data-key="74">Down (J)</button>
+<button class="turn turnRight" data-key="75">Right (K)</button>
 <script src="three.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
 <script>
 
 //    var dl = document.location;

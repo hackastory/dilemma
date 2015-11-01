@@ -88,7 +88,7 @@
                 world.position.z < 3 && world.position.z > 1
             ) {
                 // test win
-                socket.emit('win');
+                //socket.emit('win');
             }
 
             console.log(world.position);
@@ -383,6 +383,7 @@
 
         var cubes = ThreeDeeWorld.getCubes();
         var endBox = ThreeDeeWorld.getEndBox();
+        var endMesh = ThreeDeeWorld.getEndMesh();
 
         for ( var i = 0; i < cubes.length; i++ ) {
             cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );

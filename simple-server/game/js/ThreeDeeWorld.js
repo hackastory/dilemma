@@ -355,6 +355,11 @@
             return endBox;
         },
 
+        getEndMesh: function () {
+            return endMesh;
+        },
+
+
         getGameChoiceLabel: function () {
             return gameChoiceLabel;
         },
