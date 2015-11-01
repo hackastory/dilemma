@@ -165,16 +165,16 @@
 
             renderer.setSize( window.innerWidth, window.innerHeight );
 			effect.setSize( window.innerWidth, window.innerHeight );
-
             effect.separation = 0;
 
-            document.body.appendChild( renderer.domElement );
 
             ThreeDeeWorld._createGrid();
             ThreeDeeWorld._createFloor();
 
             scene.add(world);
             scene.add(light);
+
+            document.body.appendChild( renderer.domElement );
 
             window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
