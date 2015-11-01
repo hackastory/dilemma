@@ -27,6 +27,11 @@ debug.style.zIndex = 999;
 var map = [];
 var socket;
 
+$('.turn').on('click', function(obj) {
+    var keycode = parseInt($(obj.currentTarget).data('key'));
+    worldEvents(keycode);
+});
+
 function initSocket() {
     var dl = document.location;
     var socketServer = dl.origin;
