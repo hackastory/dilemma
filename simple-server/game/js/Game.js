@@ -10,7 +10,7 @@
     var Game = {
 
         setup: function () {
-			Game.createIntro();
+			//Game.createIntro();
         
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
@@ -19,7 +19,7 @@
             socket.on('lost', Game.handleLost );
             socket.on('won', Game.handleWon );
 
-
+			socket.on('login', Game.createIntro);
             ThreeDeeWorld.create();
 
             Game.createChooser();
@@ -37,10 +37,15 @@
         },
 
         createIntro: function () {
+	        console.log('Showing Intro');
+	        
             // Intro movie? Animated Gif? 3D world?
-            createjs.Sound.registerSound("audio/threebirds.mp3", 'sound');
+            createjs.Sound.registerSound("audio/backgroundTrack.mp3", 'sound');
             
             var introVideo = document.getElementById('introVideo');
+            
+            
+			$(introVideo).fadeIn();
 			if (introVideo.requestFullscreen) {
 				introVideo.requestFullscreen();
 			} else if (introVideo.mozRequestFullScreen) {
@@ -48,14 +53,12 @@
 			} else if (introVideo.webkitRequestFullscreen) {
 				introVideo.webkitRequestFullscreen();
 			}
-            introVideo.play();
+            //introVideo.play();
             
             introVideo.addEventListener('ended', function() {
 	            $(introVideo).get(0).webkitExitFullScreen();
-	            
-		        //    $(introVideo).hide();
 	        	$(introVideo).addClass('done').fadeOut(2000);
-	        	//createjs.Sound.play('sound');
+	        	createjs.Sound.play('sound');
 	        }, false);
         },
 
@@ -76,7 +79,7 @@
         },
 
         handleStart: function () {
-
+	        
             // we can show an intro and hide it after it's done?
         },
 
