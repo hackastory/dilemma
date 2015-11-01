@@ -7,7 +7,7 @@
     var rayVector = new THREE.Vector3();
     var camera;
 
-    var chosen = false;
+    var chosen;
 
     /***************************************************************
      * PlayerChooser
@@ -22,6 +22,7 @@
             socket = socketConnection;
 
             socket.on('playertaken', PlayerChooser.handlePlayerTaken );
+            socket.on('intro-finished', PlayerChooser.handleIntroFinished );
 
             ThreeDeeWorld.createChooserWorld();
 
@@ -73,9 +74,8 @@
                         if ( ! chooseTimeout ) {
                             chooseTimeout = setTimeout( function () {
 
-                                chosen = true;
-                                PlayerChooser.clearChooser();
-                                ManicGame.setup( socket );
+                                chosen = 'manic';
+                                PlayerChooser.renderWaitingScreen();
                                 socket.emit( 'login', 'manic' );
 
                             }, 1200 );
@@ -90,9 +90,8 @@
                         if ( ! chooseTimeout ) {
                             chooseTimeout = setTimeout( function () {
 
-                                chosen = true;
-                                PlayerChooser.clearChooser();
-                                DepressedGame.setup( socket );
+                                chosen = 'depressed';
+                                PlayerChooser.renderWaitingScreen();
                                 socket.emit( 'login', 'depressed' );
 
                             }, 1200 );
@@ -117,8 +116,21 @@
             // erase this world's objects
             var scene = ThreeDeeWorld.getScene();
 
-            scene.remove( scene.getObjectByName( 'manic' ) );
             scene.remove( scene.getObjectByName( 'depressed' ) );
+            scene.remove( scene.getObjectByName( 'manic' ) );
+        },
+
+        handleIntroFinished: function () {
+
+            console.log('PlayerChooser intro finished!');
+
+            if (chosen === 'manic' ) {
+                ManicGame.setup( socket );
+                ManicGame.start();
+            } else {
+                DepressedGame.setup( socket );
+                DepressedGame.start();
+            }
         },
 
         handlePlayerTaken: function ( playerName ) {
@@ -136,6 +148,15 @@
 
                 ThreeDeeWorld.render();
             }
+        },
+
+        renderWaitingScreen : function () {
+            // show the player that he has to wait for the other person to choose
+            // his / her role
+
+            PlayerChooser.clearChooser();
+
+            console.log('waiting for other player');
         }
     };
 

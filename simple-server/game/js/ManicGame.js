@@ -19,14 +19,13 @@
             socket = socketConnection;
 
             socket.on('grid', ManicGame.handleGrid );
-            socket.on('start', ManicGame.handleStart );
         },
 
         handleGrid: function ( gridData ) {
             console.log( 'grid received', gridData );
         },
 
-        handleStart: function () {
+        start: function () {
 
             // create the 3D world
 

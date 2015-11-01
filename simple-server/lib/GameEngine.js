@@ -34,12 +34,19 @@ GameEngine.prototype = {
             client.on('rotate-j', this.handleRotation.bind( this ) );
             client.on('rotate-k', this.handleRotation.bind( this ) );
 
+            client.on('intro-finished', this.handleIntroFinished.bind( this, client ) );
             client.on('start', this.handleStart.bind( this ) );
             client.on('reset', this.handleReset.bind( this ) );
             client.on('won', this.handleWon.bind( this ) );
             client.on('lost', this.handleLost.bind( this ) );
 
         }.bind( this ) );
+    },
+
+    handleIntroFinished : function () {
+
+        console.log('intro finished!');
+        this.socket.emit('intro-finished');
     },
 
     handleLogin: function ( client, loginData ) {

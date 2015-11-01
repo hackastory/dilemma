@@ -37,7 +37,9 @@
         keys : [    {keyCode: 37, isDown: false, action : function(){player.rot.y += 0.1}},
                     {keyCode: 38, isDown: false, action : function(){player.tryMovement("add")}},
                     {keyCode: 39, isDown: false, action : function(){player.rot.y -= 0.1}},
-                    {keyCode: 40, isDown: false, action : function(){player.tryMovement("sub")}}
+                    {keyCode: 40, isDown: false, action : function(){player.tryMovement("sub")}},
+                    {keyCode: 33, isDown: false, action : function(){player.pos.y += 0.1}},
+                    {keyCode: 34, isDown: false, action : function(){player.pos.y -= 0.1}}
                 ],
 
         tryMovement: function ( which ) {
@@ -63,7 +65,7 @@
 
             for ( var i = 1; i < cubes.length; i++ ) {
                 if ( cubes[ i ].box.containsPoint( tryPos ) ) {
-                    console.log( "collide" );
+                    console.log("collide with " ,cubes[i].cubetype);
                     return;
                 }
             }
@@ -78,6 +80,8 @@
                     world.position.add( v );
                 }
             }
+
+            console.log(world.position);
 
             //return v;
         },
@@ -392,7 +396,6 @@
             socket = socketConnection;
 
             socket.on('grid', DepressedGame.handleGrid );
-            socket.on('start', DepressedGame.handleStart );
 
             socket.on('rotate-h', DepressedGame.handleRotation );
             socket.on('rotate-k', DepressedGame.handleRotation );
@@ -404,6 +407,8 @@
 
             document.addEventListener('keydown', function ( e ) {
                 switch ( e.keyCode ) {
+                    case 33:
+                    case 34:
                     case 37:
                     case 38:
                     case 39:
@@ -479,7 +484,7 @@
             worldEvents.call( worldEvents, DepressedGame.rotationKeyCodes[ rotation ] );
         },
 
-        handleStart: function () {
+        start: function () {
 
             // create the 3D world
 
