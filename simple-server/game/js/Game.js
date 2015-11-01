@@ -13,6 +13,7 @@
 			Game.createIntro();
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
+            socket.on('start', Game.handleStart );
 
             socket.on('lost', Game.handleLost );
             socket.on('won', Game.handleWon );
@@ -71,6 +72,11 @@
 
         handleReset: function () {
 
+        },
+
+        handleStart: function () {
+
+            // we can show an intro and hide it after it's done?
         },
 
         handleWon: function () {

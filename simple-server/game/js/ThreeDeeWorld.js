@@ -218,23 +218,6 @@
         createGameWorld: function () {
 
             ThreeDeeWorld._createGrid();
-            ThreeDeeWorld._createFloor();
-        },
-
-        _createFloor: function () {
-
-            var geometry = new THREE.PlaneGeometry( 1000,1000 );
-            var texture = THREE.ImageUtils.loadTexture( 'textures/checkerboard.png' );
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set( 100, 100 );
-
-            var groundmaterial = new THREE.MeshBasicMaterial( { map: texture } );
-            var ground = new THREE.Mesh( geometry, groundmaterial );
-            ground.rotation.x = -Math.PI*0.5;
-            ground.position.y = -1;
-
-            world.add(ground);
         },
 
         _createGrid: function () {
@@ -252,9 +235,9 @@
                             geometry = new THREE.BoxGeometry(2, 2, 2);
 
                             var mesh = new THREE.Mesh(geometry, material);
-                            mesh.position.x = x * 2;
-                            mesh.position.y = z * 2;
-                            mesh.position.z = y * 2;
+                            mesh.position.x = (x * 2)-2;
+                           mesh.position.y = (z * 2)-2;
+                           mesh.position.z = (y * 2)-2;
                             mesh.name = 'cube';
 
                             var cube = {
