@@ -246,7 +246,7 @@
 
             console.log('we can start creating the Depressed game!');
 
-            ThreeDeeWorld.create();
+            ThreeDeeWorld.createGameWorld();
 
             DepressedGame.bindKeyEvents();
 

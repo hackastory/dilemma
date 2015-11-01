@@ -1,4 +1,4 @@
-(function ( ManicGame, DepressedGame ) {
+(function ( ManicGame, DepressedGame, ThreeDeeWorld ) {
 
     var dl = document.location;
     var socketServer = dl.origin;
@@ -26,8 +26,8 @@
             // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
             $gameContainer.append( ''.concat(
                 '<h1>Choose your player</h1>',
-                '<button id="manic">Light</button>',
-                '<button id="depressed">Dark</button>'
+                '<button id="manic">Heaven</button>',
+                '<button id="depressed">Hell</button>'
             ) );
 
             // For now, clicking on a button above automatically starts the game
@@ -39,6 +39,8 @@
 
                 $gameContainer.hide();
 
+                ThreeDeeWorld.create();
+
                 ManicGame.setup( socket );
                 socket.emit('login', 'manic');
             });
@@ -47,13 +49,15 @@
 
                 $gameContainer.hide();
 
+                ThreeDeeWorld.create();
+
                 DepressedGame.setup( socket );
                 socket.emit('login', 'depressed');
             });
         },
 
         createIntro: function () {
-            // Intro movie? Animated Gif?
+            // Intro movie? Animated Gif? 3D world?
         },
 
         createOutro: function () {
@@ -81,4 +85,4 @@
     /****************************/
     Game.setup();
 
-})( window.ManicGame, window.DepressedGame );
+})( window.ManicGame, window.DepressedGame, window.ThreeDeeWorld );

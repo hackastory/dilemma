@@ -74,7 +74,7 @@ GameEngine.prototype = {
     },
 
     handlePlayerCoordinates: function ( client, coordData ) {
-        console.log('player-coordinates', coordData );
+       // console.log('player-coordinates', coordData );
 
         this.socket.emit( 'player-coordinates', coordData );
     },

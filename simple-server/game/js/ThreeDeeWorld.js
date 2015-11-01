@@ -167,10 +167,6 @@
 			effect.setSize( window.innerWidth, window.innerHeight );
             effect.separation = 0;
 
-
-            ThreeDeeWorld._createGrid();
-            ThreeDeeWorld._createFloor();
-
             scene.add(world);
             scene.add(light);
 
@@ -179,6 +175,12 @@
             window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
             $( window ).on('resize', ThreeDeeWorld.handleResize );
+        },
+
+        createGameWorld: function () {
+
+            ThreeDeeWorld._createGrid();
+            ThreeDeeWorld._createFloor();
         },
 
         _createFloor: function () {
@@ -246,6 +248,12 @@
 
         getLight: function () {
             return light;
+        },
+
+        getDomElement: function () {
+            if ( renderer ) {
+                return renderer.domElement;
+            }
         },
 
         getScene: function () {
