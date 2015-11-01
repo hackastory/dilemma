@@ -2,6 +2,11 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
 var light = new THREE.HemisphereLight(0xffffff,0,0.6);
+
+var clock = new THREE.Clock();
+var controls;
+var effect = new THREE.StereoEffect(renderer);
+
 var ism = false;
 
 var rayCaster = new THREE.Raycaster();
@@ -231,9 +236,13 @@ var player = {
         camera.position.y = player.pos.y;
         camera.position.z = player.pos.z;
 
-        camera.rotation.x = player.rot.x;
-        camera.rotation.y = player.rot.y;
-        camera.rotation.z = player.rot.z;
+        if ( ! controls ) {
+            // we're dealing with desktop here, no mobile orientation controls
+            // so now we may manually adjust the player's rotation
+            camera.rotation.x = player.rot.x;
+            camera.rotation.y = player.rot.y;
+            camera.rotation.z = player.rot.z;
+        }
 
         light.position.set(player.pos.x,player.pos.y,player.pos.z);
 
@@ -244,6 +253,7 @@ var player = {
 
 function setup() {
     renderer.setSize( window.innerWidth, window.innerHeight );
+    effect.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
     var texture1 = THREE.ImageUtils.loadTexture( "textures/patterns/floor_tile.jpg" );
@@ -320,6 +330,9 @@ function setup() {
     scene.add(light);
     scene.add(floorpads);
 
+
+    window.addEventListener('resize', handleResize );
+    window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
     render();
 }
@@ -440,10 +453,40 @@ function render () {
     //cube.rotation.y += 0.1;
     //controls.update();
     renderer.render(scene, camera);
+    effect.render( scene, camera );
 
-};
+    if ( controls ) {
+        controls.update( clock.getDelta() );
+    }
 
-document.onkeydown = function(e){
+}
+
+function handleResize () {
+
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+
+    camera.aspect = windowWidth / windowHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( windowWidth, windowHeight );
+    effect.setSize( windowWidth, windowHeight );
+}
+
+function setOrientationControls ( e ) {
+
+    if ( ! e.alpha ) {
+        return;
+    }
+
+    controls = new THREE.DeviceOrientationControls( camera );
+    controls.connect();
+    controls.update();
+
+    window.removeEventListener( 'deviceorientation', setOrientationControls, true );
+}
+
+document.addEventListener('keydown', function(e){
     switch(e.keyCode) {
         case 37:
         case 38:
@@ -455,12 +498,12 @@ document.onkeydown = function(e){
             worldEvents(e.keyCode);
             break;
     }
-}
-document.onkeyup = function(e){
+});
+document.addEventListener('keyup', function(e){
     player.updateVel({key: e.keyCode, isPressed: false});
-}
+});
 
-document.onmousemove = function(e){
+document.addEventListener('mousemove', function(e){
     if (worldIsRotating)
         return;
 
@@ -584,7 +627,7 @@ document.onmousemove = function(e){
 
     }
 
-}
+});
 
 //controls = new DeviceOrientationController( camera, renderer.domElement );
 //controls.connect();
