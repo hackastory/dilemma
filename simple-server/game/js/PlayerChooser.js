@@ -21,6 +21,8 @@
 
             socket = socketConnection;
 
+            socket.on('playertaken', PlayerChooser.handlePlayerTaken );
+
             ThreeDeeWorld.createChooserWorld();
 
             ThreeDeeWorld.getLight().intensity = 1;
@@ -76,7 +78,7 @@
                                 ManicGame.setup( socket );
                                 socket.emit( 'login', 'manic' );
 
-                            }, 1500 );
+                            }, 1200 );
                         }
 
                         break;
@@ -93,7 +95,7 @@
                                 DepressedGame.setup( socket );
                                 socket.emit( 'login', 'depressed' );
 
-                            }, 1500 );
+                            }, 1200 );
                         }
 
                         break;
@@ -117,6 +119,12 @@
 
             scene.remove( scene.getObjectByName( 'manic' ) );
             scene.remove( scene.getObjectByName( 'depressed' ) );
+        },
+
+        handlePlayerTaken: function ( playerName ) {
+            var scene = ThreeDeeWorld.getScene();
+
+            scene.remove( scene.getObjectByName( playerName ) );
         },
 
         render: function () {
