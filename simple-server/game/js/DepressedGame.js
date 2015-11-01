@@ -387,7 +387,7 @@
         for ( var i = 0; i < cubes.length; i++ ) {
             cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );
         }
-        endBox = new THREE.Box3().setFromObject(endMeshmesh);
+        endBox = new THREE.Box3().setFromObject(endMesh);
     }
 
     function worldEvents ( which ) {
