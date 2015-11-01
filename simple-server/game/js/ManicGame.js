@@ -21,6 +21,8 @@
             socket.on('grid', ManicGame.handleGrid );
             
             socket.on('start', ManicGame.handleStart );
+            socket.on('won', ManicGame.handleWon );
+            socket.on('lost', ManicGame.handleLost );
         },
 
         handleGrid: function ( gridData ) {
@@ -63,6 +65,30 @@
 	        	createjs.Sound.play('sound');
 	        }, false);
         },
+        
+        handleWon: function () {
+	        console.log('WON!');
+			createjs.Sound.stop('sound');
+			
+			
+			var winVideo = document.getElementById('winVideo');
+            $(winVideo).fadeIn();
+            $(winVideo).attr({'src': 'video/intro.mp4'});
+            
+			if (winVideo.requestFullscreen) {
+				winVideo.requestFullscreen();
+			} else if (winVideo.mozRequestFullScreen) {
+				winVideo.mozRequestFullScreen();
+			} else if (winVideo.webkitRequestFullscreen) {
+				winVideo.webkitRequestFullscreen();
+			}
+            winVideo.play();
+            
+        },
+        
+        handleLost: function() {
+	        console.log('LOST');
+        }
         
         start: function () {
 

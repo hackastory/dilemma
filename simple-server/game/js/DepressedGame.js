@@ -402,6 +402,8 @@
             socket.on('rotate-j', DepressedGame.handleRotation );
             
             socket.on('start', DepressedGame.handleStart );
+            socket.on('won', DepressedGame.handleWon );
+            socket.on('lost', DepressedGame.handleLost );
         },
 
         bindUserEvents: function () {
@@ -521,7 +523,30 @@
 
             worldEvents.call( worldEvents, DepressedGame.rotationKeyCodes[ rotation ] );
         },
-
+		
+		handleWon: function () {
+			console.log('WON!');
+			createjs.Sound.stop('sound');
+			
+			
+			var winVideo = document.getElementById('winVideo');
+            $(winVideo).fadeIn();
+            $(winVideo).attr({'src': 'video/intro.mp4'});
+            
+			if (winVideo.requestFullscreen) {
+				winVideo.requestFullscreen();
+			} else if (winVideo.mozRequestFullScreen) {
+				winVideo.mozRequestFullScreen();
+			} else if (winVideo.webkitRequestFullscreen) {
+				winVideo.webkitRequestFullscreen();
+			}
+            winVideo.play();
+        },
+        
+        handleLost: function () {
+			console.log('LOST');
+        },
+        
         start: function () {
 
             // create the 3D world

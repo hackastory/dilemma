@@ -14,9 +14,6 @@
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
 
-            socket.on('lost', Game.handleLost );
-            socket.on('won', Game.handleWon );
-
             ThreeDeeWorld.create();
 
             Game.createChooser();
@@ -37,21 +34,15 @@
 
         },
 
-        handleLost: function () {
-
-        },
-
         handlePlayerTaken: function ( playerName ) {
             $('#'+ playerName ).hide(); // hide the button option
         },
 
         handleReset: function () {
 
-        },
-
-        handleWon: function () {
-
         }
+
+        
     };
 
 
