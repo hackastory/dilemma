@@ -13,7 +13,7 @@
 
     var floorpads = new THREE.Object3D();
     var pivot = new THREE.Object3D();
-    var offsetVector = new THREE.Vector3(0,1,0)
+    var offsetVector = new THREE.Vector3(0,1,0);
 
     var hoveringId = 0;
     var hoveringTimer = 0;
@@ -21,14 +21,16 @@
     var hoverCooldownTimer = 0;
     var hoverCooldown = 1000;
 
+    var lastPlayerPosition = {x:0, y:0, z:0 };
+    var lastPivot = null;
+    var lastWorldPosition = null;
+
     var rayCaster = new THREE.Raycaster();
     var rayVector = new THREE.Vector3();
 
     /***************************************************************
      * Depressed player
      */
-
-    var lastPlayerPosition = { x: 0, y: 0, z:0 };
 
     var player = {
         pos : new THREE.Vector3( 0, 0, 0 ),
@@ -81,6 +83,14 @@
                 }
             }
 
+            if (world.position.x < -1 && world.position.x > -2 &&
+                world.position.y < 3 && world.position.y > 1 &&
+                world.position.z < 3 && world.position.z > 1
+            ) {
+                // test win
+                socket.emit('win');
+            }
+
             console.log(world.position);
 
             //return v;
@@ -97,6 +107,7 @@
         move: function () {
 
             var camera = ThreeDeeWorld.getCamera();
+            var world = ThreeDeeWorld.getWorld();
             var light = ThreeDeeWorld.getLight();
 
             if ( ! worldIsRotating ) {
@@ -122,6 +133,33 @@
 
             if ( player.rot.y >= 2 * Math.PI || player.rot.y <= -(2 * Math.PI) ) {
                 player.rot.y = 0
+            }
+
+
+            var newPosition = { x: player.pos.x, y: player.pos.y, z: player.pos.z},
+                newPivot = JSON.stringify({ x: pivot.rotation.x, y: pivot.rotation.y, z: pivot.rotation.z}),
+                newWorldPos = JSON.stringify({ x: world.position.x, y: world.position.y, z: world.position.z});
+
+            if ( JSON.stringify( newPosition ) !== JSON.stringify( lastPlayerPosition ) ) {
+
+                lastPlayerPosition.x = newPosition.x;
+                lastPlayerPosition.y = newPosition.y;
+                lastPlayerPosition.z = newPosition.z;
+
+                socket.emit( 'player-coordinates', lastPlayerPosition );
+            }
+
+            if (newWorldPos !== lastWorldPosition) {
+                console.log('mainGame -> newPivot', newPivot);
+                console.log('mainGame -> worldpos', newWorldPos, lastWorldPosition);
+                socket.emit( 'world-position', newWorldPos);
+                lastWorldPosition = newWorldPos;
+            }
+            if (newPivot !== lastPivot) {
+                console.log(pivot);
+                console.log('mainGame -> pivot', newPivot, lastPivot);
+                socket.emit('pivot', newPivot);
+                lastPivot = newPivot;
             }
         }
     };
@@ -344,10 +382,12 @@
     function updateHitBoxes () {
 
         var cubes = ThreeDeeWorld.getCubes();
+        var endBox = ThreeDeeWorld.getEndBox();
 
         for ( var i = 0; i < cubes.length; i++ ) {
             cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );
         }
+        endBox = new THREE.Box3().setFromObject(endMesh);
     }
 
     function worldEvents ( which ) {

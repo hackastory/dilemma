@@ -25,12 +25,13 @@ debug.style.position = 'absolute';
 debug.style.zIndex = 999;
 
 var map = [];
+var socket;
 
 function initSocket() {
     var dl = document.location;
     var socketServer = dl.origin;
 
-    var socket = io( socketServer );
+    socket = io( socketServer );
 
     // receiving
 
@@ -58,8 +59,10 @@ function initSocket() {
             z = Math.round(eventData.z);
 
         console.log('worldpos', x, y, z);
-        hypercube.position.set(x+16,y+14,z+16);
-        //world.position.set(-x, -y, -z);
+        //hypercube.position.set(x+16,y+14,z+16);
+        hypercube.position.set(x,y,z);
+        marker.mesh.position.set(-x-8,-y-7,-z-8);
+        world.position.set(-x,-y,-z);
     });
 
 }
@@ -362,7 +365,7 @@ function setup() {
 
     //world.add(ground);
     markerHolder.add(marker.mesh);
-    world.add(markerHolder);
+    hypercube.add(marker.mesh);
     world.add(hypercube);
     scene.add(world);
     scene.add(light);
@@ -379,15 +382,19 @@ function worldEvents(which) {
         switch (which) {
             case 72: //H
                 worldRotationTarget.z = worldRotationTarget.z + (Math.PI * .5);
+                socket.emit( 'rotate-h', 'rotate-h' );
                 break;
             case 75: //K
                 worldRotationTarget.z = worldRotationTarget.z - (Math.PI * .5);
+                socket.emit( 'rotate-k', 'rotate-k' );
                 break;
             case 85: //U
                 worldRotationTarget.x = worldRotationTarget.x - (Math.PI * .5);
+                socket.emit( 'rotate-u', 'rotate-u' );
                 break;
             case 74: //J
                 worldRotationTarget.x = worldRotationTarget.x + (Math.PI * .5);
+                socket.emit( 'rotate-j', 'rotate-j' );
                 break;
         }
 

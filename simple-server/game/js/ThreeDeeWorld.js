@@ -136,6 +136,8 @@
 
     // Gameplay objects
     var cubes = [];
+    var endBox;
+    var endMesh;
 
     var ThreeDeeWorld = {
 
@@ -315,9 +317,26 @@
                             world.add(mesh);
                         }
 
+                        if (map[z][x][y] == 4) {
+
+                            var texture2 = THREE.ImageUtils.loadTexture( "textures/checkerboard.png" );
+
+                            var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
+                            var geometry = new THREE.BoxGeometry(1, 1, 1);
+                            endMesh = new THREE.Mesh(geometry, material2);
+                            endMesh.position.x = (x * 2)-2;
+                            endMesh.position.y = (z * 2)-2;
+                            endMesh.position.z = (y * 2)-2;
+
+                            world.add(endMesh);
+
+                            endBox = new THREE.Box3().setFromObject(mesh);
+                        }
                     }
                 }
             }
+
+
         },
 
         getCamera: function () {
@@ -330,6 +349,10 @@
 
         getCubes: function () {
             return cubes;
+        },
+
+        getEndBox: function () {
+            return endBox;
         },
 
         getGameChoiceLabel: function () {
