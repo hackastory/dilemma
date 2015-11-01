@@ -26,10 +26,7 @@ function initSocket() {
     // receiving
 
     socket.on('player-coordinates', function ( eventData ) {
-        console.log('mainGame-without-stereo -> ', eventData);
-        eventData.x = eventData.x * 2;
-        eventData.y = eventData.y * 2;
-        eventData.z = eventData.z * 2;
+        console.log('mainGame-without-stereo -> ', eventData.x, eventData.z);
         marker.mesh.position.copy(eventData);
     });
 
@@ -173,6 +170,8 @@ var worldRotationCurrent = new THREE.Vector3( 0, 0, 0 );
 var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
 var world = new THREE.Object3D();
 var hypercube = new THREE.Object3D();
+var markerOlder = new THREE.Object3D();
+//markerOlder.position.set(10,10,10);
 
 var geometry = new THREE.CubeGeometry(2,2,2);
 
@@ -291,7 +290,7 @@ function setup() {
     var texture1 = THREE.ImageUtils.loadTexture( "floor_tile.jpg" );
 
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
-    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.3, transparent: true});
+    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.2, transparent: true});
     //material.color = 0xff9999;
     //material.opacity = 0.5;
 
@@ -342,8 +341,9 @@ function setup() {
     ground.position.y = -1;
 
     //world.add(ground);
+    markerOlder.add(marker.mesh);
+    hypercube.add(markerOlder);
     world.add(hypercube);
-    hypercube.add(marker.mesh);
     scene.add(world);
     scene.add(light);
 
