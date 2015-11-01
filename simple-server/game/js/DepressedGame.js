@@ -207,12 +207,24 @@
 
     var DepressedGame = {
 
+        rotationKeyCodes: {
+            'rotate-h': 72,
+            'rotate-k': 75,
+            'rotate-u': 85,
+            'rotate-j': 74
+        },
+
         setup: function ( socketConnection ) {
 
             socket = socketConnection;
 
             socket.on('grid', DepressedGame.handleGrid );
             socket.on('start', DepressedGame.handleStart );
+
+            socket.on('rotate-h', DepressedGame.handleRotation );
+            socket.on('rotate-k', DepressedGame.handleRotation );
+            socket.on('rotate-u', DepressedGame.handleRotation );
+            socket.on('rotate-j', DepressedGame.handleRotation );
         },
 
         bindKeyEvents: function () {
@@ -238,6 +250,13 @@
 
         handleGrid: function ( gridData ) {
             console.log( 'grid received', gridData );
+        },
+
+        handleRotation: function ( rotation ) {
+
+            console.log('rotation received', rotation, DepressedGame.rotationKeyCodes[ rotation ] );
+
+            worldEvents.call( worldEvents, DepressedGame.rotationKeyCodes[ rotation ] );
         },
 
         handleStart: function () {

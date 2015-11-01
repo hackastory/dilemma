@@ -27,6 +27,12 @@
                         <button class="coordinates">send</button><br/><br/>
                         <hr/>
 
+                        <button class="rotate-u">Rotate u</button><br/><br/>
+                        <button class="rotate-h">Rotate h</button><br/><br/>
+                        <button class="rotate-j">Rotate j</button><br/><br/>
+                        <button class="rotate-k">Rotate k</button><br/><br/>
+
+                        <hr/>
                         <button class="start">Start</button><br/><br/>
                         <button class="lost">Lost</button><br/><br/>
                         <button class="won">Won</button><br/><br/>
@@ -55,7 +61,7 @@
                     $button.click(sendEvent);
 
                     function sendEvent() {
-                        socket.emit( $button[0].className );
+                        socket.emit( $button[0].className, $button[0].className );
                     };
 
                 });

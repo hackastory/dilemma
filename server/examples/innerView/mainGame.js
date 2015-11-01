@@ -12,6 +12,9 @@ var ism = false;
 var rayCaster = new THREE.Raycaster();
 var rayVector = new THREE.Vector3();
 
+
+var socket = io( document.location.origin );
+
 var debug = document.createElement('div');
 debug.style.position = 'absolute';
 debug.style.zIndex = 999;
@@ -334,10 +337,16 @@ function setup() {
     window.addEventListener('resize', handleResize );
     window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
+    socket.on('rotate-h', worldEvents.bind( worldEvents, 72 ) );
+    socket.on('rotate-k', worldEvents.bind( worldEvents, 75 ) );
+    socket.on('rotate-u', worldEvents.bind( worldEvents, 85 ) );
+    socket.on('rotate-j', worldEvents.bind( worldEvents, 74 ) );
+
     render();
 }
 
 function worldEvents(which) {
+
     if (!worldIsRotating) {
 
         worldRotationTarget = new THREE.Vector3(worldRotationCurrent.x, worldRotationCurrent.y, worldRotationCurrent.z);
@@ -426,7 +435,8 @@ function moveWorld() {
 
         if (delta.length() < worldMoveSpeed) {
             world.position.set(worldMoveTarget.x, worldMoveTarget.y, worldMoveTarget.z)
-            worldIsMoving = true;
+            worldIsMoving = false;
+            hoverCooldownTimer = Date.now();
 
         } else {
             delta.setLength(worldMoveSpeed);
@@ -449,8 +459,9 @@ function render () {
 
     rotateWorld();
     moveWorld();
-    //cube.rotation.x += 0.1;
-    //cube.rotation.y += 0.1;
+
+    gaze();
+
     //controls.update();
     renderer.render(scene, camera);
     effect.render( scene, camera );
@@ -503,14 +514,16 @@ document.addEventListener('keyup', function(e){
     player.updateVel({key: e.keyCode, isPressed: false});
 });
 
-document.addEventListener('mousemove', function(e){
-    if (worldIsRotating)
+function gaze(){
+    if (worldIsRotating || worldIsMoving)
         return;
 
 
 
-    rayVector.x = 2 * (e.clientX / window.innerWidth) - 1;
-    rayVector.y = 1 - 2 * ( e.clientY / window.innerHeight );
+    //rayVector.x = 2 * (window.innerWidth *.25) - 1;
+    //rayVector.y = 1 - 2 * ( window.innerHeight *.5);
+    rayVector.x = .125;
+    rayVector.y = .25;
     rayCaster.setFromCamera( rayVector, camera );
 
     var allObjects = floorpads.children.concat(world.children);
@@ -518,7 +531,7 @@ document.addEventListener('mousemove', function(e){
     var i;
 
     for ( i = 0; i < floorpads.children.length; i++){
-        floorpads.children[i].material.opacity = 0;
+        floorpads.children[i].material.color.set(0xff0000);
     }
 
 
@@ -527,12 +540,12 @@ document.addEventListener('mousemove', function(e){
 
         intersects[0].object.name == "pad";
 
-        intersects[0].object.material.opacity = 0.5;
+        intersects[0].object.material.color.set(0x00ff00);
 
 
         if (hoveringId == intersects[0].object.id) {
             if (Date.now() - hoveringTimer >= hoverDelay && Date.now() > hoverCooldownTimer + hoverCooldown){
-                intersects[0].object.material.opacity = 0;
+                intersects[0].object.material.color.set(0x0000ff);
                 hoveringTimer = Date.now();
 
                 var moveMe = new THREE.Vector3(intersects[0].object.userData[0],intersects[0].object.userData[1],intersects[0].object.userData[2]);
@@ -627,6 +640,6 @@ document.addEventListener('mousemove', function(e){
 
     }
 
-});
+};
 
 setup();

@@ -27,8 +27,12 @@ GameEngine.prototype = {
             // login here means choosing to play either the Depressive or Manic game
             client.on('login', this.handleLogin.bind( this, client ) );
 
-
             client.on('player-coordinates', this.handlePlayerCoordinates.bind( this, client ) );
+
+            client.on('rotate-u', this.handleRotation.bind( this ) );
+            client.on('rotate-h', this.handleRotation.bind( this ) );
+            client.on('rotate-j', this.handleRotation.bind( this ) );
+            client.on('rotate-k', this.handleRotation.bind( this ) );
 
             client.on('start', this.handleStart.bind( this ) );
             client.on('reset', this.handleReset.bind( this ) );
@@ -87,6 +91,11 @@ GameEngine.prototype = {
 
         console.log('reset');
         this.socket.emit( 'reset' );
+    },
+
+    handleRotation : function ( rotation ) {
+        console.log('rotate ', rotation);
+        this.socket.emit( rotation, rotation );
     },
 
     handleStart : function () {
