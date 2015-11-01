@@ -200,19 +200,20 @@
 
         createChooserWorld: function () {
 
-            var material = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
             var geometry = new THREE.BoxGeometry(1, 1, 1);
 
-            manicGameChoice = new THREE.Mesh( geometry, material );
-            manicGameChoice.position.set( -2, 2, 10 );
+            manicGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x123fe5 } ) );
+            manicGameChoice.position.set( 2, 1, -10 );
+            manicGameChoice.name = 'manic';
 
-            depressedGameChoice = new THREE.Mesh( geometry, material );
-            depressedGameChoice.position.set( 2, 2, 10 );
+            depressedGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf630a5 } ) );
+            depressedGameChoice.position.set( -2, 1, -10 );
+            depressedGameChoice.name = 'depressed';
 
             scene.add( manicGameChoice );
             scene.add( depressedGameChoice );
 
-            ThreeDeeWorld._createFloor();
+            //ThreeDeeWorld._createFloor();
         },
 
         createGameWorld: function () {
@@ -340,7 +341,6 @@
         if ( ! e.alpha ) {
             return;
         }
-
         controls = new THREE.DeviceOrientationControls( camera );
         controls.connect();
         controls.update();

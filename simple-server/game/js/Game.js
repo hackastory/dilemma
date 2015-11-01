@@ -25,8 +25,6 @@
 
         createChooser: function () {
 
-            //PlayerChooser.setup( socket );
-
             // BACKUP
 
             //$gameContainer.append( ''.concat(
@@ -60,9 +58,13 @@
             //    socket.emit('login', 'depressed');
             //});
 
+            // Use the 3D Chooser
+            PlayerChooser.setup( socket );
 
-                DepressedGame.setup( socket );
-                socket.emit('login', 'depressed');
+            // Or choose on straight away
+            //    DepressedGame.setup( socket );
+            //    socket.emit('login', 'depressed');
+
         },
 
         createIntro: function () {
