@@ -19,11 +19,13 @@ var debug = document.createElement('div');
 debug.style.position = 'absolute';
 debug.style.zIndex = 999;
 
+
+
 var map = [];
 
 map[0]=[    [2,2,2,2,2,2,2,2,2,2],
             [2,1,2,1,1,1,1,1,1,2],
-            [2,1,2,1,0,0,0,0,1,2],
+            [4,1,2,1,0,0,0,0,1,2],
             [2,1,2,1,0,0,0,0,1,2],
             [2,1,1,0,0,0,0,0,1,2],
             [2,1,0,0,0,0,0,0,1,2],
@@ -147,6 +149,9 @@ world.position.y = 2;
 world.position.z = 2;
 var worldDegrees = [];
 
+var endBox;
+var endMesh;
+
 var floorpads = new THREE.Object3D();
 var pivot = new THREE.Object3D();
 var offsetVector = new THREE.Vector3(0,1,0)
@@ -193,6 +198,8 @@ var player = {
             }
         }
 
+
+
         v.setLength(0.1);
 
 
@@ -203,7 +210,10 @@ var player = {
             world.position.add(v);
         }
 
-        console.log(world.position);
+        if (world.position.x < -1 && world.position.x > -2 &&
+            world.position.y < 3 && world.position.y > 1 &&
+            world.position.z < 3 && world.position.z > 1
+        ) console.log("win!");
 
         //return v;
     },
@@ -353,6 +363,21 @@ function setup() {
 
                     cubes.push(cube);
                     world.add(mesh);
+                }
+                if (map[z][x][y] == 4) {
+
+                    var texture2 = THREE.ImageUtils.loadTexture( "textures/patterns/checkerboard.png" );
+
+                    var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
+                    var geometry = new THREE.BoxGeometry(1, 1, 1);
+                    endMesh = new THREE.Mesh(geometry, material2);
+                    endMesh.position.x = (x * 2)-2;
+                    endMesh.position.y = (z * 2)-2;
+                    endMesh.position.z = (y * 2)-2;
+
+                    world.add(endMesh);
+
+                    endBox = new THREE.Box3().setFromObject(mesh);
                 }
 
             }
@@ -516,6 +541,7 @@ function updateHitBoxes(){
     for (var i = 0; i < cubes.length; i++) {
         cubes[i].box = new THREE.Box3().setFromObject(cubes[i].mesh);
     }
+    endBox = new THREE.Box3().setFromObject(endMeshmesh);
 }
 
 
@@ -565,7 +591,6 @@ function setOrientationControls ( e ) {
 }
 
 document.addEventListener('keydown', function(e){
-    console.log(e.keyCode);
     switch(e.keyCode) {
         case 37:
         case 38:
