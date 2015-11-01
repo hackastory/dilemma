@@ -211,8 +211,6 @@
 
             scene.add( manicGameChoice );
             scene.add( depressedGameChoice );
-
-            //ThreeDeeWorld._createFloor();
         },
 
         createGameWorld: function () {
