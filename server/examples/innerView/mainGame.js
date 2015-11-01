@@ -95,7 +95,7 @@ map[5]=[    [0,1,1,1,1,1,1,1,1,1],
 map[6]=[    [1,1,1,1,1,1,2,1,1,2],
             [1,0,1,1,1,0,1,0,0,1],
             [0,0,0,0,0,0,1,1,1,1],
-            [1,0,0,0,0,1,2,2,2,1],
+            [1,0,0,0,0,1,2,2,2,2],
             [1,0,0,1,0,0,1,1,1,1],
             [1,0,0,1,0,0,1,1,1,1],
             [1,0,0,1,0,0,1,2,2,1],
@@ -162,6 +162,8 @@ var hoverDelay = 1000;
 var hoverCooldownTimer = 0;
 var hoverCooldown = 1000;
 
+var hasWon = false;
+
 var lastPlayerPosition = {x:0, y:0, z:0 };
 var lastPivot = null;
 var lastWorldPosition = null;
@@ -216,8 +218,12 @@ var player = {
 
         if (world.position.x < -1 && world.position.x > -2 &&
             world.position.y < 3 && world.position.y > 1 &&
-            world.position.z < 3 && world.position.z > 1
-        ) console.log("win!");
+            world.position.z < 3 && world.position.z > 1 && !hasWon )
+        {
+            socket.emit("won");
+            console.log("won");
+            hasWon = true;
+        }
 
         //return v;
     },
@@ -259,18 +265,18 @@ var player = {
             newPivot = JSON.stringify({ x: pivot.rotation.x, y: pivot.rotation.y, z: pivot.rotation.z}),
             newWorldPos = JSON.stringify({ x: world.position.x, y: world.position.y, z: world.position.z});
 
-        if ( JSON.stringify( newPosition ) !== JSON.stringify( lastPlayerPosition ) ) {
-
-            lastPlayerPosition.x = newPosition.x;
-            lastPlayerPosition.y = newPosition.y;
-            lastPlayerPosition.z = newPosition.z;
-
-            socket.emit( 'player-coordinates', lastPlayerPosition );
-        }
+        //if ( JSON.stringify( newPosition ) !== JSON.stringify( lastPlayerPosition ) ) {
+        //
+        //    lastPlayerPosition.x = newPosition.x;
+        //    lastPlayerPosition.y = newPosition.y;
+        //    lastPlayerPosition.z = newPosition.z;
+        //
+        //    socket.emit( 'player-coordinates', lastPlayerPosition );
+        //}
 
         if (newWorldPos !== lastWorldPosition) {
-            console.log('mainGame -> newPivot', newPivot);
-            console.log('mainGame -> worldpos', newWorldPos, lastWorldPosition);
+            //console.log('mainGame -> newPivot', newPivot);
+            //console.log('mainGame -> worldpos', newWorldPos, lastWorldPosition);
             socket.emit( 'world-position', newWorldPos);
             lastWorldPosition = newWorldPos;
         }
