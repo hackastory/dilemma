@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Amazed hack server test</title>
+        <title>Dilemma server test</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     </head>
@@ -32,6 +32,10 @@
                         <button class="rotate-j">Rotate j</button><br/><br/>
                         <button class="rotate-k">Rotate k</button><br/><br/>
 
+                        <hr />
+                        <button class="play-man">Play the man</button><br/><br/>
+                        <button class="play-woman">Play the woman</button><br/><br/>
+
                         <hr/>
                         <button class="start">Start</button><br/><br/>
                         <button class="lost">Lost</button><br/><br/>
@@ -54,7 +58,7 @@
 
                 var socket = io( socketServer );
 
-                $('button:not(.coordinates)' ).each(function () {
+                $('button:not(.coordinates,.play-man,.play-woman)' ).each(function () {
 
                     var $button = $(this);
 
@@ -64,6 +68,18 @@
                         socket.emit( $button[0].className, $button[0].className );
                     };
 
+                });
+
+                $('.play-woman' ).on('click', function (){
+
+                    socket.emit( 'login', 'depressed' );
+                    socket.emit( 'intro-finished' );
+                });
+
+                $('.play-man' ).on('click', function (){
+
+                    socket.emit( 'login', 'manic' );
+                    socket.emit( 'intro-finished' );
                 });
 
                 $('.coordinates').click(sendCoords);
