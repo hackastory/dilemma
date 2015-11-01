@@ -55,7 +55,7 @@
 
                 if ( cubes[ i ].box.containsPoint( tryPos ) ) {
 
-                    console.log( 'collision on box ', i, player.pos );
+                   // console.log( 'collision on box ', i, player.pos );
                     return;
                 }
             }
@@ -87,7 +87,7 @@
             var light = ThreeDeeWorld.getLight();
             var newPosition;
 
-            if ( !worldIsRotating ) {
+            if ( ! worldIsRotating ) {
                 for ( var i = 0; i < player.keys.length; i++ ) {
                     if ( player.keys[ i ].isDown ) {
                         player.keys[ i ].action();
@@ -214,7 +214,7 @@
 
         bindKeyEvents: function () {
 
-            document.onkeydown = function ( e ) {
+            document.addEventListener('keydown', function ( e ) {
                 switch ( e.keyCode ) {
                     case 37:
                     case 38:
@@ -226,11 +226,11 @@
                         worldEvents( e.keyCode );
                         break;
                 }
-            };
+            });
 
-            document.onkeyup = function ( e ) {
+            document.addEventListener('keyup', function ( e ) {
                 player.updateVel( { key: e.keyCode, isPressed: false } );
-            };
+            });
         },
 
         handleGrid: function ( gridData ) {

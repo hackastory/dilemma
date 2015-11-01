@@ -145,6 +145,8 @@
     var scene;
     var world;
 
+    var clock = new THREE.Clock();
+
     var ThreeDeeWorld = {
 
         create: function () {
@@ -153,13 +155,17 @@
             renderer = new THREE.WebGLRenderer();
 
             effect = new THREE.StereoEffect(renderer);
-     
             
             scene = new THREE.Scene();
             world = new THREE.Object3D();
 
             renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setPixelRatio( window.devicePixelRatio );
+
 			effect.setSize( window.innerWidth, window.innerHeight );
+
+            // effect.eyeSeparation = ...
+
             document.body.appendChild( renderer.domElement );
 
             ThreeDeeWorld._createGrid();
@@ -249,18 +255,18 @@
 
             renderer.setSize( windowWidth, windowHeight );
 
-            effect.setSize( windowWidth, windowHeight );
-
             camera.aspect = windowWidth / windowHeight;
             camera.updateProjectionMatrix();
+
+            effect.setSize( windowWidth, windowHeight );
         },
 
         // called from the implementing Game class, because it probably needs to do
         // some extra stuff prior to rendering
         render: function () {
-			
+
             renderer.render( scene, camera );
-            
+            effect.render( scene, camera );
         }
     };
 
