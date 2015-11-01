@@ -182,7 +182,6 @@
 
             $( window ).on('resize', ThreeDeeWorld.handleResize );
             
-            ThreeDeeWorld.playAudio();
            
         },
         

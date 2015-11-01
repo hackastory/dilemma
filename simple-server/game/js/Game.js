@@ -10,7 +10,7 @@
     var Game = {
 
         setup: function () {
-
+			Game.createIntro();
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
 
@@ -67,6 +67,25 @@
 
         createIntro: function () {
             // Intro movie? Animated Gif? 3D world?
+            createjs.Sound.registerSound("audio/threebirds.mp3", 'sound');
+            
+            var introVideo = document.getElementById('introVideo');
+			if (introVideo.requestFullscreen) {
+				introVideo.requestFullscreen();
+			} else if (introVideo.mozRequestFullScreen) {
+				introVideo.mozRequestFullScreen();
+			} else if (introVideo.webkitRequestFullscreen) {
+				introVideo.webkitRequestFullscreen();
+			}
+            introVideo.play();
+            
+            introVideo.addEventListener('ended', function() {
+	            $(introVideo).get(0).webkitExitFullScreen();
+	            
+		        //    $(introVideo).hide();
+	        	$(introVideo).addClass('done').delay(2000);
+	        	//createjs.Sound.play('sound');
+	        }, false);
         },
 
         createOutro: function () {
