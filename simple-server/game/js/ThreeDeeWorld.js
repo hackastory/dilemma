@@ -139,7 +139,6 @@
 
     var camera;
     var controls;
-    var cubes = [];
     var effect;
     var light;
     var renderer;
@@ -147,6 +146,13 @@
     var world;
 
     var clock;
+
+    // Intro / Chooser objects
+    var manicGameChoice;
+    var depressedGameChoice;
+
+    // Gameplay objects
+    var cubes = [];
 
     var ThreeDeeWorld = {
 
@@ -175,6 +181,23 @@
             window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
             $( window ).on('resize', ThreeDeeWorld.handleResize );
+        },
+
+        createChooserWorld: function () {
+
+            var material = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+            manicGameChoice = new THREE.Mesh( geometry, material );
+            manicGameChoice.position.set( -2, 2, 10 );
+
+            depressedGameChoice = new THREE.Mesh( geometry, material );
+            depressedGameChoice.position.set( 2, 2, 10 );
+
+            scene.add( manicGameChoice );
+            scene.add( depressedGameChoice );
+
+            ThreeDeeWorld._createFloor();
         },
 
         createGameWorld: function () {
@@ -244,6 +267,14 @@
 
         getCubes: function () {
             return cubes;
+        },
+
+        getGameChoiceManic: function () {
+            return manicGameChoice;
+        },
+
+        getGameChoiceDepressed: function () {
+            return depressedGameChoice;
         },
 
         getLight: function () {

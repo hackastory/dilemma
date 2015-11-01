@@ -1,12 +1,9 @@
-(function ( ManicGame, DepressedGame, ThreeDeeWorld ) {
+(function ( ManicGame, DepressedGame, PlayerChooser, ThreeDeeWorld ) {
 
     var dl = document.location;
     var socketServer = dl.origin;
 
     var socket = io( socketServer );
-
-    var $gameContainer = $('#app'); // for rendering the intro/outro etc
-                                    // The 3D game is rendered in a body > canvas
 
     var Game = {
 
@@ -18,42 +15,50 @@
             socket.on('lost', Game.handleLost );
             socket.on('won', Game.handleWon );
 
+            ThreeDeeWorld.create();
+
             Game.createChooser();
         },
 
         createChooser: function () {
 
+            //PlayerChooser.setup( socket );
+
             // TODO: hide irrelevante knopjes wanneer iemand later de pagina bezoekt
-            $gameContainer.append( ''.concat(
-                '<h1>Choose your player</h1>',
-                '<button id="manic">Heaven</button>',
-                '<button id="depressed">Hell</button>'
-            ) );
+            //$gameContainer.append( ''.concat(
+            //    '<h1>Choose your player</h1>',
+            //    '<button id="manic">Man</button>',
+            //    '<button id="depressed">Woman</button>'
+            //) );
+            //
+            //// For now, clicking on a button above automatically starts the game
+            //// by emitting the 'start' event.
+            //// When merging both worlds emitting the 'start' event should depend
+            //// on both players having clicked a button
+            //
+            //$('#manic' ).on('click', function () {
+            //
+            //    $gameContainer.hide();
+            //
+            //    ThreeDeeWorld.create();
+            //
+            //    ManicGame.setup( socket );
+            //    socket.emit('login', 'manic');
+            //});
+            //
+            //$('#depressed' ).on('click', function () {
+            //
+            //    $gameContainer.hide();
+            //
+            //    ThreeDeeWorld.create();
+            //
+            //    DepressedGame.setup( socket );
+            //    socket.emit('login', 'depressed');
+            //});
 
-            // For now, clicking on a button above automatically starts the game
-            // by emitting the 'start' event.
-            // When merging both worlds emitting the 'start' event should depend
-            // on both players having clicked a button
-
-            $('#manic' ).on('click', function () {
-
-                $gameContainer.hide();
-
-                ThreeDeeWorld.create();
-
-                ManicGame.setup( socket );
-                socket.emit('login', 'manic');
-            });
-
-            $('#depressed' ).on('click', function () {
-
-                $gameContainer.hide();
-
-                ThreeDeeWorld.create();
 
                 DepressedGame.setup( socket );
                 socket.emit('login', 'depressed');
-            });
         },
 
         createIntro: function () {
@@ -85,4 +90,4 @@
     /****************************/
     Game.setup();
 
-})( window.ManicGame, window.DepressedGame, window.ThreeDeeWorld );
+})( window.ManicGame, window.DepressedGame, window.PlayerChooser, window.ThreeDeeWorld );
