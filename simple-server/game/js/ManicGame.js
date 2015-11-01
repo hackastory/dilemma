@@ -73,7 +73,7 @@
 			
 			var winVideo = document.getElementById('winVideo');
             $(winVideo).fadeIn();
-            $(winVideo).attr({'src': 'video/intro.mp4'});
+            $(winVideo).attr({'src': 'video/explosion_ending.mp4'});
             
 			if (winVideo.requestFullscreen) {
 				winVideo.requestFullscreen();
