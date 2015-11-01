@@ -38,7 +38,7 @@
 	        console.log('Showing Intro');
 	        
             // Intro movie? Animated Gif? 3D world?
-            createjs.Sound.registerSound("audio/backgroundTrack.mp3", 'sound');
+            createjs.Sound.registerSound("audio/soundscape-outside-man-final.mp3", 'soundMan');
             
             var introVideo = document.getElementById('introVideo');
             $(introVideo).fadeIn();
@@ -62,13 +62,13 @@
                 });
                 
                 socket.emit('intro-finished');
-	        	createjs.Sound.play('sound');
+	        	createjs.Sound.play('soundMan');
 	        }, false);
         },
         
         handleWon: function () {
 	        console.log('WON!');
-			createjs.Sound.stop('sound');
+			createjs.Sound.stop('soundMan');
 			
 			
 			var winVideo = document.getElementById('winVideo');
@@ -88,7 +88,7 @@
         
         handleLost: function() {
 	        console.log('LOST');
-        }
+        },
         
         start: function () {
 

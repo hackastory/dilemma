@@ -529,7 +529,7 @@
 	        console.log('Showing Intro');
 	        
             // Intro movie? Animated Gif? 3D world?
-            createjs.Sound.registerSound("audio/backgroundTrack.mp3", 'sound');
+            createjs.Sound.registerSound("audio/soundscape-inside-vrouw-final.mp3", 'sound');
             
             var introVideo = document.getElementById('introVideo');
             $(introVideo).fadeIn();
