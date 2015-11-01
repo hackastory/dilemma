@@ -76,7 +76,7 @@ initSocket();
 
 map[0]=[    [2,2,2,2,2,2,2,2,2,2],
             [2,1,2,1,1,1,1,1,1,2],
-            [4,1,2,1,0,0,0,0,1,2],
+            [2,1,2,1,0,0,0,0,1,2],
             [2,1,2,1,0,0,0,0,1,2],
             [2,1,1,0,0,0,0,0,1,2],
             [2,1,0,0,0,0,0,0,1,2],
@@ -317,6 +317,7 @@ function setup() {
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
     var material = new THREE.LineBasicMaterial({color: 0xFFFFFF, opacity: 0, transparent: true});
     var materialTunnel = new THREE.MeshPhongMaterial({color: 0xFCC22F, opacity: 1, transparent: false});
+    var materialFinish = new THREE.MeshPhongMaterial({color: 0xDD00CC, opacity: 1, transparent: false});
     //material.color = 0xff9999;
     //material.opacity = 0.5;
 
@@ -327,10 +328,16 @@ function setup() {
 
 
                 var isTunnel = map[z][x][y] === 2;
+                var isFinish = map[z][x][y] === 4;
                 var cubeSize = isTunnel ? 2 : 2;
                 var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
-                var mesh = new THREE.Mesh(geometry, isTunnel ? materialTunnel : material);
+                var cubeMaterial = isTunnel ? materialTunnel : material;
+                if( isFinish) {
+                    cubeMaterial = materialFinish;
+                }
+
+                var mesh = new THREE.Mesh(geometry, cubeMaterial);
                 mesh.position.x = (x-5) * 2;
                 mesh.position.y = (z-4.5) * 2;
                 mesh.position.z = (y-5) * 2;
