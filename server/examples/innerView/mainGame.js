@@ -12,6 +12,9 @@ var ism = false;
 var rayCaster = new THREE.Raycaster();
 var rayVector = new THREE.Vector3();
 
+
+var socket = io( document.location.origin );
+
 var debug = document.createElement('div');
 debug.style.position = 'absolute';
 debug.style.zIndex = 999;
@@ -334,10 +337,16 @@ function setup() {
     window.addEventListener('resize', handleResize );
     window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
+    socket.on('rotate-h', worldEvents.bind( worldEvents, 72 ) );
+    socket.on('rotate-k', worldEvents.bind( worldEvents, 75 ) );
+    socket.on('rotate-u', worldEvents.bind( worldEvents, 85 ) );
+    socket.on('rotate-j', worldEvents.bind( worldEvents, 74 ) );
+
     render();
 }
 
 function worldEvents(which) {
+
     if (!worldIsRotating) {
 
         worldRotationTarget = new THREE.Vector3(worldRotationCurrent.x, worldRotationCurrent.y, worldRotationCurrent.z);

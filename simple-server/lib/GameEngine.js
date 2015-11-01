@@ -95,7 +95,7 @@ GameEngine.prototype = {
 
     handleRotation : function ( rotation ) {
         console.log('rotate ', rotation);
-        this.socket.emit( rotation );
+        this.socket.emit( rotation, rotation );
     },
 
     handleStart : function () {

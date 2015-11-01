@@ -61,7 +61,7 @@
                     $button.click(sendEvent);
 
                     function sendEvent() {
-                        socket.emit( $button[0].className );
+                        socket.emit( $button[0].className, $button[0].className );
                     };
 
                 });
