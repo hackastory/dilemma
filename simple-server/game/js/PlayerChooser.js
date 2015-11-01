@@ -76,6 +76,7 @@
 
                                 chosen = 'manic';
                                 PlayerChooser.renderWaitingScreen();
+                                ManicGame.setup( socket );
                                 socket.emit( 'login', 'manic' );
 
                             }, 1200 );
@@ -91,6 +92,7 @@
                             chooseTimeout = setTimeout( function () {
 
                                 chosen = 'depressed';
+                                DepressedGame.setup( socket );
                                 PlayerChooser.renderWaitingScreen();
                                 socket.emit( 'login', 'depressed' );
 
@@ -125,10 +127,9 @@
             console.log('PlayerChooser intro finished!');
 
             if (chosen === 'manic' ) {
-                ManicGame.setup( socket );
+
                 ManicGame.start();
             } else {
-                DepressedGame.setup( socket );
                 DepressedGame.start();
             }
         },
