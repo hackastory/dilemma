@@ -181,6 +181,21 @@
             window.addEventListener( 'deviceorientation', setOrientationControls, true );
 
             $( window ).on('resize', ThreeDeeWorld.handleResize );
+            
+            ThreeDeeWorld.playAudio();
+           
+        },
+        
+        playAudio: function() {
+	        var soundPlaying = false;
+	        createjs.Sound.registerSound("audio/threebirds.mp3", 'sound');
+	        $('canvas').click(function(){
+		        if (!soundPlaying){
+					createjs.Sound.play('sound');
+				}
+				soundPlaying = true;
+			});
+
         },
 
         createChooserWorld: function () {
