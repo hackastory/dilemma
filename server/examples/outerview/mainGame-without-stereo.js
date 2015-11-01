@@ -58,8 +58,10 @@ function initSocket() {
             z = Math.round(eventData.z);
 
         console.log('worldpos', x, y, z);
-        hypercube.position.set(x+16,y+14,z+16);
-        //world.position.set(-x, -y, -z);
+        //hypercube.position.set(x+16,y+14,z+16);
+        hypercube.position.set(x,y,z);
+        marker.mesh.position.set(-x-8,-y-7,-z-8);
+        world.position.set(-x,-y,-z);
     });
 
 }
@@ -362,7 +364,7 @@ function setup() {
 
     //world.add(ground);
     markerHolder.add(marker.mesh);
-    world.add(markerHolder);
+    hypercube.add(marker.mesh);
     world.add(hypercube);
     scene.add(world);
     scene.add(light);
