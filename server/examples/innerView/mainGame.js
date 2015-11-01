@@ -171,7 +171,7 @@ var hoverDelay = 1000;
 var hoverCooldownTimer = 0;
 var hoverCooldown = 1000;
 
-
+var lastPlayerPosition = {x:0, y:0, z:0 };
 
 
 var cubes = [];
@@ -251,6 +251,19 @@ var player = {
 
         if (player.rot.y >= 2* Math.PI || player.rot.y <= -(2* Math.PI)) player.rot.y = 0;
 
+
+        var newPosition = {
+            x: player.pos.x, y: player.pos.y, z: player.pos.z
+        };
+
+        if ( JSON.stringify( newPosition ) !== JSON.stringify( lastPlayerPosition ) ) {
+
+            lastPlayerPosition.x = newPosition.x;
+            lastPlayerPosition.y = newPosition.y;
+            lastPlayerPosition.z = newPosition.z;
+
+            socket.emit( 'player-coordinates', lastPlayerPosition );
+        }
     }
 };
 
