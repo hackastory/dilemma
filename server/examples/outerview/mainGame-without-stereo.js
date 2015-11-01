@@ -255,9 +255,9 @@ var player = {
         //camera.position.y = player.pos.y;
         //camera.position.z = player.pos.z + 50;
 
-        world.rotation.x = player.rot.x;
-        world.rotation.y = player.rot.y;
-        world.rotation.z = player.rot.z;
+        //world.rotation.x = player.rot.x;
+        //world.rotation.y = player.rot.y;
+        //world.rotation.z = player.rot.z;
 
         light.position.set(player.pos.x,player.pos.y,player.pos.z);
 
@@ -291,6 +291,7 @@ function setup() {
 
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
     var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.2, transparent: true});
+    var materialTunnel = new THREE.MeshBasicMaterial({color: 0x000000, opacity: 1, transparent: false});
     //material.color = 0xff9999;
     //material.opacity = 0.5;
 
@@ -299,27 +300,27 @@ function setup() {
             for (var y = 0; y < map[z][x].length; y++) {
 
 
-                if (map[z][x][y] != 0) {
 
-                    var geometry = new THREE.BoxGeometry(2, 2, 2);
+                var isTunnel = map[z][x][y] === 0;
+                var cubeSize = isTunnel ? 1.9 : 2;
+                var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
-                    var mesh = new THREE.Mesh(geometry, material);
-                    mesh.position.x = x * 2;
-                    mesh.position.y = z * 2;
-                    mesh.position.z = y * 2;
-                    mesh.name = "cube";
+                var mesh = new THREE.Mesh(geometry, isTunnel? materialTunnel : material);
+                mesh.position.x = x * 2;
+                mesh.position.y = z * 2;
+                mesh.position.z = y * 2;
+                mesh.name = "cube";
 
-                    var cube = {
-                        mesh: mesh,
-                        box: new THREE.Box3().setFromObject(mesh),
-                        cubetype: map[z][x][y]
-                    }
+                var cube = {
+                    mesh: mesh,
+                    box: new THREE.Box3().setFromObject(mesh),
+                    cubetype: map[z][x][y]
+                };
 
-                    cubes.push(cube);
-                    hypercube.add(mesh);
-                }
+                cubes.push(cube);
+                hypercube.add(mesh);
 
-                else {
+                if(isTunnel) {
                     var validPos = new THREE.Vector3(x * 2, y * 2, z * 2);
                     validPositions.push(validPos);
                 }
@@ -376,7 +377,6 @@ function worldEvents(which) {
         for (var i = 0; i < world.children.length; i++) {
             world.children[i].position.add(offset);
         }
-        player.pos = new THREE.Vector3(0, 0, 0);
         //worldIsRotating = true;
         updateHitBoxes();
     }
