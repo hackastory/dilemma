@@ -138,6 +138,7 @@
             [1,1,1,1,1,1,1,1,1,1,1,1]];
 
     var camera;
+    var controls;
     var cubes = [];
     var effect;
     var light;
@@ -150,7 +151,9 @@
     var ThreeDeeWorld = {
 
         create: function () {
-            camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+            camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100000 );
+
             light = new THREE.HemisphereLight( 0xffffff, 0, 0.6 );
             renderer = new THREE.WebGLRenderer();
 
@@ -160,11 +163,9 @@
             world = new THREE.Object3D();
 
             renderer.setSize( window.innerWidth, window.innerHeight );
-            renderer.setPixelRatio( window.devicePixelRatio );
-
 			effect.setSize( window.innerWidth, window.innerHeight );
 
-            // effect.eyeSeparation = ...
+            effect.separation = 0;
 
             document.body.appendChild( renderer.domElement );
 
@@ -173,7 +174,9 @@
 
             scene.add(world);
             scene.add(light);
-			
+
+            window.addEventListener( 'deviceorientation', setOrientationControls, true );
+
             $( window ).on('resize', ThreeDeeWorld.handleResize );
         },
 
@@ -232,6 +235,10 @@
             return camera;
         },
 
+        getControls: function () {
+            return controls;
+        },
+
         getCubes: function () {
             return cubes;
         },
@@ -253,24 +260,38 @@
             var windowWidth = $( window ).width();
             var windowHeight = $( window ).height();
 
-            renderer.setSize( windowWidth, windowHeight );
-
             camera.aspect = windowWidth / windowHeight;
             camera.updateProjectionMatrix();
 
+            renderer.setSize( windowWidth, windowHeight );
             effect.setSize( windowWidth, windowHeight );
         },
 
-        // called from the implementing Game class, because it probably needs to do
-        // some extra stuff prior to rendering
+        // should be called from the implementing Game class, because that one probably
+        // needs to do some extra stuff prior to rendering
         render: function () {
 
             renderer.render( scene, camera );
             effect.render( scene, camera );
+
+            if ( controls ) {
+                controls.update( clock.getDelta() );
+            }
         }
     };
 
+    function setOrientationControls ( e ) {
 
+        if ( ! e.alpha ) {
+            return;
+        }
+
+        controls = new THREE.DeviceOrientationControls( camera );
+        controls.connect();
+        controls.update();
+
+        window.removeEventListener( 'deviceorientation', setOrientationControls, true );
+    }
 
     /***********************************************
      *

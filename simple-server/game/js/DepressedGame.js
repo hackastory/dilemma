@@ -99,9 +99,12 @@
             camera.position.y = player.pos.y;
             camera.position.z = player.pos.z;
 
-            camera.rotation.x = player.rot.x;
-            camera.rotation.y = player.rot.y;
-            camera.rotation.z = player.rot.z;
+            if ( ! ThreeDeeWorld.getControls() ) {
+                // we're dealing with desktop here, no mobile
+                camera.rotation.x = player.rot.x;
+                camera.rotation.y = player.rot.y;
+                camera.rotation.z = player.rot.z;
+            }
 
             light.position.set( player.pos.x, player.pos.y, player.pos.z );
 
