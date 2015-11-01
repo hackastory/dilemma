@@ -88,7 +88,7 @@
                 world.position.z < 3 && world.position.z > 1
             ) {
                 // test win
-                socket.emit('win');
+                //socket.emit('win');
             }
 
             console.log(world.position);
