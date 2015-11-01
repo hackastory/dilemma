@@ -383,6 +383,7 @@
 
         var cubes = ThreeDeeWorld.getCubes();
         var endBox = ThreeDeeWorld.getEndBox();
+        var endMesh = ThreeDeeWorld.getEndMesh();
 
         for ( var i = 0; i < cubes.length; i++ ) {
             cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );
