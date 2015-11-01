@@ -34,13 +34,32 @@ function initSocket() {
 
     // receiving
 
-    socket.on('player-coordinates', function ( eventData ) {
-        var x = Math.round(eventData.x/2)*2,
-            y = Math.round(eventData.y/2)*2,
-            z = Math.round(eventData.z/2)*2;
+    //socket.on('player-coordinates', function ( eventData ) {
+    //    var x = Math.round(eventData.x/2)*2,
+    //        y = Math.round(eventData.y/2)*2,
+    //        z = Math.round(eventData.z/2)*2;
+    //
+    //    console.log(x, y, z);
+    //    marker.mesh.position.set(x, y, z);
+    //});
+    socket.on('pivot', function ( eventData ) {
+        eventData = JSON.parse(eventData);
+        var x = Math.round(eventData.x)/180*Math.PI,
+            y = Math.round(eventData.y)/180*Math.PI,
+            z = Math.round(eventData.z)/180*Math.PI;
 
-        console.log(x, y, z);
-        marker.mesh.position.set(x, y, z);
+        console.log('pivot', eventData, x, y, z);
+        world.rotation.set(x, y, z);
+    });
+    socket.on('world-position', function ( eventData ) {
+        eventData = JSON.parse(eventData);
+        var x = Math.round(eventData.x),
+            y = Math.round(eventData.y),
+            z = Math.round(eventData.z);
+
+        //console.log('worldpos', eventData, x, y, z);
+        hypercube.position.set(x, y, z);
+        world.position.set(-x, -y, -z);
     });
 
 }
@@ -183,15 +202,15 @@ var worldRotationCurrent = new THREE.Vector3( 0, 0, 0 );
 var worldRotationTarget = new THREE.Vector3( 0, 0, 0 );
 var world = new THREE.Object3D();
 var hypercube = new THREE.Object3D();
-var markerOlder = new THREE.Object3D();
+var markerHolder = new THREE.Object3D();
 //markerOlder.position.set(10,10,10);
 
 var geometry = new THREE.CubeGeometry(2.2,2.2,2.2);
 
 var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
-//mesh.position.x = -1;
-//mesh.position.y = -1;
-//mesh.position.z = -1;
+mesh.position.x = 2;
+mesh.position.y = 2;
+mesh.position.z = 2;
 mesh.name = "marker";
 //mesh.renderDepth = 999;
 //mesh.material.depthWrite = false;
@@ -205,9 +224,9 @@ var marker = {
 
 camera.position.z = 30;
 
-hypercube.position.x = -10;
-hypercube.position.y = -10;
-hypercube.position.z = -10;
+//hypercube.position.x = -10;
+//hypercube.position.y = -10;
+//hypercube.position.z = -10;
 
 var cubes = [];
 
@@ -364,8 +383,8 @@ function setup() {
     ground.position.y = -1;
 
     //world.add(ground);
-    markerOlder.add(marker.mesh);
-    hypercube.add(markerOlder);
+    markerHolder.add(marker.mesh);
+    world.add(markerHolder);
     world.add(hypercube);
     scene.add(world);
     scene.add(light);

@@ -28,6 +28,8 @@ GameEngine.prototype = {
             client.on('login', this.handleLogin.bind( this, client ) );
 
             client.on('player-coordinates', this.handlePlayerCoordinates.bind( this, client ) );
+            client.on('pivot', this.handlePivot.bind( this, client ) );
+            client.on('world-position', this.handleWorldPosition.bind( this, client ) );
 
             client.on('rotate-u', this.handleRotation.bind( this ) );
             client.on('rotate-h', this.handleRotation.bind( this ) );
@@ -88,6 +90,18 @@ GameEngine.prototype = {
        // console.log('player-coordinates', coordData );
 
         this.socket.emit( 'player-coordinates', coordData );
+    },
+
+    handlePivot: function ( client, pivotXYZ ) {
+       // console.log('player-coordinates', coordData );
+
+        this.socket.emit( 'pivot', pivotXYZ );
+    },
+
+    handleWorldPosition: function ( client, posXYZ ) {
+        console.log('world-pos', posXYZ );
+
+        this.socket.emit( 'world-position', posXYZ );
     },
 
     handleReset : function () {
