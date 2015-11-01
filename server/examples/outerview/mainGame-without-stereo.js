@@ -5,6 +5,13 @@ renderer.setClearColor( 0xffffff, 0);
 var light = new THREE.HemisphereLight(0xffffff,0,0.6);
 var ism = false;
 
+var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+directionalLight.position.set( 1, 1, 0 );
+scene.add( directionalLight );
+
+var light = new THREE.AmbientLight( 0xfcc22f ); // soft white light
+scene.add( light );
+
 var validPositions = [];
 var currentPosition = 0;
 var positionInterval = 5;
@@ -181,6 +188,8 @@ var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
 //mesh.position.y = -1;
 //mesh.position.z = -1;
 mesh.name = "marker";
+mesh.renderDepth = 999;
+//mesh.material.depthWrite = false;
 
 var marker = {
     mesh: mesh,
@@ -189,7 +198,7 @@ var marker = {
 };
 
 
-camera.position.z = 50;
+camera.position.z = 30;
 
 hypercube.position.x = -10;
 hypercube.position.y = -10;
@@ -256,9 +265,9 @@ var player = {
         //camera.position.y = player.pos.y;
         //camera.position.z = player.pos.z + 50;
 
-        //world.rotation.x = player.rot.x;
-        //world.rotation.y = player.rot.y;
-        //world.rotation.z = player.rot.z;
+        world.rotation.x = player.rot.x;
+        world.rotation.y = player.rot.y;
+        world.rotation.z = player.rot.z;
 
         light.position.set(player.pos.x,player.pos.y,player.pos.z);
 
@@ -291,8 +300,8 @@ function setup() {
     var texture1 = THREE.ImageUtils.loadTexture( "floor_tile.jpg" );
 
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
-    var material = new THREE.MeshBasicMaterial({color: 0xFF9933, opacity: 0.2, transparent: true});
-    var materialTunnel = new THREE.MeshBasicMaterial({color: 0x000000, opacity: 1, transparent: false});
+    var material = new THREE.LineBasicMaterial({color: 0xFFFFFF, opacity: 0, transparent: true});
+    var materialTunnel = new THREE.MeshPhongMaterial({color: 0xFCC22F, opacity: 1, transparent: false});
     //material.color = 0xff9999;
     //material.opacity = 0.5;
 
@@ -303,14 +312,21 @@ function setup() {
 
 
                 var isTunnel = map[z][x][y] === 0;
-                var cubeSize = isTunnel ? 1.9 : 2;
+                var cubeSize = isTunnel ? 2 : 2;
                 var geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+                for ( var i = 0; i < geometry.faces.length; i ++ ) {
+                    geometry.faces[ i ].color.setHex( Math.random() * 0xffffff );
+                }
+                geometry.colorsNeedUpdate = true;
 
                 var mesh = new THREE.Mesh(geometry, isTunnel? materialTunnel : material);
                 mesh.position.x = x * 2;
                 mesh.position.y = z * 2;
                 mesh.position.z = y * 2;
                 mesh.name = "cube";
+                //mesh.renderDepth = 999;
+                //mesh.material.depthWrite = false;
+
 
                 var cube = {
                     mesh: mesh,
