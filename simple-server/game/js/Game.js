@@ -11,6 +11,7 @@
 
         setup: function () {
 			Game.createIntro();
+        
             socket.on('reset', Game.handleReset );
             socket.on('playertaken', Game.handlePlayerTaken );
             socket.on('start', Game.handleStart );
@@ -53,7 +54,7 @@
 	            $(introVideo).get(0).webkitExitFullScreen();
 	            
 		        //    $(introVideo).hide();
-	        	$(introVideo).addClass('done').delay(2000);
+	        	$(introVideo).addClass('done').fadeOut(2000);
 	        	//createjs.Sound.play('sound');
 	        }, false);
         },
