@@ -1,4 +1,5 @@
 var scene = new THREE.Scene();
+var markerScene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setClearColor( 0xffffff, 0);
@@ -34,8 +35,12 @@ function initSocket() {
     // receiving
 
     socket.on('player-coordinates', function ( eventData ) {
-        console.log('mainGame-without-stereo -> ', eventData.x, eventData.z);
-        marker.mesh.position.copy(eventData);
+        var x = Math.round(eventData.x/2)*2,
+            y = Math.round(eventData.y/2)*2,
+            z = Math.round(eventData.z/2)*2;
+
+        console.log(x, y, z);
+        marker.mesh.position.set(x, y, z);
     });
 
 }
@@ -181,14 +186,14 @@ var hypercube = new THREE.Object3D();
 var markerOlder = new THREE.Object3D();
 //markerOlder.position.set(10,10,10);
 
-var geometry = new THREE.CubeGeometry(2,2,2);
+var geometry = new THREE.CubeGeometry(2.2,2.2,2.2);
 
 var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
 //mesh.position.x = -1;
 //mesh.position.y = -1;
 //mesh.position.z = -1;
 mesh.name = "marker";
-mesh.renderDepth = 999;
+//mesh.renderDepth = 999;
 //mesh.material.depthWrite = false;
 
 var marker = {
@@ -320,9 +325,9 @@ function setup() {
                 geometry.colorsNeedUpdate = true;
 
                 var mesh = new THREE.Mesh(geometry, isTunnel? materialTunnel : material);
-                mesh.position.x = x * 2;
-                mesh.position.y = z * 2;
-                mesh.position.z = y * 2;
+                mesh.position.x = Math.round(x) * 2;
+                mesh.position.y = Math.round(z) * 2;
+                mesh.position.z = Math.round(y) * 2;
                 mesh.name = "cube";
                 //mesh.renderDepth = 999;
                 //mesh.material.depthWrite = false;
