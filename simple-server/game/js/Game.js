@@ -104,10 +104,5 @@
     };
 
 
-    /****************************/
     Game.setup();
-<<<<<<< HEAD
-})( window.ManicGame, window.DepressedGame );
-=======
-
 })( window.ManicGame, window.DepressedGame, window.PlayerChooser, window.ThreeDeeWorld );
