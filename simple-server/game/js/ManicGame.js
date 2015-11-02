@@ -240,7 +240,7 @@
 
             var introVideo = document.getElementById('introVideo');
             $(introVideo).fadeIn();
-            $(introVideo).attr({'src': 'video/intro.mp4'});
+            $(introVideo).attr({'src': 'video/heaven_intro.mp4'});
 
 			if (introVideo.requestFullscreen) {
 				introVideo.requestFullscreen();
