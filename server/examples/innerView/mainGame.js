@@ -25,7 +25,7 @@ var map = [];
 
 map[0]=[    [2,2,2,2,2,2,2,2,2,2],
             [2,1,2,1,1,1,1,1,1,2],
-            [4,1,2,1,0,0,0,0,1,2],
+            [2,1,2,1,0,0,0,0,1,2],
             [2,1,2,1,0,0,0,0,1,2],
             [2,1,1,0,0,0,0,0,1,2],
             [2,1,0,0,0,0,0,0,1,2],
@@ -216,14 +216,7 @@ var player = {
             world.position.add(v);
         }
 
-        if (world.position.x < -1 && world.position.x > -2 &&
-            world.position.y < 3 && world.position.y > 1 &&
-            world.position.z < 3 && world.position.z > 1 && !hasWon )
-        {
-            socket.emit("won");
-            console.log("won");
-            hasWon = true;
-        }
+
 
         //return v;
     },
@@ -277,6 +270,7 @@ var player = {
         if (newWorldPos !== lastWorldPosition) {
             //console.log('mainGame -> newPivot', newPivot);
             //console.log('mainGame -> worldpos', newWorldPos, lastWorldPosition);
+
             socket.emit( 'world-position', newWorldPos);
             lastWorldPosition = newWorldPos;
         }
