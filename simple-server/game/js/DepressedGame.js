@@ -11,6 +11,10 @@
     var worldIsMoving = false;
     var worldDegrees = [];
 
+    var cubes = [];
+    var endBox;
+    var endMesh;
+
     var floorpads = new THREE.Object3D();
     var pivot = new THREE.Object3D();
     var offsetVector = new THREE.Vector3(0,1,0);
@@ -47,7 +51,6 @@
         tryMovement: function ( which ) {
 
             var world = ThreeDeeWorld.getWorld();
-            var cubes = ThreeDeeWorld.getCubes();
 
             var v = new THREE.Vector3( 1, 0, 1 );
             v.applyQuaternion( new THREE.Quaternion().setFromAxisAngle( offsetVector, player.rot.y - (Math.PI * .25) ) );
@@ -316,7 +319,6 @@
     function moveWorld() {
         if (worldIsMoving) {
 
-            var cubes = ThreeDeeWorld.getCubes();
             var world = ThreeDeeWorld.getWorld();
 
             var invertedMoveTarget = new THREE.Vector3();
@@ -380,10 +382,6 @@
     }
 
     function updateHitBoxes () {
-
-        var cubes = ThreeDeeWorld.getCubes();
-        var endBox = ThreeDeeWorld.getEndBox();
-        var endMesh = ThreeDeeWorld.getEndMesh();
 
         for ( var i = 0; i < cubes.length; i++ ) {
             cubes[ i ].box = new THREE.Box3().setFromObject( cubes[ i ].mesh );
@@ -517,6 +515,140 @@
 
         },
 
+        createWorld: function () {
+
+            var world = ThreeDeeWorld.getWorld();
+            var map = ThreeDeeWorld.getMap();
+
+            var outerWallTexture = THREE.ImageUtils.loadTexture( "textures/floor_tile.jpg" );
+            outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
+               outerWallTexture.repeat.set(12.5,12.5)
+
+               var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture} );
+               var oGeometry = new THREE.BoxGeometry(2, 25, 25);
+               var wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = -4;
+               wall.position.y = 7;
+               wall.position.z = 9;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = 18;
+               wall.position.y = 7;
+               wall.position.z = 9;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+               oGeometry = new THREE.BoxGeometry(25, 25, 2);
+               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = 9;
+               wall.position.y = 7;
+               wall.position.z = -4;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = 9;
+               wall.position.y = 7;
+               wall.position.z = 18;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+               oGeometry = new THREE.BoxGeometry(25, 2, 25);
+               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = 9;
+               wall.position.y = -4;
+               wall.position.z = 9;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
+               wall.position.x = 9;
+               wall.position.y = 16;
+               wall.position.z = 9;
+               var cube = {
+                   mesh: wall,
+                   box: new THREE.Box3().setFromObject(wall),
+                   cubetype: 3
+               }
+               cubes.push(cube);
+               world.add(wall);
+
+            var texture = THREE.ImageUtils.loadTexture( 'textures/floor_tile.jpg' );
+            var material = new THREE.MeshBasicMaterial( { map: texture } );
+            var geometry = new THREE.BoxGeometry(2, 2, 2);
+
+            for (var z = 0; z < map.length; z++) {
+                for (var x = 0; x < map[z].length; x++) {
+                    for (var y = 0; y < map[z][x].length; y++) {
+
+                        if (map[z][x][y] == 1) {
+
+                            geometry = new THREE.BoxGeometry(2, 2, 2);
+
+                            var mesh = new THREE.Mesh(geometry, material);
+                            mesh.position.x = (x * 2)-2;
+                           mesh.position.y = (z * 2)-2;
+                           mesh.position.z = (y * 2)-2;
+                            mesh.name = 'cube';
+
+                            var cube = {
+                                mesh: mesh,
+                                box: new THREE.Box3().setFromObject(mesh),
+                                cubetype: map[z][x][y]
+                            };
+
+                            cubes.push(cube);
+                            world.add(mesh);
+                        }
+
+                        if (map[z][x][y] == 4) {
+
+                            var texture2 = THREE.ImageUtils.loadTexture( "textures/checkerboard.png" );
+
+                            var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
+                            var geometry = new THREE.BoxGeometry(1, 1, 1);
+                            endMesh = new THREE.Mesh(geometry, material2);
+                            endMesh.position.x = (x * 2)-2;
+                            endMesh.position.y = (z * 2)-2;
+                            endMesh.position.z = (y * 2)-2;
+
+                            world.add(endMesh);
+
+                            endBox = new THREE.Box3().setFromObject(mesh);
+                        }
+                    }
+                }
+            }
+
+        },
+
         handleGrid: function ( gridData ) {
             console.log( 'grid received', gridData );
         },
@@ -594,7 +726,7 @@
 
             console.log('we can start creating the Depressed game!');
 
-            ThreeDeeWorld.createGameWorld();
+            DepressedGame.createWorld();
             DepressedGame.createFloorPads();
 
             DepressedGame.bindUserEvents();

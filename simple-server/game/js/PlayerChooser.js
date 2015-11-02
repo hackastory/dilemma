@@ -7,6 +7,10 @@
     var rayVector = new THREE.Vector3();
     var camera;
 
+    var manicGameChoice;
+    var depressedGameChoice;
+    var gameChoiceLabel;
+
     var chosen;
 
     /***************************************************************
@@ -24,11 +28,11 @@
             socket.on('playertaken', PlayerChooser.handlePlayerTaken );
             socket.on('intro-finished', PlayerChooser.handleIntroFinished );
 
-            ThreeDeeWorld.createChooserWorld();
+            camera = ThreeDeeWorld.getCamera();
 
             ThreeDeeWorld.getLight().intensity = 1;
 
-            camera = ThreeDeeWorld.getCamera();
+            PlayerChooser.createWorld();
 
             PlayerChooser.bindKeyEvents();
 
@@ -52,15 +56,12 @@
         checkChoice: function () {
             // checked through the player's gaze
 
-            var manicChoice = ThreeDeeWorld.getGameChoiceManic();
-            var depressedChoice = ThreeDeeWorld.getGameChoiceDepressed();
-
             rayVector.x = .125;
             rayVector.y = .25;
             rayCaster.setFromCamera( rayVector, camera );
 
             var intersects = rayCaster.intersectObjects( [
-                depressedChoice, manicChoice
+                depressedGameChoice, manicGameChoice
             ] );
 
             if (  intersects.length > 0 ) {
@@ -69,7 +70,7 @@
 
                     case 'manic':
 
-                        manicChoice.material.emissive = new THREE.Color( 0xFFFFFF );
+                        manicGameChoice.material.emissive = new THREE.Color( 0xFFFFFF );
 
                         if ( ! chooseTimeout ) {
                             chooseTimeout = setTimeout( function () {
@@ -86,7 +87,7 @@
 
                     case 'depressed':
 
-                        depressedChoice.material.emissive = new THREE.Color( 0xFFFFFF );
+                        depressedGameChoice.material.emissive = new THREE.Color( 0xFFFFFF );
 
                         if ( ! chooseTimeout ) {
                             chooseTimeout = setTimeout( function () {
@@ -103,8 +104,8 @@
                 }
             } else {
 
-                manicChoice.material.emissive = new THREE.Color( 0x000000 );
-                depressedChoice.material.emissive = new THREE.Color( 0x000000 );
+                manicGameChoice.material.emissive = new THREE.Color( 0x000000 );
+                depressedGameChoice.material.emissive = new THREE.Color( 0x000000 );
 
                 if ( chooseTimeout ) {
                     clearTimeout( chooseTimeout );
@@ -118,13 +119,31 @@
             // erase this world's objects
             var scene = ThreeDeeWorld.getScene();
 
-            scene.remove( ThreeDeeWorld.getGameChoiceDepressed() );
-            scene.remove( ThreeDeeWorld.getGameChoiceManic() );
+            scene.remove( depressedGameChoice );
+            scene.remove( manicGameChoice );
+        },
+
+        createWorld: function () {
+            var scene = ThreeDeeWorld.getScene();
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+            manicGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x123fe5 } ) );
+            manicGameChoice.position.set( 3, 1, -10 );
+            manicGameChoice.name = 'manic';
+
+            depressedGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf630a5 } ) );
+            depressedGameChoice.position.set( -3, 1, -10 );
+            depressedGameChoice.name = 'depressed';
+
+            scene.add( manicGameChoice );
+            scene.add( depressedGameChoice );
         },
 
         handleIntroFinished: function () {
 
             console.log('PlayerChooser intro finished!');
+
+            ThreeDeeWorld.getLight().intensity = 0.6;
 
             if (chosen === 'manic' ) {
 

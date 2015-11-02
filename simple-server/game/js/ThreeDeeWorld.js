@@ -112,7 +112,7 @@
                 [1,1,1,1,1,1,2,1,1,2],
                 [0,0,0,0,0,1,2,1,1,2],
                 [0,0,0,0,0,1,2,1,1,2],
-                [0,0,0,0,0,0,1,0,1,2],
+                [0,0,0,0,0,0,1,0,1,4],
                 [0,0,0,0,0,0,0,0,1,2],
                 [0,0,0,0,0,0,0,0,1,2],
                 [0,0,0,0,0,0,0,0,1,2],
@@ -129,16 +129,6 @@
 
     var clock;
 
-    // Intro / Chooser objects
-    var manicGameChoice;
-    var depressedGameChoice;
-    var gameChoiceLabel;
-
-    // Gameplay objects
-    var cubes = [];
-    var endBox;
-    var endMesh;
-
     var ThreeDeeWorld = {
 
         create: function () {
@@ -147,7 +137,8 @@
             clock  = new THREE.Clock();
 
             light = new THREE.HemisphereLight( 0xffffff, 0, 0.6 );
-            renderer = new THREE.WebGLRenderer();
+            renderer = new THREE.WebGLRenderer({alpha: true});
+            renderer.setClearColor( 0xffffff, 0);
 
             effect = new THREE.StereoEffect(renderer);
             
@@ -186,159 +177,6 @@
 
         },
 
-        createChooserWorld: function () {
-
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-
-            manicGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x123fe5 } ) );
-            manicGameChoice.position.set( 3, 1, -10 );
-            manicGameChoice.name = 'manic';
-
-            depressedGameChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf630a5 } ) );
-            depressedGameChoice.position.set( -3, 1, -10 );
-            depressedGameChoice.name = 'depressed';
-
-            scene.add( manicGameChoice );
-            scene.add( depressedGameChoice );
-        },
-
-        createGameWorld: function () {
-
-            ThreeDeeWorld._createGrid();
-        },
-
-        _createGrid: function () {
-
-            var outerWallTexture = THREE.ImageUtils.loadTexture( "textures/floor_tile.jpg" );
-            outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
-               outerWallTexture.repeat.set(12.5,12.5)
-
-               var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture} );
-               var oGeometry = new THREE.BoxGeometry(2, 25, 25);
-               var wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = -4;
-               wall.position.y = 7;
-               wall.position.z = 9;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = 18;
-               wall.position.y = 7;
-               wall.position.z = 9;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-               oGeometry = new THREE.BoxGeometry(25, 25, 2);
-               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = 9;
-               wall.position.y = 7;
-               wall.position.z = -4;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = 9;
-               wall.position.y = 7;
-               wall.position.z = 18;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-               oGeometry = new THREE.BoxGeometry(25, 2, 25);
-               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = 9;
-               wall.position.y = -4;
-               wall.position.z = 9;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-               wall = new THREE.Mesh(oGeometry, outerWallMaterial);
-               wall.position.x = 9;
-               wall.position.y = 16;
-               wall.position.z = 9;
-               var cube = {
-                   mesh: wall,
-                   box: new THREE.Box3().setFromObject(wall),
-                   cubetype: 3
-               }
-               cubes.push(cube);
-               world.add(wall);
-
-            var texture = THREE.ImageUtils.loadTexture( 'textures/floor_tile.jpg' );
-            var material = new THREE.MeshBasicMaterial( { map: texture } );
-            var geometry = new THREE.BoxGeometry(2, 2, 2);
-
-            for (var z = 0; z < map.length; z++) {
-                for (var x = 0; x < map[z].length; x++) {
-                    for (var y = 0; y < map[z][x].length; y++) {
-
-                        if (map[z][x][y] == 1) {
-
-                            geometry = new THREE.BoxGeometry(2, 2, 2);
-
-                            var mesh = new THREE.Mesh(geometry, material);
-                            mesh.position.x = (x * 2)-2;
-                           mesh.position.y = (z * 2)-2;
-                           mesh.position.z = (y * 2)-2;
-                            mesh.name = 'cube';
-
-                            var cube = {
-                                mesh: mesh,
-                                box: new THREE.Box3().setFromObject(mesh),
-                                cubetype: map[z][x][y]
-                            };
-
-                            cubes.push(cube);
-                            world.add(mesh);
-                        }
-
-                        if (map[z][x][y] == 4) {
-
-                            var texture2 = THREE.ImageUtils.loadTexture( "textures/checkerboard.png" );
-
-                            var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
-                            var geometry = new THREE.BoxGeometry(1, 1, 1);
-                            endMesh = new THREE.Mesh(geometry, material2);
-                            endMesh.position.x = (x * 2)-2;
-                            endMesh.position.y = (z * 2)-2;
-                            endMesh.position.z = (y * 2)-2;
-
-                            world.add(endMesh);
-
-                            endBox = new THREE.Box3().setFromObject(mesh);
-                        }
-                    }
-                }
-            }
-
-
-        },
-
         getCamera: function () {
             return camera;
         },
@@ -347,33 +185,12 @@
             return controls;
         },
 
-        getCubes: function () {
-            return cubes;
-        },
-
-        getEndBox: function () {
-            return endBox;
-        },
-
-        getEndMesh: function () {
-            return endMesh;
-        },
-
-
-        getGameChoiceLabel: function () {
-            return gameChoiceLabel;
-        },
-
-        getGameChoiceManic: function () {
-            return manicGameChoice;
-        },
-
-        getGameChoiceDepressed: function () {
-            return depressedGameChoice;
-        },
-
         getLight: function () {
             return light;
+        },
+
+        getMap: function () {
+            return map;
         },
 
         getDomElement: function () {
