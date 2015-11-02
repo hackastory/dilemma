@@ -4,7 +4,7 @@
 
 ## Running the multi-sever
 Navigate to `/simple-server`, run `npm install` to install all requirements.
-After that, do `npm start` en visit [http://localhost:4000](localhost:4000). 
+After that, do `npm start` and visit [http://localhost:4000](localhost:4000). 
 
 To access it from multiple devices, you need to be able to access your local computer
 from outside.
@@ -13,10 +13,11 @@ from outside.
 
 ## Running the 3D prototypes
 Navigate to `/simple-server`, run `npm install` to install all requirements.
-After that, do `npm start` en visit [http://localhost:4000](localhost:4000).
+After that, do `npm start`.
 
-To access the prototypes just navigate to
+To access the prototypes you can now navigate to
 [http://localhost:4000/prototypes](localhost:4000/prototypes/prototype-directory-name)
+
 
 ### Connecting prototypes to the multi user server
 
