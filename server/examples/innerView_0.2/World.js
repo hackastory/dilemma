@@ -30,7 +30,7 @@ World.prototype.init = function() {
 World.prototype.buildWorld = function() {
 
     // INNERWALLS
-    var wallTexture = THREE.ImageUtils.loadTexture( "textures/patterns/floor_tile.jpg" );
+    var wallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
     var material = new THREE.MeshBasicMaterial( { map: wallTexture } );
     var geometry = new THREE.BoxGeometry(2, 2, 2);
 
@@ -42,30 +42,32 @@ World.prototype.buildWorld = function() {
                     var mesh = new THREE.Mesh(geometry, material);
                     mesh.position.set((x * 2)-2,(z * 2)-2,(y * 2)-2);
                     mesh.name = "cube";
-                    this.world.add(mesh);
+                    this.worldObject.add(mesh);
                 }
             }
         }
     }
 
     // OUTERWALLS
-    var outerWallTexture = THREE.ImageUtils.loadTexture( "textures/patterns/floor_tile.jpg" );
+    var outerWallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
     outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
     outerWallTexture.repeat.set(12.5,12.5);
     var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture } );
     var outerGeometry = new THREE.BoxGeometry(2, 25, 25);
 
-    var outerWalls = [  [-4,7,9,0],
-        [18,7,9,0],
-        [9,7,-4,0],
-        [9,7,18,0],
-        [9,-4,9,Math.PI],
-        [9,16,9,Math.PI]    ];
+    var outerWalls = [
+        [-4,7,9,0,0,0],
+        [18,7,9,0,0,0],
+        [9,7,-4,0,Math.PI *.5,0],
+        [9,7,18,0,Math.PI *.5,0],
+        [9,-4,9,0,0,Math.PI *.5],
+        [9,16,9,0,0,Math.PI *.5]
+    ];
 
-    outerWalls.foreach(function(wall){
-
+    outerWalls.forEach(function(wall){
         var wallMesh = new THREE.Mesh(outerGeometry, outerWallMaterial);
         wallMesh.position.set(wall[0],wall[1],wall[2]);
+        wallMesh.rotation.set(wall[3],wall[4],wall[5], 'XYZ');
         this.worldObject.add(wallMesh);
     },this);
 
@@ -121,11 +123,23 @@ World.prototype.move = function() {
 
 };
 
+//jumps to a new location without tweening
+//expects a Vector3
+World.prototype.setJumpBy = function(delta,rotation) {
+    delta = delta.setLength(.05);
+    var axis = new THREE.Vector3( 0, 1, 0 );
+    delta.applyAxisAngle(axis,rotation.z);
+    this.worldObject.position.add(delta);
+};
+
 //expects an [x,y,z] array from the control pads
 World.prototype.setMoveTo = function(target) {
 
     var tmp;
 
+    //this entire switch could probably be replaced by one line of code
+    //something that gets the transform matrix from the world and applies it to the target vector
+    //however, I'm not smart enough to get it to work (this was the 8 hour bug)
     switch (worldDegrees[0]){
 
         case 0:
