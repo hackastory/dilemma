@@ -48,8 +48,3 @@ Use the following snippet to communicate with the multi user server
 
 </script>
 ```
-
-## Inspiration links
-
-#### Collision detect
-https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Collision-Detection.html
