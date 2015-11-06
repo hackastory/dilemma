@@ -78,6 +78,8 @@ World.prototype.buildWorld = function() {
 };
 
 World.prototype.setRotateTo = function (which) {
+    if (this.props.isBusy())
+        return;
 
     this.props.vectorRotationTarget = new THREE.Vector3(this.props.vectorRotationCurrent.x,
         this.props.vectorRotationCurrent.y,
