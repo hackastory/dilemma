@@ -45,7 +45,7 @@ View.prototype.setOrientationControls = function(e){
         return;
     }
 
-    this.controls = new THREE.DeviceOrientationControls( camera );
+    this.controls = new THREE.DeviceOrientationControls(this.camera);
     this.controls.connect();
     this.controls.update();
 
