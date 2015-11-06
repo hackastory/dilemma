@@ -10,13 +10,13 @@ To access it from multiple devices, you need to be able to access your local com
 from outside.
 
 
-
 ## Running the 3D prototypes
 Navigate to `/simple-server`, run `npm install` to install all requirements.
 After that, do `npm start`.
 
-To access the prototypes you can now navigate to
-[http://localhost:4000/prototypes](localhost:4000/prototypes/prototype-directory-name)
+To access the prototypes from /server/examples you can now navigate to
+[http://localhost:4000/prototypes/prototype-directory-name](localhost:4000/prototypes/prototype-directory-name)
+
 
 
 ### Connecting prototypes to the multi user server
@@ -48,8 +48,3 @@ Use the following snippet to communicate with the multi user server
 
 </script>
 ```
-
-## Inspiration links
-
-#### Collision detect
-https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Collision-Detection.html
