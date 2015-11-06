@@ -77,6 +77,32 @@ World.prototype.buildWorld = function() {
 
 };
 
+World.prototype.setRotateTo = function (which) {
+
+    this.props.vectorRotationTarget = new THREE.Vector3(this.props.vectorRotationCurrent.x,
+        this.props.vectorRotationCurrent.y,
+        this.props.vectorRotationCurrent.z);
+
+    switch (which) {
+        case 72: //H
+            this.props.vectorRotationTarget.z = this.props.vectorRotationTarget.z + (Math.PI * .5);
+            break;
+        case 75: //K
+            this.props.vectorRotationTarget.z = this.props.vectorRotationTarget.z - (Math.PI * .5);
+            break;
+        case 85: //U
+            this.props.vectorRotationTarget.x = this.props.vectorRotationTarget.x - (Math.PI * .5);
+            break;
+        case 74: //J
+            this.props.vectorRotationTarget.x = this.props.vectorRotationTarget.x + (Math.PI * .5);
+            break;
+    }
+
+    this.props.isRotating = true;
+
+
+};
+
 // rotates the world object
 World.prototype.rotate = function() {
     if (!this.props.isRotating)
@@ -89,20 +115,26 @@ World.prototype.rotate = function() {
         // rotation is very close to target
         // so set rotation to target and stop rotating
         this.props.vectorRotationCurrent = this.props.vectorRotationTarget;
+        this.rotateOneTick();
         this.props.isRotating = false;
+        this.props.rotationAsDegrees = this.fixDegrees([this.worldObject.getWorldRotation().x,
+            this.worldObject.getWorldRotation().y,
+            this.worldObject.getWorldRotation().z]);
 
-        this.props.rotationAsDegrees = this.fixDegrees(this.worldObject.getWorldRotation());
+        console.log(this.props.rotationAsDegrees);
 
-        //not sure if this still does anything
-        world.updateMatrixWorld();
     } else {
         // rotation by rotationSpeed
         delta.setLength(this.props.rotationSpeed);
         this.props.vectorRotationCurrent.add(delta);
+        this.rotateOneTick();
     }
+};
 
-    this.pivotObject.rotation.set()
-
+World.prototype.rotateOneTick = function () {
+    this.pivotObject.rotation.x = this.props.vectorRotationCurrent.x;
+    this.pivotObject.rotation.y = this.props.vectorRotationCurrent.y;
+    this.pivotObject.rotation.z = this.props.vectorRotationCurrent.z;
 };
 
 // moves the world object
@@ -114,7 +146,9 @@ World.prototype.move = function() {
     delta.subVectors(this.props.vectorMoveTarget, this.worldObject.position);
 
     if (delta.length() < this.props.moveSpeed) {
-
+        this.worldObject.position.x = this.props.vectorMoveTarget.x;
+        this.worldObject.position.y = this.props.vectorMoveTarget.y;
+        this.worldObject.position.z = this.props.vectorMoveTarget.z;
         this.props.isMoving = false;
     } else {
         delta.setLength(this.props.moveSpeed);
@@ -139,12 +173,12 @@ World.prototype.setMoveTo = function(target) {
 
     //this entire switch could probably be replaced by one line of code
     //something that gets the transform matrix from the world and applies it to the target vector
-    //however, I'm not smart enough to get it to work (this was the 8 hour bug)
-    switch (worldDegrees[0]){
+    //however, I'm not smart enough to get it to work
+    switch (this.props.rotationAsDegrees[0]) {
 
         case 0:
 
-            switch (worldDegrees[2]){
+            switch (this.props.rotationAsDegrees[2]) {
                 case 90:
                     tmp = target.x;
                     target.x = target.y;
@@ -163,7 +197,7 @@ World.prototype.setMoveTo = function(target) {
 
         case 90:
 
-            switch (worldDegrees[2]){
+            switch (this.props.rotationAsDegrees[2]) {
                 case 0:
                     target.y = target.z;
                     target.z = 0;
@@ -190,7 +224,7 @@ World.prototype.setMoveTo = function(target) {
 
         case 180:
 
-            switch (worldDegrees[2]){
+            switch (this.props.rotationAsDegrees[2]) {
                 case 0:
                     target.z = -target.z;
                     break;
@@ -213,7 +247,7 @@ World.prototype.setMoveTo = function(target) {
 
         case 270:
 
-            switch (worldDegrees[2]){
+            switch (this.props.rotationAsDegrees[2]) {
                 case 0:
                     target.y = -target.z;
                     target.z = 0;
@@ -239,22 +273,19 @@ World.prototype.setMoveTo = function(target) {
     }
 
     var offset = new THREE.Vector3(target.x,target.y,target.z);
-    this.props.vectorMoveTarget = new THREE.Vector3().subVectors(this.worldObject.position,offset);
-    this.props.isMoving = true;
-};
 
-//expects an [x,y,z] array in radians (Pi is 180 degrees)
-World.prototype.setRotateTo = function(target) {
-    this.props.vectorMoveTarget = new THREE.Vector3(target.x,target.y,target.z);
+    this.props.vectorMoveTarget = new THREE.Vector3().subVectors(this.worldObject.position,offset);
+
     this.props.isMoving = true;
 };
 
 //turn radians into degrees, rounded to 0, 90, 180 or 270
-World.prototype.fixDegrees = function(degArray) {
-    var i = 0, l = degArray.length, r = [], d;
+World.prototype.fixDegrees = function (radArray) {
+    console.log(radArray);
+    var i = 0, l = radArray.length, r = [], d;
     for (i;i<l;i++){
-        d = (Math.round((degArray[i] * 180 / Math.PI)/10)*10);
-        d = (-90?270:d);
+        d = (Math.round((radArray[i] * 180 / Math.PI) / 10) * 10);
+        d = d === -90 ? 270 : d;
         r.push(Math.abs(d));
     }
     return r;

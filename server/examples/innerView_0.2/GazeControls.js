@@ -3,18 +3,18 @@ var GazeControls = function(scene) {
     this.rayCaster = new THREE.Raycaster();
     this.rayVector = new THREE.Vector3();
 
+    this.lookingAt = {id: 0, timer: 0, delay: 1000, cooldown: 0};
+
     this.init(scene);
 };
 
 GazeControls.prototype.init = function(scene) {
     var plane = new THREE.PlaneGeometry( 1.8,1.8 );
-    //var material = new THREE.MeshBasicMaterial( { color: 0xff0000, transparent: true } );
-    var i, pad;
+    var i, pad, material;
 
     for (i = 0; i < 7; i++){
         if (i===3)continue;
-        var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-        var plane = new THREE.PlaneGeometry( 1.8,1.8 );
+        material = new THREE.MeshBasicMaterial({color: 0xff0000});
         pad = new THREE.Mesh( plane, material );
         pad.name = "pad";
         pad.position.set(0,-0.95,-6 + (i*2));
@@ -22,7 +22,6 @@ GazeControls.prototype.init = function(scene) {
         pad.userData = [0,0,-6 + (i*2)];
         this.ControlsPads.add(pad);
         material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-        plane = new THREE.PlaneGeometry( 1.8,1.8 );
         pad = new THREE.Mesh( plane, material );
         pad.name = "pad";
         pad.position.set(-6 + (i*2),-0.95,0);
@@ -31,14 +30,15 @@ GazeControls.prototype.init = function(scene) {
         this.ControlsPads.add(pad);
     }
 
-    console.log(scene);
     scene.add(this.ControlsPads);
 
-    this.rayVector.x = .100;
-    this.rayVector.y = .1;
 };
 
 GazeControls.prototype.getGaze = function(camera,worldObjects) {
+
+    if (Date.now() - this.lookingAt.cooldown < this.lookingAt.delay)
+        return;
+
     this.rayCaster.setFromCamera( this.rayVector, camera );
 
     var allObjects = this.ControlsPads.children.concat(worldObjects);
@@ -49,10 +49,30 @@ GazeControls.prototype.getGaze = function(camera,worldObjects) {
     for ( i = 0; i < l; i++){
         this.ControlsPads.children[i].material.color.set(0xff0000);
     }
-    console.log("----");
+
     if (intersects.length > 0 && intersects[0].object.name === "pad"){
-        console.log(intersects[0].object.name);
         intersects[0].object.material.color.set(0x00ff00);
+
+        if (this.lookingAt.id === intersects[0].object.id) {
+            if (Date.now() - this.lookingAt.timer > this.lookingAt.delay) {
+                intersects[0].object.material.color.set(0x0000ff);
+                this.lookingAt.cooldown = Date.now();
+
+                var moveMe = new THREE.Vector3(intersects[0].object.userData[0],
+                    intersects[0].object.userData[1],
+                    intersects[0].object.userData[2]);
+
+                return moveMe;
+
+
+            }
+        } else {
+            this.lookingAt.id = intersects[0].object.id;
+            this.lookingAt.timer = Date.now();
+        }
+
+    } else {
+        this.lookingAt.id = 0;
     }
 
 };

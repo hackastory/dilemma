@@ -1,5 +1,5 @@
 var DesktopControls = function() {
-    this.keys = [   {keyCode: 37, isDown: false, movement : new THREE.Vector3(1,0,0)}, //leftkey
+    this.movementKeys = [{keyCode: 37, isDown: false, movement: new THREE.Vector3(1, 0, 0)}, //leftkey
                     {keyCode: 38, isDown: false, movement : new THREE.Vector3(0,0,1)}, //upkey
                     {keyCode: 39, isDown: false, movement : new THREE.Vector3(-1,0,0)}, //rightkey
                     {keyCode: 40, isDown: false, movement : new THREE.Vector3(0,0,-1)}, //downkey
@@ -24,7 +24,7 @@ DesktopControls.prototype.init = function(){
 };
 
 DesktopControls.prototype.updateKey = function(input){
-    this.keys.forEach(function(key){
+    this.movementKeys.forEach(function (key) {
         if (key.keyCode == input.keyCode){
             key.isDown = input.type === "keydown";
         }
@@ -39,7 +39,7 @@ DesktopControls.prototype.updateMouse = function(input){
 DesktopControls.prototype.getMovement = function(){
     var r = new THREE.Vector3();
 
-    this.keys.forEach(function(key){
+    this.movementKeys.forEach(function (key) {
         if (key.isDown){
             r.add(key.movement);
         }
