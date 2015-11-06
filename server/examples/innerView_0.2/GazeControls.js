@@ -42,13 +42,14 @@ GazeControls.prototype.getGaze = function(camera,worldObjects) {
     this.rayCaster.setFromCamera( this.rayVector, camera );
 
     var allObjects = this.ControlsPads.children.concat(worldObjects);
-    var intersects = this.rayCaster.intersectObjects( allObjects );
+    var intersects = this.rayCaster.intersectObjects(allObjects, true);
 
     var i, l = this.ControlsPads.children.length;
 
     for ( i = 0; i < l; i++){
         this.ControlsPads.children[i].material.color.set(0xff0000);
     }
+
 
     if (intersects.length > 0 && intersects[0].object.name === "pad"){
         intersects[0].object.material.color.set(0x00ff00);

@@ -20,6 +20,7 @@ var View = function() {
 };
 
 View.prototype.init = function(){
+    this.renderer.setClearColor(0xffffff, 1);
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.effect.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( this.renderer.domElement );

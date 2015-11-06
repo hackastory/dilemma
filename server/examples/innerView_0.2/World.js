@@ -16,6 +16,8 @@ var World = function() {
     this.scene = new THREE.Scene();
     this.map = [];
 
+    this.oLoader = new THREE.OBJLoader();
+
     this.init();
 };
 
@@ -24,52 +26,75 @@ World.prototype.init = function() {
     this.map = WORLDMAP.map;
     this.worldObject.position.set(2,2,2);
     this.buildWorld();
+
+    var texture = THREE.ImageUtils.loadTexture("../global/assets/textures/UV_Grid_Sm.jpg");
+    var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+
+
+    this.oLoader.load('../global/assets/models/prototypeMaze.obj', function (object, materials) {
+
+        object.traverse(function (child) {
+            if (child instanceof THREE.Mesh) {
+                child.material = material;
+
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+
+        });
+
+        object.position.x = -2;
+        object.position.y = -2;
+        object.position.z = -2;
+        object.scale.set(1, 1, 1);
+        this.worldObject.add(object);
+    }.bind(this));
 };
 
 //Creates the world objects from the map
 World.prototype.buildWorld = function() {
 
     // INNERWALLS
-    var wallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
-    var material = new THREE.MeshBasicMaterial( { map: wallTexture } );
-    var geometry = new THREE.BoxGeometry(2, 2, 2);
+    //var wallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
+    //var material = new THREE.MeshBasicMaterial( { map: wallTexture } );
+    //var geometry = new THREE.BoxGeometry(2, 2, 2);
+    //
+    //for (var z = 0; z < this.map.length; z++) {
+    //    for (var x = 0; x < this.map[z].length; x++) {
+    //        for (var y = 0; y < this.map[z][x].length; y++) {
+    //
+    //            if(this.map[z][x][y] === 1){
+    //                var mesh = new THREE.Mesh(geometry, material);
+    //                mesh.position.set((x * 2)-2,(z * 2)-2,(y * 2)-2);
+    //                mesh.name = "cube";
+    //                this.worldObject.add(mesh);
+    //            }
+    //        }
+    //    }
+    //}
 
-    for (var z = 0; z < this.map.length; z++) {
-        for (var x = 0; x < this.map[z].length; x++) {
-            for (var y = 0; y < this.map[z][x].length; y++) {
-
-                if(this.map[z][x][y] === 1){
-                    var mesh = new THREE.Mesh(geometry, material);
-                    mesh.position.set((x * 2)-2,(z * 2)-2,(y * 2)-2);
-                    mesh.name = "cube";
-                    this.worldObject.add(mesh);
-                }
-            }
-        }
-    }
-
-    // OUTERWALLS
-    var outerWallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
-    outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
-    outerWallTexture.repeat.set(12.5,12.5);
-    var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture } );
-    var outerGeometry = new THREE.BoxGeometry(2, 25, 25);
-
-    var outerWalls = [
-        [-4,7,9,0,0,0],
-        [18,7,9,0,0,0],
-        [9,7,-4,0,Math.PI *.5,0],
-        [9,7,18,0,Math.PI *.5,0],
-        [9,-4,9,0,0,Math.PI *.5],
-        [9,16,9,0,0,Math.PI *.5]
-    ];
-
-    outerWalls.forEach(function(wall){
-        var wallMesh = new THREE.Mesh(outerGeometry, outerWallMaterial);
-        wallMesh.position.set(wall[0],wall[1],wall[2]);
-        wallMesh.rotation.set(wall[3],wall[4],wall[5], 'XYZ');
-        this.worldObject.add(wallMesh);
-    },this);
+    //// OUTERWALLS
+    //var outerWallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
+    //outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
+    //outerWallTexture.repeat.set(12.5,12.5);
+    //var outerWallMaterial = new THREE.MeshBasicMaterial( { map: outerWallTexture } );
+    //var outerGeometry = new THREE.BoxGeometry(2, 25, 25);
+    //
+    //var outerWalls = [
+    //    [-4,7,9,0,0,0],
+    //    [18,7,9,0,0,0],
+    //    [9,7,-4,0,Math.PI *.5,0],
+    //    [9,7,18,0,Math.PI *.5,0],
+    //    [9,-4,9,0,0,Math.PI *.5],
+    //    [9,16,9,0,0,Math.PI *.5]
+    //];
+    //
+    //outerWalls.forEach(function(wall){
+    //    var wallMesh = new THREE.Mesh(outerGeometry, outerWallMaterial);
+    //    wallMesh.position.set(wall[0],wall[1],wall[2]);
+    //    wallMesh.rotation.set(wall[3],wall[4],wall[5], 'XYZ');
+    //    this.worldObject.add(wallMesh);
+    //},this);
 
     // ADDING THINGS TO THINGS
     this.pivotObject.add(this.worldObject);
@@ -78,7 +103,7 @@ World.prototype.buildWorld = function() {
 };
 
 World.prototype.setRotateTo = function (which) {
-    if (this.props.isBusy())
+    if (this.isBusy())
         return;
 
     this.props.vectorRotationTarget = new THREE.Vector3(this.props.vectorRotationCurrent.x,
