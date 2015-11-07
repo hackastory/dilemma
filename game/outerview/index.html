@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>3d movement and collision</title>
+    <style>
+        body {
+            margin: 0;
+            background: url('../global/assets/textures/map_bg.jpg');
+            background-size: cover;
+        }
+        canvas { width: 100%; height: 100% }
+        .turnUp {
+            margin-left: 79px;
+        }
+        .turn {
+            width: 75px;
+        }
+    </style>
+</head>
+<body>
+<button class="turn turnUp" data-key="85">Up (U)</button><br>
+<button class="turn turnLeft" data-key="72">Left (H)</button>
+<button class="turn turnDown" data-key="74">Down (J)</button>
+<button class="turn turnRight" data-key="75">Right (K)</button>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="../global/js/three/three.js"></script>
+<script src="../global/js/jquery.min.js"></script>
+
+<script src="../global/js/three/DeviceOrientationControls.js"></script>
+<script src="../global/js/three/StereoEffect.js"></script>
+
+<script src="mainGame-without-stereo.js"></script>
+</body>
+</html>
