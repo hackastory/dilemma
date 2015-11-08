@@ -20,8 +20,9 @@ var View = function() {
 };
 
 View.prototype.init = function(){
-    this.renderer.setClearColor(0xffffff, 1);
+    this.renderer.setClearColor(0x000000, 1);
     this.renderer.setSize( window.innerWidth, window.innerHeight );
+    this.renderer.shadowMapEnabled = true;
     this.effect.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( this.renderer.domElement );
     window.addEventListener( 'resize', this.eventResizeHandler);
