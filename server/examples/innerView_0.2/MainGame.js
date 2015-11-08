@@ -10,6 +10,13 @@ var Main = function() {
     this.socketEvents();
     this.socketUpdate();
     this.update();
+
+    window.addEventListener("touchend", function () {
+        console.log("touchend");
+        if (screenfull.enabled) {
+            screenfull.request();
+        }
+    });
 };
 
 Main.prototype.update = function() {
