@@ -1,3 +1,8 @@
+/**
+ * Server-side game engine implementation
+ * @param socket
+ * @constructor
+ */
 
 var GameEngine = function ( socket ) {
 
