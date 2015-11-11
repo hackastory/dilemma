@@ -16,7 +16,14 @@ var OuterWorld = function() {
     this.navNodesObject = new THREE.Object3D();
     this.playerLight = new THREE.PointLight(0xffffff, 1, 20);
     this.globalLight = new THREE.HemisphereLight(0xff0000, 0x89584B, 0.3);
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    directionalLight.position.set( 1, 1, 0 );
+
+    var light = new THREE.AmbientLight( 0xfcc22f ); // soft white light
+
     this.scene = new THREE.Scene();
+    this.scene.add( directionalLight );
+    this.scene.add( light );
 
     this.navPaths = [];
     this.triggerObjects = [];
@@ -109,7 +116,8 @@ OuterWorld.prototype.init = function() {
         this.updateNodes();
     }.bind(this));
 
-    this.scene.add(this.buildSkybox());
+    //TODO: use skybox for outerview as well
+    //this.scene.add(this.buildSkybox());
 
 };
 

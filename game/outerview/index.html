@@ -4,7 +4,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <style>
-        body { margin: 0; }
+        body {
+            margin: 0;
+            background: url('../global/assets/textures/map_bg.jpg');
+            background-size: cover;
+        }
         canvas { width: 100%; height: 100% }
     </style>
 </head>
@@ -21,6 +25,10 @@
 
 <script src="../global/js/DesktopControls.js"></script>
 <script src="../global/js/screenfull.js"></script>
+
+<script src="../innerview/GazeControls.js"></script>
+<script src="../innerview/TriggerObject.js"></script>
+<script src="../innerview/NavPath.js"></script>
 
 <script src="OuterWorld.js"></script>
 <script src="OuterView.js"></script>

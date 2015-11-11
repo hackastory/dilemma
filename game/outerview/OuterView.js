@@ -1,13 +1,14 @@
 var OuterView = function() {
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
+    this.cameraDistance = 30;
     this.cameraTarget = new THREE.Vector3();
     this.lat = 0;
     this.lon = 0;
     this.phi = 0;
     this.theta = 0;
 
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     this.effect = new THREE.StereoEffect(this.renderer);
 
     this.clock = new THREE.Clock();
@@ -20,7 +21,7 @@ var OuterView = function() {
 };
 
 OuterView.prototype.init = function(){
-    this.renderer.setClearColor(0x000000, 1);
+    this.renderer.setClearColor(0xFFFFFF, 0);
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.shadowMapEnabled = true;
     this.effect.setSize( window.innerWidth, window.innerHeight );
