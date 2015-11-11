@@ -41,11 +41,32 @@ OuterGame.prototype.update = function() {
 
 };
 
-OuterGame.prototype.socketEvents = function () {
-    this.socket.on('rotate-h', this.world.setRotateTo.bind(this.world, 72));
-    this.socket.on('rotate-k', this.world.setRotateTo.bind(this.world, 75));
-    this.socket.on('rotate-u', this.world.setRotateTo.bind(this.world, 85));
-    this.socket.on('rotate-j', this.world.setRotateTo.bind(this.world, 74));
+OuterGame.prototype.socketEvents = function() {
+    socket.on('pivot', function(eventData) {
+        eventData = JSON.parse(eventData);
+        var x = Math.round(eventData.x) / 180 * Math.PI,
+            y = Math.round(eventData.y) / 180 * Math.PI,
+            z = Math.round(eventData.z) / 180 * Math.PI;
+
+        //console.log('pivot', eventData, x, y, z);
+        //world.rotation.set(x, y, z);
+    });
+    socket.on('world-position', function(eventData) {
+        eventData = JSON.parse(eventData);
+        var x = Math.round(eventData.x),
+            y = Math.round(eventData.y),
+            z = Math.round(eventData.z);
+
+        //console.log('worldpos', x, y, z);
+        ////hypercube.position.set(x+16,y+14,z+16);
+        //hypercube.position.set(x, y, z);
+        //marker.mesh.position.set(-x - 8, -y - 7, -z - 8);
+        //world.position.set(-x, -y, -z);
+    });
+    //this.socket.on('rotate-h', this.world.setRotateTo.bind(this.world, 72));
+    //this.socket.on('rotate-k', this.world.setRotateTo.bind(this.world, 75));
+    //this.socket.on('rotate-u', this.world.setRotateTo.bind(this.world, 85));
+    //this.socket.on('rotate-j', this.world.setRotateTo.bind(this.world, 74));
 };
 
 OuterGame.prototype.socketUpdate = function () {
