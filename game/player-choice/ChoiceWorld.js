@@ -52,10 +52,6 @@ ChoiceWorld.prototype.fixDegrees = function (radArray) {
     return r;
 };
 
-ChoiceWorld.prototype.update = function() {
-    return true;
-};
-
 ChoiceWorld.prototype.isBusy = function() {
     return (this.props.isMoving || this.props.isRotating);
 };

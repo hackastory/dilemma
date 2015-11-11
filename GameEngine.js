@@ -77,7 +77,7 @@ GameEngine.prototype = {
                 break;
         }
 
-        this.socket.emit('playertaken', loginData );
+        this.socket.emit('player-taken', loginData );
 
         //if ( this.state.innerViewChosen && this.state.outerViewChosen ) {
         //    this.socket.emit('start');
