@@ -16,14 +16,11 @@ var OuterWorld = function() {
     this.navNodesObject = new THREE.Object3D();
     this.playerLight = new THREE.PointLight(0xffffff, 1, 20);
     this.globalLight = new THREE.HemisphereLight(0xff0000, 0x89584B, 0.3);
-    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-    directionalLight.position.set( 1, 1, 0 );
-
-    var light = new THREE.AmbientLight( 0xfcc22f ); // soft white light
+    this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    this.directionalLight.position.set( 10, 10, 0 );
+    this.ambientLight = new THREE.AmbientLight( 0xfcc22f ); // soft white light
 
     this.scene = new THREE.Scene();
-    this.scene.add( directionalLight );
-    this.scene.add( light );
 
     this.navPaths = [];
     this.triggerObjects = [];
@@ -40,9 +37,11 @@ OuterWorld.prototype.init = function() {
     this.playerLight.position.set(0, 0, 0);
     this.scene.add(this.playerLight);
     this.scene.add(this.globalLight);
+    this.scene.add(this.ambientLight);
+    this.scene.add(this.directionalLight);
 
     //var material =  new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture("../global/assets/textures/UV_Grid_Sm.jpg")});
-    var material = new THREE.MeshPhongMaterial({color: 0x333333});
+    var material = new THREE.MeshPhongMaterial({color: 0xFCC22F, opacity: 1, transparent: false});
     var finishMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
 
 
