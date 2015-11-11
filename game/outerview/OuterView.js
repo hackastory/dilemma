@@ -65,9 +65,10 @@ OuterView.prototype.rotateCamera = function(rot){
         var phi = ( 90 - this.lat ) * Math.PI / 180;
         var theta = this.lon * Math.PI / 180;
 
-        this.cameraTarget.x = this.camera.position.x + Math.sin( phi ) * Math.cos( theta );
-        this.cameraTarget.y = this.camera.position.y + Math.cos( phi );
-        this.cameraTarget.z = this.camera.position.z + Math.sin( phi ) * Math.sin( theta );
+        this.camera.position.x = Math.sin( phi ) * Math.cos( theta );
+        this.camera.position.y = Math.cos( phi );
+        this.camera.position.z = Math.sin( phi ) * Math.sin( theta );
+        this.camera.position.setLength(this.cameraDistance);
 
         this.camera.lookAt(this.cameraTarget);
     }
