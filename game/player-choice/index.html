@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dilemma - Player Choice stand alone </title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <style>
+            body {
+                background-color: #000;
+                margin: 0;
+                padding: 0;
+            }
+
+            canvas {
+	            width: 100%;
+	            height: 100%;
+	            margin-bottom: -4px;
+	        }
+
+        </style>
+    </head>
+    <body>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="../global/js/three/three.js"></script>
+    <script src="../global/js/three/StereoEffect.js"></script>
+    <script src="../global/js/three/DeviceOrientationControls.js"></script>
+
+    <script src="../global/js/DesktopControls.js"></script>
+    <script src="../global/js/screenfull.js"></script>
+
+    <script src="GazeControls.js"></script>
+    <script src="ChoiceWorld.js"></script>
+    <script src="ChoiceView.js"></script>
+    <script src="PlayerChoice.js"></script>
+    <script>
+
+        // To test the player choice
+        var playerChoice = new PlayerChoice();
+
+    </script>
+    </body>
+</html>
