@@ -1,4 +1,4 @@
-var InnerView = function() {
+var OuterView = function() {
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
     this.cameraTarget = new THREE.Vector3();
@@ -19,7 +19,7 @@ var InnerView = function() {
     this.init();
 };
 
-InnerView.prototype.init = function(){
+OuterView.prototype.init = function(){
     this.renderer.setClearColor(0x000000, 1);
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.shadowMapEnabled = true;
@@ -29,7 +29,7 @@ InnerView.prototype.init = function(){
     window.addEventListener( 'deviceorientation', this.eventOrientationHandler, true );
 };
 
-InnerView.prototype.handleResize = function(){
+OuterView.prototype.handleResize = function(){
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
 
@@ -41,7 +41,7 @@ InnerView.prototype.handleResize = function(){
     this.effect.setSize( windowWidth, windowHeight );
 };
 
-InnerView.prototype.setOrientationControls = function(e){
+OuterView.prototype.setOrientationControls = function(e){
     if ( ! e.alpha ) {
         return;
     }
@@ -53,7 +53,7 @@ InnerView.prototype.setOrientationControls = function(e){
     window.removeEventListener('deviceorientation', this.eventOrientationHandler, true );
 };
 
-InnerView.prototype.rotateCamera = function(rot){
+OuterView.prototype.rotateCamera = function(rot){
 
     if ( ! this.controls ) {
         // we're dealing with desktop here, no mobile orientation controls
@@ -73,11 +73,11 @@ InnerView.prototype.rotateCamera = function(rot){
     }
 };
 
-InnerView.prototype.getRotation = function() {
+OuterView.prototype.getRotation = function() {
     return this.camera.rotation;
 };
 
-InnerView.prototype.render = function(scene) {
+OuterView.prototype.render = function(scene) {
     //console.log(scene.children.length);
     this.renderer.render(scene, this.camera);
     this.effect.render(scene,this.camera);

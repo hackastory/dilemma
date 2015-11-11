@@ -1,4 +1,4 @@
-var InnerWorld = function() {
+var OuterWorld = function() {
 
     this.props = {
         rotationSpeed : 0.03,
@@ -25,7 +25,7 @@ var InnerWorld = function() {
 };
 
 //Init
-InnerWorld.prototype.init = function() {
+OuterWorld.prototype.init = function() {
 
     this.worldObject.position.set(2,2,2);
     this.buildWorld();
@@ -113,7 +113,7 @@ InnerWorld.prototype.init = function() {
 
 };
 
-InnerWorld.prototype.buildSkybox = function () {
+OuterWorld.prototype.buildSkybox = function () {
     var imagePrefix = "../global/assets/textures/images/skybox-innerView-";
     var directions = ["west", "east", "up", "down", "north", "south"];
     var imageSuffix = ".jpg";
@@ -133,14 +133,14 @@ InnerWorld.prototype.buildSkybox = function () {
 };
 
 //Creates the world objects from the map
-InnerWorld.prototype.buildWorld = function() {
+OuterWorld.prototype.buildWorld = function() {
     // ADDING THINGS TO THINGS
     this.pivotObject.add(this.worldObject);
     this.scene.add(this.pivotObject);
 
 };
 
-InnerWorld.prototype.setRotateTo = function (which) {
+OuterWorld.prototype.setRotateTo = function (which) {
     if (this.isBusy())
         return;
 
@@ -169,7 +169,7 @@ InnerWorld.prototype.setRotateTo = function (which) {
 };
 
 // rotates the world object
-InnerWorld.prototype.rotate = function() {
+OuterWorld.prototype.rotate = function() {
     if (!this.props.isRotating)
         return;
 
@@ -198,7 +198,7 @@ InnerWorld.prototype.rotate = function() {
     return false;
 };
 
-InnerWorld.prototype.rotateOneTick = function () {
+OuterWorld.prototype.rotateOneTick = function () {
     this.pivotObject.rotation.x = this.props.vectorRotationCurrent.x;
     this.pivotObject.rotation.y = this.props.vectorRotationCurrent.y;
     this.pivotObject.rotation.z = this.props.vectorRotationCurrent.z;
@@ -206,7 +206,7 @@ InnerWorld.prototype.rotateOneTick = function () {
 };
 
 // moves the world object
-InnerWorld.prototype.move = function() {
+OuterWorld.prototype.move = function() {
     if(!this.props.isMoving)
         return;
 
@@ -229,7 +229,7 @@ InnerWorld.prototype.move = function() {
 
 //jumps to a new location without tweening
 //expects a Vector3
-InnerWorld.prototype.setJumpBy = function(delta,rotation) {
+OuterWorld.prototype.setJumpBy = function(delta, rotation) {
     delta = delta.setLength(.05);
     var axis = new THREE.Vector3( 0, 1, 0 );
     delta.applyAxisAngle(axis,rotation.z);
@@ -237,7 +237,7 @@ InnerWorld.prototype.setJumpBy = function(delta,rotation) {
 };
 
 //expects an [x,y,z] array from the control pads
-InnerWorld.prototype.setMoveTo = function(target) {
+OuterWorld.prototype.setMoveTo = function(target) {
 
     var tmp;
 
@@ -350,7 +350,7 @@ InnerWorld.prototype.setMoveTo = function(target) {
 };
 
 //turn radians into degrees, rounded to 0, 90, 180 or 270
-InnerWorld.prototype.fixDegrees = function (radArray) {
+OuterWorld.prototype.fixDegrees = function (radArray) {
     console.log(radArray);
     var i = 0, l = radArray.length, r = [], d;
     for (i;i<l;i++){
@@ -361,16 +361,16 @@ InnerWorld.prototype.fixDegrees = function (radArray) {
     return r;
 };
 
-InnerWorld.prototype.update = function() {
+OuterWorld.prototype.update = function() {
     if (this.rotate() || this.move()) return true;
 };
 
-InnerWorld.prototype.updateNodes = function () {
+OuterWorld.prototype.updateNodes = function () {
     this.navPaths.forEach(function (navPath) {
         navPath.setVisible(this.worldObject.position);
     }, this);
 };
 
-InnerWorld.prototype.isBusy = function() {
+OuterWorld.prototype.isBusy = function() {
     return (this.props.isMoving || this.props.isRotating);
 };

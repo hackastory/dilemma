@@ -1,6 +1,6 @@
 var OuterGame = function() {
-    this.world = new InnerWorld();
-    this.view = new InnerView();
+    this.world = new OuterWorld();
+    this.view = new OuterView();
     this.gaze = new GazeControls(this.world.scene);
     this.input = new DesktopControls();
     this.socket = io(document.location.origin);
@@ -19,7 +19,7 @@ var OuterGame = function() {
     });
 };
 
-InnerGame.prototype.update = function() {
+OuterGame.prototype.update = function() {
     requestAnimationFrame( this.update.bind(this));
 
     if(!this.world.isBusy()) {
@@ -41,14 +41,14 @@ InnerGame.prototype.update = function() {
 
 };
 
-InnerGame.prototype.socketEvents = function () {
+OuterGame.prototype.socketEvents = function () {
     this.socket.on('rotate-h', this.world.setRotateTo.bind(this.world, 72));
     this.socket.on('rotate-k', this.world.setRotateTo.bind(this.world, 75));
     this.socket.on('rotate-u', this.world.setRotateTo.bind(this.world, 85));
     this.socket.on('rotate-j', this.world.setRotateTo.bind(this.world, 74));
 };
 
-InnerGame.prototype.socketUpdate = function () {
+OuterGame.prototype.socketUpdate = function () {
     var newPivot = JSON.stringify({
         x: this.world.pivotObject.rotation.x,
         y: this.world.pivotObject.rotation.y,
@@ -72,7 +72,7 @@ InnerGame.prototype.socketUpdate = function () {
     }
 };
 
-InnerGame.prototype.checkTriggers = function () {
+OuterGame.prototype.checkTriggers = function () {
     this.world.triggerObjects.forEach(function (trigger) {
         trigger.checkHit(this.world.worldObject.position, function (triggerObject) {
             switch (triggerObject) {
