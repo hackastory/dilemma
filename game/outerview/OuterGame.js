@@ -17,6 +17,8 @@ var OuterGame = function() {
             screenfull.request();
         }
     });
+    
+    this.playSoundTrack();
 };
 
 OuterGame.prototype.update = function() {
@@ -41,8 +43,22 @@ OuterGame.prototype.update = function() {
 
 };
 
+OuterGame.prototype.playSoundTrack = function () {
+
+    createjs.Sound.on('fileload', function () {
+        createjs.Sound.play('soundMan');
+    });
+
+    createjs.Sound.registerSound('/global/assets/audio/soundscape-outside-man-final.mp3', 'soundMan');
+};
+
+OuterGame.prototype.stopSoundTrack = function () {
+
+    createjs.Sound.stop('soundMan');
+};
+
 OuterGame.prototype.socketEvents = function() {
-    socket.on('pivot', function(eventData) {
+    this.socket.on('pivot', function(eventData) {
         eventData = JSON.parse(eventData);
         var x = Math.round(eventData.x) / 180 * Math.PI,
             y = Math.round(eventData.y) / 180 * Math.PI,
@@ -51,7 +67,7 @@ OuterGame.prototype.socketEvents = function() {
         //console.log('pivot', eventData, x, y, z);
         //world.rotation.set(x, y, z);
     });
-    socket.on('world-position', function(eventData) {
+    this.socket.on('world-position', function(eventData) {
         eventData = JSON.parse(eventData);
         var x = Math.round(eventData.x),
             y = Math.round(eventData.y),
@@ -99,6 +115,9 @@ OuterGame.prototype.checkTriggers = function () {
             switch (triggerObject) {
                 case 'Trigger_Finish' :
                     console.log('mainGame -> won');
+
+                    this.stopSoundTrack();
+
                     this.socket.emit('won', true);
                     break;
             }

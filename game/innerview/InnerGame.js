@@ -11,6 +11,8 @@ var InnerGame = function() {
     this.socketUpdate();
     this.update();
 
+    this.playSoundTrack();
+
     window.addEventListener("touchend", function () {
         console.log("touchend");
         if (screenfull.enabled) {
@@ -39,6 +41,20 @@ InnerGame.prototype.update = function() {
 
     this.view.render(this.world.scene);
 
+};
+
+InnerGame.prototype.playSoundTrack = function () {
+
+    createjs.Sound.on('fileload', function () {
+        createjs.Sound.play('soundWoman');
+    });
+
+    createjs.Sound.registerSound('/global/assets/audio/soundscape-inside-vrouw-final.mp3', 'soundWoman');
+};
+
+InnerGame.prototype.stopSoundTrack = function () {
+
+    createjs.Sound.stop('soundWoman');
 };
 
 InnerGame.prototype.socketEvents = function () {
@@ -78,6 +94,8 @@ InnerGame.prototype.checkTriggers = function () {
             switch (triggerObject) {
                 case 'Trigger_Finish' :
                     console.log('mainGame -> won');
+                    this.stopSoundTrack();
+
                     this.socket.emit('won', true);
                     break;
             }
