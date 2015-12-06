@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Stand alone tester of the inner view game</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+        body {
+            margin: 0;
+            background: url('../global/assets/textures/map_bg.jpg');
+            background-size: cover;
+        }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+<div id="game"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../global/js/soundjs.min.js"></script>
+
+<script src="../global/js/three/three.js"></script>
+<script src="../global/js/three/StereoEffect.js"></script>
+<script src="../global/js/three/DeviceOrientationControls.js"></script>
+<script src="../global/js/three/ColladaLoader2.js"></script>
+<script src="../global/js/three/OBJLoader.js"></script>
+
+<script src="../global/js/DesktopControls.js"></script>
+<script src="../global/js/screenfull.js"></script>
+
+<script src="../innerview/GazeControls.js"></script>
+<script src="../innerview/TriggerObject.js"></script>
+<script src="../innerview/NavPath.js"></script>
+
+<script src="OuterWorld.js"></script>
+<script src="OuterView.js"></script>
+<script src="OuterGame.js"></script>
+<script>
+
+    // To test the outer game
+    var outerGame = new OuterGame();
+
+</script>
+</body>
+</html>

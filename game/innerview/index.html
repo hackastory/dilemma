@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>Stand alone tester of the inner view game</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+<div id="game"></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../global/js/soundjs.min.js"></script>
+
+<script src="../global/js/three/three.js"></script>
+<script src="../global/js/three/StereoEffect.js"></script>
+<script src="../global/js/three/DeviceOrientationControls.js"></script>
+<script src="../global/js/three/ColladaLoader2.js"></script>
+<script src="../global/js/three/OBJLoader.js"></script>
+
+<script src="../global/js/DesktopControls.js"></script>
+<script src="../global/js/screenfull.js"></script>
+<script src="NavPath.js"></script>
+<script src="TriggerObject.js"></script>
+
+<script src="GazeControls.js"></script>
+<script src="InnerWorld.js"></script>
+<script src="InnerView.js"></script>
+<script src="InnerGame.js"></script>
+<script>
+
+    // To test the inner game
+    var innerGame = new InnerGame();
+
+</script>
+</body>
+</html>
