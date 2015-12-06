@@ -24,9 +24,16 @@ ChoiceView.prototype.init = function(){
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.renderer.shadowMapEnabled = true;
     this.effect.setSize( window.innerWidth, window.innerHeight );
+
     document.body.appendChild( this.renderer.domElement );
+
     window.addEventListener( 'resize', this.eventResizeHandler);
     window.addEventListener( 'deviceorientation', this.eventOrientationHandler, true );
+};
+
+ChoiceView.prototype.destroy = function () {
+
+    document.body.removeChild( this.renderer.domElement );
 };
 
 ChoiceView.prototype.handleResize = function(){

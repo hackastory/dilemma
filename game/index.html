@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dilemma</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <style>
+            body {
+                background-color: #000;
+                margin: 0;
+                padding: 0;
+            }
+
+            body.outer {
+                background: url('/global/assets/textures/map_bg.jpg');
+                background-size: cover;
+            }
+
+            canvas {
+	            width: 100%;
+	            height: 100%;
+	        }
+
+            video {
+	            width: 100%;
+	            height: 100%;
+	            background: #000;
+	            position: fixed;
+	            top: 0;
+	            left: 0;
+			}
+
+        </style>
+    </head>
+    <body>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <script src="/global/js/jquery.min.js"></script>
+        <script src="/global/js/soundjs.min.js"></script>
+
+        <script src="/global/js/three/three.js"></script>
+        <script src="/global/js/three/StereoEffect.js"></script>
+        <script src="/global/js/three/DeviceOrientationControls.js"></script>
+        <script src="/global/js/three/ColladaLoader2.js"></script>
+        <script src="/global/js/three/OBJLoader.js"></script>
+
+        <script src="/global/js/DesktopControls.js"></script>
+        <script src="/global/js/screenfull.js"></script>
+
+
+        <!-- PlayerChooser -->
+        <script src="/playerchoice/PlayerChoiceGazeControls.js"></script>
+        <script src="/playerchoice/ChoiceWorld.js"></script>
+        <script src="/playerchoice/ChoiceView.js"></script>
+        <script src="/playerchoice/PlayerChoice.js"></script>
+
+        <!-- Intro's -->
+        <script src="/innerintro/InnerIntro.js"></script>
+        <script src="/outerintro/OuterIntro.js"></script>
+
+        <!-- Inner Game -->
+        <script src="/innerview/NavPath.js"></script>
+        <script src="/innerview/TriggerObject.js"></script>
+        <script src="/innerview/GazeControls.js"></script>
+        <script src="/innerview/InnerWorld.js"></script>
+        <script src="/innerview/InnerView.js"></script>
+        <script src="/innerview/InnerGame.js"></script>
+
+        <!-- Outer Game -->
+        <script src="/outerview/OuterWorld.js"></script>
+        <script src="/outerview/OuterView.js"></script>
+        <script src="/outerview/OuterGame.js"></script>
+
+        <!-- Outro -->
+        <script src="/outro/Outro.js"></script>
+
+        <!-- The Game -->
+        <script src="/Game.js"></script>
+
+        <script>
+
+            Game.setup();
+
+        </script>
+    </body>
+</html>

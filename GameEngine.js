@@ -24,8 +24,8 @@ GameEngine.prototype = {
 
             console.log('connected!');
 
-
             client.on('player-choice', this.handlePlayerChoice.bind( this, client ) );
+            client.on('player-chosen-state', this.handlePlayerChosenState.bind( this, client ) );
 
             client.on('player-coordinates', this.handlePlayerCoordinates.bind( this, client ) );
             client.on('pivot', this.handlePivot.bind( this, client ) );
@@ -59,13 +59,18 @@ GameEngine.prototype = {
 
     handleOutroFinished: function () {
         console.log('outro-finished');
-        this.emit('outro-finished');
+        this.socket.emit('outro-finished');
     },
 
     handlePivot: function ( client, pivotXYZ ) {
        // console.log('player-coordinates', coordData );
 
         this.socket.emit( 'pivot', pivotXYZ );
+    },
+
+    handlePlayerChosenState: function ( client ) {
+
+        client.emit( 'player-chosen-state', this.state );
     },
 
     handlePlayerChoice: function ( client, loginData ) {
@@ -85,12 +90,12 @@ GameEngine.prototype = {
 
         this.socket.emit('player-taken', loginData );
 
-        //if ( this.state.innerViewChosen && this.state.outerViewChosen ) {
-        //    this.socket.emit('start');
-        //}
+        if ( this.state.innerViewChosen && this.state.outerViewChosen ) {
+            this.socket.emit('start');
+        }
 
         // but for now, just emit start to the client that pressed a login button
-        client.emit('start');
+        //client.emit('start');
     },
 
     handlePlayerCoordinates: function ( client, coordData ) {

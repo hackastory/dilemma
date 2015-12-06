@@ -7,6 +7,8 @@ var InnerGame = function() {
 
     this.lastMessage = {pivot: "", pos: ""};
 
+    this.active = true;
+
     this.socketEvents();
     this.socketUpdate();
     this.update();
@@ -22,6 +24,11 @@ var InnerGame = function() {
 };
 
 InnerGame.prototype.update = function() {
+
+    if ( ! this.active ) {
+        return;
+    }
+
     requestAnimationFrame( this.update.bind(this));
 
     if(!this.world.isBusy()) {
@@ -41,6 +48,13 @@ InnerGame.prototype.update = function() {
 
     this.view.render(this.world.scene);
 
+};
+
+InnerGame.prototype.destroy = function () {
+
+    // clean up the InnerGame World.
+    this.active = false;
+    this.view.destroy();
 };
 
 InnerGame.prototype.playSoundTrack = function () {

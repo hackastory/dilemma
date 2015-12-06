@@ -1,11 +1,11 @@
-var GazeControls = function () {
+var PlayerChoiceGazeControls = function () {
     this.rayCaster = new THREE.Raycaster();
     this.rayVector = new THREE.Vector3();
 
     this.lookingAt = {id: 0, timer: 0, delay: 1000, cooldown: 0, oldColor: 0x000000};
 };
 
-GazeControls.prototype.getGaze = function (camera, gazeNodes ) {
+PlayerChoiceGazeControls.prototype.getGaze = function (camera, gazeNodes ) {
 
     if (Date.now() - this.lookingAt.cooldown < this.lookingAt.delay) {
         return;

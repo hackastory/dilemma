@@ -30,6 +30,11 @@ OuterView.prototype.init = function(){
     window.addEventListener( 'deviceorientation', this.eventOrientationHandler, true );
 };
 
+OuterView.prototype.destroy = function () {
+
+    document.body.removeChild( this.renderer.domElement );
+};
+
 OuterView.prototype.handleResize = function(){
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;

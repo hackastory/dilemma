@@ -29,6 +29,11 @@ InnerView.prototype.init = function(){
     window.addEventListener( 'deviceorientation', this.eventOrientationHandler, true );
 };
 
+InnerView.prototype.destroy = function () {
+
+    document.body.removeChild( this.renderer.domElement );
+};
+
 InnerView.prototype.handleResize = function(){
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;

@@ -1,6 +1,6 @@
 {
   "name": "hackastory-dilemma",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Dilemma is a multi-user virtual reality game",
   "devDependencies": {
     "express": "^4.13.3",

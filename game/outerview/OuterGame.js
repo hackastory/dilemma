@@ -7,6 +7,8 @@ var OuterGame = function() {
 
     this.lastMessage = {pivot: "", pos: ""};
 
+    this.active = true;
+
     this.socketEvents();
     this.socketUpdate();
     this.update();
@@ -21,8 +23,18 @@ var OuterGame = function() {
     this.playSoundTrack();
 };
 
+OuterGame.prototype.destroy = function () {
+
+    // clean up the OuterGame World.
+    this.active = false;
+    this.view.destroy();
+};
+
 OuterGame.prototype.update = function() {
-    requestAnimationFrame( this.update.bind(this));
+    if ( ! this.active ) {
+        return;
+    }
+    requestAnimationFrame( this.update.bind( this ) );
 
     if(!this.world.isBusy()) {
 
