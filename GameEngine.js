@@ -37,6 +37,7 @@ GameEngine.prototype = {
             client.on('rotate-k', this.handleRotation.bind( this ) );
 
             client.on('intro-finished', this.handleIntroFinished.bind( this, client ) );
+            client.on('outro-finished', this.handleOutroFinished.bind( this, client ) );
             client.on('reset', this.handleReset.bind( this ) );
             client.on('won', this.handleWon.bind( this ) );
             client.on('lost', this.handleLost.bind( this ) );
@@ -54,6 +55,11 @@ GameEngine.prototype = {
 
         console.log('lost');
         this.socket.emit('lost');
+    },
+
+    handleOutroFinished: function () {
+        console.log('outro-finished');
+        this.emit('outro-finished');
     },
 
     handlePivot: function ( client, pivotXYZ ) {
