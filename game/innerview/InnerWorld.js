@@ -34,14 +34,14 @@ InnerWorld.prototype.init = function() {
     this.scene.add(this.playerLight);
     this.scene.add(this.globalLight);
 
-    //var material =  new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture("../global/assets/textures/UV_Grid_Sm.jpg")});
+    //var material =  new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture("/global/assets/textures/UV_Grid_Sm.jpg")});
     var material = new THREE.MeshPhongMaterial({color: 0x333333});
     var finishMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
 
 
     var loader = new THREE.ColladaLoader();
     //loader.options.convertUpAxis = true;
-    loader.load('../global/assets/models/prototypeMazeV4.dae', function (collada) {
+    loader.load('/global/assets/models/prototypeMazeV4.dae', function (collada) {
         dae = collada.scene;
         dae.position.x = dae.position.y = dae.position.z = -2;
 
@@ -114,7 +114,7 @@ InnerWorld.prototype.init = function() {
 };
 
 InnerWorld.prototype.buildSkybox = function () {
-    var imagePrefix = "../global/assets/textures/images/skybox-innerView-";
+    var imagePrefix = "/global/assets/textures/images/skybox-innerView-";
     var directions = ["west", "east", "up", "down", "north", "south"];
     var imageSuffix = ".jpg";
     var skyGeometry = new THREE.BoxGeometry(100, 100, 100);

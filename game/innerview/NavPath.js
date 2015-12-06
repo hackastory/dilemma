@@ -9,7 +9,7 @@ NavPath.prototype.initNodes = function (points) {
 
     var geometry = new THREE.BoxGeometry(1, 1, 1);
     var material = new THREE.MeshBasicMaterial({
-        map: new THREE.ImageUtils.loadTexture("../global/assets/textures/crosshair.png"),
+        map: new THREE.ImageUtils.loadTexture("/global/assets/textures/crosshair.png"),
         transparent: true
     });
     points.forEach(function (point, i) {

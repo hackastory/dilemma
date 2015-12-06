@@ -288,7 +288,7 @@ function setup() {
     effect.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    var outerWallTexture = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
+    var outerWallTexture = THREE.ImageUtils.loadTexture( "/global/assets/textures/floor_tile.jpg" );
     outerWallTexture.wrapS = outerWallTexture.wrapT = THREE.RepeatWrapping;
     outerWallTexture.repeat.set(12.5,12.5)
 
@@ -368,7 +368,7 @@ function setup() {
     cubes.push(cube);
     world.add(wall);
 
-    var texture1 = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
+    var texture1 = THREE.ImageUtils.loadTexture( "/global/assets/textures/floor_tile.jpg" );
 
     var material = new THREE.MeshBasicMaterial( { map: texture1} );
 
@@ -398,7 +398,7 @@ function setup() {
                 }
                 if (map[z][x][y] == 4) {
 
-                    var texture2 = THREE.ImageUtils.loadTexture( "../global/assets/textures/checkerboard.png" );
+                    var texture2 = THREE.ImageUtils.loadTexture( "/global/assets/textures/checkerboard.png" );
 
                     var material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
                     var geometry = new THREE.BoxGeometry(1, 1, 1);

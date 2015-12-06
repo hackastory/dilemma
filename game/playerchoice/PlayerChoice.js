@@ -9,12 +9,17 @@ var PlayerChoice = function () {
     this.socketEvents();
     this.update();
 
-    window.addEventListener( "touchend", function () {
-        console.log( "touchend" );
+    window.addEventListener( 'touchend', function () {
+        console.log( 'touchend' );
         if ( screenfull.enabled ) {
             screenfull.request();
         }
     } );
+};
+
+PlayerChoice.prototype.destroy = function () {
+
+    // clean up the PlayerChoice World.
 };
 
 PlayerChoice.prototype.handlePlayerTaken = function ( chosenPlayer ) {
@@ -31,13 +36,8 @@ console.log( 'handlePlayerTaken', chosenPlayer );
     }
 };
 
-PlayerChoice.prototype.handleStart = function () {
-
-
-};
-
 PlayerChoice.prototype.showWaitingRoom = function () {
-
+    //
 };
 
 PlayerChoice.prototype.update = function () {
@@ -68,5 +68,4 @@ PlayerChoice.prototype.update = function () {
 PlayerChoice.prototype.socketEvents = function () {
 
     this.socket.on('player-taken', this.handlePlayerTaken.bind(this) );
-    this.socket.on('rotate-start', this.handleStart.bind(this));
 };

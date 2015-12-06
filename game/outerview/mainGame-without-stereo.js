@@ -312,7 +312,7 @@ function setup() {
 
 
 
-    var texture1 = THREE.ImageUtils.loadTexture( "../global/assets/textures/floor_tile.jpg" );
+    var texture1 = THREE.ImageUtils.loadTexture( "/global/assets/textures/floor_tile.jpg" );
 
     //var material = new THREE.MeshBasicMaterial( { map: texture1, transparent: true } );
     var material = new THREE.LineBasicMaterial({color: 0xFFFFFF, opacity: 0, transparent: true});
@@ -366,7 +366,7 @@ function setup() {
 
 
     var ggeometry = new THREE.PlaneGeometry( 1000,1000 );
-    var texture = THREE.ImageUtils.loadTexture( "../global/assets/textures/checkerboard.png" );
+    var texture = THREE.ImageUtils.loadTexture( "/global/assets/textures/checkerboard.png" );
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
 

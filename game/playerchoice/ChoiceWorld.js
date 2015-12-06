@@ -32,6 +32,8 @@ ChoiceWorld.prototype.init = function() {
     this.outerChoice.position.set( -3, 1, -10 );
     this.outerChoice.name = 'outer';
 
+
+
     this.worldObject.add( this.innerChoice );
     this.worldObject.add( this.outerChoice );
 
