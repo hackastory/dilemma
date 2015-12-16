@@ -1,7 +1,7 @@
 var Outro = function ( success ) {
 
     this.socket = io( document.location.origin );
-    this.videoSrc = '/global/assets/video/' +( ( success ) ? 'explosion_ending.mp4' : 'explosion_ending.mp4');
+    this.videoSrc = '/global/assets/video/' +( ( success ) ? 'positive_ending.mp4' : 'explosion_ending.mp4');
 
     this.create();
 };
