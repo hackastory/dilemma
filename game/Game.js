@@ -51,6 +51,9 @@ var Game = {
 
     handleStart: function () {
 
+        var body = document.querySelector('body');
+        body.className = body.className +' loading';
+
         Game.choice = Game.playerChoice.getChoice();
 
         switch ( Game.choice ) {
