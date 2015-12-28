@@ -3,6 +3,7 @@ var OuterGame = function( timer ) {
     this.view = new OuterView();
     this.gaze = new GazeControls(this.world.scene);
     this.input = new DesktopControls();
+    this.rotation = new RotationControls(this.world.pivotObject);
     this.socket = io(document.location.origin);
 
     this.lastMessage = {pivot: "", pos: ""};
