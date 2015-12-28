@@ -33,7 +33,7 @@ var OuterWorld = function() {
 //Init
 OuterWorld.prototype.init = function() {
 
-    this.worldObject.position.set(2,2,2);
+    //this.worldObject.position.set(2,2,2);
     this.buildWorld();
 
     this.playerLight.position.set(0, 0, 0);
@@ -51,7 +51,7 @@ OuterWorld.prototype.init = function() {
     //loader.options.convertUpAxis = true;
     loader.load('/global/assets/models/prototypeMazeV4.dae', function (collada) {
         dae = collada.scene;
-        dae.position.x = dae.position.y = dae.position.z = -2;
+        //dae.position.x = dae.position.y = dae.position.z = -2;
 
         dae.scale.x = dae.scale.y = dae.scale.z = 0.01;
 
@@ -111,7 +111,7 @@ OuterWorld.prototype.init = function() {
             }, this);
         }, this);
 
-        this.navNodesObject.position.x = this.navNodesObject.position.y = this.navNodesObject.position.z = -2;
+        //this.navNodesObject.position.x = this.navNodesObject.position.y = this.navNodesObject.position.z = -2;
         this.worldObject.add(this.navNodesObject);
         this.worldObject.add(dae);
         this.updateNodes();
@@ -159,7 +159,7 @@ OuterWorld.prototype.buildWorld = function() {
 };
 
 OuterWorld.prototype.setPlayerIndicator = function(x, y, z) {
-    this.playerIndicator.position.set(x,y,z);
+    this.playerIndicator.position.set(-x,y,-z);
 };
 
 OuterWorld.prototype.setRotateTo = function (which) {

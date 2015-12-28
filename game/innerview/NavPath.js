@@ -30,9 +30,9 @@ NavPath.prototype.setVisible = function (position) {
 
     this.nodes.forEach(function (node, i) {
         node.visible = false;
-        if (node.position.x === -(position.x - 2) &&
-            node.position.y === -(position.y - 2) &&
-            node.position.z === -(position.z - 2)) {
+        if (node.position.x === -(position.x) &&
+            node.position.y === -(position.y) &&
+            node.position.z === -(position.z)) {
             found = i;
         }
     }, this);

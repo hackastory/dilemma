@@ -44,9 +44,9 @@ GazeControls.prototype.getGaze = function (camera, navNodes, position) {
 
 
                     var moveMe = new THREE.Vector3(
-                        (position.x - 2) + intersects[0].object.position.x,
-                        (position.y - 2) + intersects[0].object.position.y,
-                        (position.z - 2) + intersects[0].object.position.z
+                        (position.x) + intersects[0].object.position.x,
+                        (position.y) + intersects[0].object.position.y,
+                        (position.z) + intersects[0].object.position.z
                     );
 
                     return moveMe;

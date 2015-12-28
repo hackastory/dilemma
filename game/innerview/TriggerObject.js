@@ -4,9 +4,9 @@ var TriggerObject = function (pars) {
 };
 
 TriggerObject.prototype.checkHit = function (position, callback) {
-    if (this.position.x === -(position.x - 2) &&
-        this.position.y === -(position.y - 2) &&
-        this.position.z === -(position.z - 2)) {
+    if (this.position.x === -(position.x) &&
+        this.position.y === -(position.y) &&
+        this.position.z === -(position.z)) {
         callback(this.name);
     }
 };
