@@ -99,11 +99,6 @@ InnerGame.prototype.socketEvents = function () {
 };
 
 InnerGame.prototype.socketUpdate = function () {
-    var newPivot = JSON.stringify({
-        x: this.world.pivotObject.rotation.x,
-        y: this.world.pivotObject.rotation.y,
-        z: this.world.pivotObject.rotation.z
-    });
     var newWorldPos = JSON.stringify({
         x: this.world.worldObject.position.x,
         y: this.world.worldObject.position.y,
@@ -114,11 +109,6 @@ InnerGame.prototype.socketUpdate = function () {
         this.socket.emit('world-position', newWorldPos);
         this.lastMessage.pos = newWorldPos;
         console.log('mainGame -> worldpos', newWorldPos);
-    }
-    if (newPivot !== this.lastMessage.pivot) {
-        this.socket.emit('pivot', newPivot);
-        this.lastMessage.pivot = newPivot;
-        console.log('mainGame -> pivot', newPivot);
     }
 };
 

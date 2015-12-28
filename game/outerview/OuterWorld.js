@@ -33,7 +33,6 @@ var OuterWorld = function() {
 //Init
 OuterWorld.prototype.init = function() {
 
-    //this.worldObject.position.set(2,2,2);
     this.buildWorld();
 
     this.playerLight.position.set(0, 0, 0);
@@ -50,8 +49,7 @@ OuterWorld.prototype.init = function() {
     var loader = new THREE.ColladaLoader();
     //loader.options.convertUpAxis = true;
     loader.load('/global/assets/models/prototypeMazeV4.dae', function (collada) {
-        dae = collada.scene;
-        //dae.position.x = dae.position.y = dae.position.z = -2;
+        var dae = collada.scene;
 
         dae.scale.x = dae.scale.y = dae.scale.z = 0.01;
 
@@ -111,7 +109,6 @@ OuterWorld.prototype.init = function() {
             }, this);
         }, this);
 
-        //this.navNodesObject.position.x = this.navNodesObject.position.y = this.navNodesObject.position.z = -2;
         this.worldObject.add(this.navNodesObject);
         this.worldObject.add(dae);
         this.updateNodes();
@@ -166,7 +163,8 @@ OuterWorld.prototype.setRotateTo = function (which) {
     if (this.isBusy())
         return;
 
-    this.props.vectorRotationTarget = new THREE.Vector3(this.props.vectorRotationCurrent.x,
+    this.props.vectorRotationTarget = new THREE.Vector3(
+        this.props.vectorRotationCurrent.x,
         this.props.vectorRotationCurrent.y,
         this.props.vectorRotationCurrent.z);
 
@@ -261,108 +259,6 @@ OuterWorld.prototype.setJumpBy = function(delta, rotation) {
 //expects an [x,y,z] array from the control pads
 OuterWorld.prototype.setMoveTo = function(target) {
 
-    var tmp;
-
-    //this entire switch could probably be replaced by one line of code
-    //something that gets the transform matrix from the world and applies it to the target vector
-    //however, I'm not smart enough to get it to work
-    //switch (this.props.rotationAsDegrees[0]) {
-    //
-    //    case 0:
-    //
-    //        switch (this.props.rotationAsDegrees[2]) {
-    //            case 90:
-    //                tmp = target.x;
-    //                target.x = target.y;
-    //                target.y = -tmp;
-    //                break;
-    //            case 180:
-    //                target.x = -target.x;
-    //                break;
-    //            case 270:
-    //                tmp = target.x;
-    //                target.x = target.y;
-    //                target.y = tmp;
-    //                break;
-    //        }
-    //        break;
-    //
-    //    case 90:
-    //
-    //        switch (this.props.rotationAsDegrees[2]) {
-    //            case 0:
-    //                target.y = target.z;
-    //                target.z = 0;
-    //                break;
-    //            case 90:
-    //                tmp = target.x;
-    //                target.x = target.z;
-    //                target.y = -tmp;
-    //                target.z = 0;
-    //                break;
-    //            case 180:
-    //                target.x = -target.x;
-    //                target.y = -target.z;
-    //                target.z = 0;
-    //                break;
-    //            case 270:
-    //                tmp = target.x;
-    //                target.x = -target.z;
-    //                target.z = 0;
-    //                target.y = tmp;
-    //                break;
-    //        }
-    //        break;
-    //
-    //    case 180:
-    //
-    //        switch (this.props.rotationAsDegrees[2]) {
-    //            case 0:
-    //                target.z = -target.z;
-    //                break;
-    //            case 90:
-    //                target.z = -target.z;
-    //                target.y = -target.x;
-    //                target.x = 0;
-    //                break;
-    //            case 180:
-    //                target.z = -target.z;
-    //                target.x = -target.x;
-    //                break;
-    //            case 270:
-    //                target.z = -target.z;
-    //                target.y = target.x;
-    //                target.x = 0;
-    //                break;
-    //        }
-    //        break;
-    //
-    //    case 270:
-    //
-    //        switch (this.props.rotationAsDegrees[2]) {
-    //            case 0:
-    //                target.y = -target.z;
-    //                target.z = 0;
-    //                break;
-    //            case 90:
-    //                tmp = target.x;
-    //                target.x = -target.z;
-    //                target.y = -tmp;
-    //                target.z = 0;
-    //                break;
-    //            case 180:
-    //                target.x = -target.x;
-    //                target.y = target.z;
-    //                target.z = 0;
-    //                break;
-    //            case 270:
-    //                tmp = target.x;
-    //                target.x = target.z;
-    //                target.y = tmp;
-    //                target.z = 0;
-    //                break;
-    //        }
-    //}
 
     var offset = new THREE.Vector3(target.x,target.y,target.z);
 

@@ -27,7 +27,6 @@ var OuterGame = function( timer ) {
     }
 
     this.socketEvents();
-    this.socketUpdate();
     this.update();
     this.addKeyboardListeners();
 
@@ -63,7 +62,6 @@ OuterGame.prototype.update = function() {
     }
 
     if (this.world.update()) {
-        this.socketUpdate();
         this.checkTriggers();
     }
 
@@ -75,21 +73,13 @@ OuterGame.prototype.update = function() {
 
 OuterGame.prototype.addKeyboardListeners = function() {
     var scope = this;
-    window.onkeyup = function(e) {
-        var key = e.keyCode ? e.keyCode : e.which;
 
-        console.log('OuterGame -> onkeyup', key);
-        //this.movementKeys = [{keyCode: 37, isDown: false, movement: new THREE.Vector3(1, 0, 0)}, //leftkey
-        //    {keyCode: 38, isDown: false, movement: new THREE.Vector3(0, 0, 1)}, //upkey
-        //    {keyCode: 39, isDown: false, movement: new THREE.Vector3(-1, 0, 0)}, //rightkey
-        //    {keyCode: 40, isDown: false, movement: new THREE.Vector3(0, 0, -1)}, //downkey
-        //    {keyCode: 33, isDown: false, movement: new THREE.Vector3(0, -1, 0)}, //pageup
-        //    {keyCode: 34, isDown: false, movement: new THREE.Vector3(0, 1, 0)} //pagedown
-        //];
+    window.onkeyup = function(e) {
+        var key = e.keyCode ? e.keyCode : e.which,
+            character;
 
         scope.world.setRotateTo(key);
 
-        var character;
         switch (key) {
             case 72: //H
                 character = 'h';
@@ -105,7 +95,7 @@ OuterGame.prototype.addKeyboardListeners = function() {
                 break;
         }
         if (character) {
-            scope.socket.emit('rotate-' + character, 'rotate-' + character);
+            scope.socket.emit('rotate-' + character);
         }
     }
 };
@@ -126,15 +116,6 @@ OuterGame.prototype.stopSoundTrack = function () {
 
 OuterGame.prototype.socketEvents = function() {
     var scope = this;
-    this.socket.on('pivot', function(eventData) {
-        eventData = JSON.parse(eventData);
-        var x = Math.round(eventData.x) / 180 * Math.PI,
-            y = Math.round(eventData.y) / 180 * Math.PI,
-            z = Math.round(eventData.z) / 180 * Math.PI;
-
-        //console.log('pivot', eventData, x, y, z);
-        //world.rotation.set(x, y, z);
-    });
     this.socket.on('world-position', function(eventData) {
         eventData = JSON.parse(eventData);
         var x = Math.round(eventData.x),
@@ -143,40 +124,9 @@ OuterGame.prototype.socketEvents = function() {
 
         console.log('worldpos', x, y, z);
         scope.world.setPlayerIndicator(x,y,z);
-        ////hypercube.position.set(x+16,y+14,z+16);
-        //hypercube.position.set(x, y, z);
-        //marker.mesh.position.set(-x - 8, -y - 7, -z - 8);
-        //world.position.set(-x, -y, -z);
     });
-    //this.socket.on('rotate-h', this.world.setRotateTo.bind(this.world, 72));
-    //this.socket.on('rotate-k', this.world.setRotateTo.bind(this.world, 75));
-    //this.socket.on('rotate-u', this.world.setRotateTo.bind(this.world, 85));
-    //this.socket.on('rotate-j', this.world.setRotateTo.bind(this.world, 74));
 };
 
-OuterGame.prototype.socketUpdate = function () {
-    var newPivot = JSON.stringify({
-        x: this.world.pivotObject.rotation.x,
-        y: this.world.pivotObject.rotation.y,
-        z: this.world.pivotObject.rotation.z
-    });
-    var newWorldPos = JSON.stringify({
-        x: this.world.worldObject.position.x,
-        y: this.world.worldObject.position.y,
-        z: this.world.worldObject.position.z
-    });
-
-    if (newWorldPos !== this.lastMessage.pos) {
-        this.socket.emit('world-position', newWorldPos);
-        this.lastMessage.pos = newWorldPos;
-        console.log('mainGame -> worldpos', newWorldPos);
-    }
-    if (newPivot !== this.lastMessage.pivot) {
-        this.socket.emit('pivot', newPivot);
-        this.lastMessage.pivot = newPivot;
-        console.log('mainGame -> pivot', newPivot);
-    }
-};
 
 OuterGame.prototype.checkTriggers = function () {
     this.world.triggerObjects.forEach(function (trigger) {
