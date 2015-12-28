@@ -119,7 +119,7 @@ OuterWorld.prototype.init = function() {
 
     //TODO: use skybox for outerview as well
     //this.scene.add(this.buildSkybox());
-    this.scene.add(this.buildPlayerIndicator());
+    this.worldObject.add(this.buildPlayerIndicator());
 
 };
 

@@ -12,6 +12,7 @@ var OuterGame = function() {
     this.socketEvents();
     this.socketUpdate();
     this.update();
+    this.addKeyboardListeners();
 
     window.addEventListener("touchend", function () {
         console.log("touchend");
@@ -41,7 +42,7 @@ OuterGame.prototype.update = function() {
         var target = this.gaze.getGaze(this.view.camera, this.world.navNodesObject.children, this.world.worldObject.position);
         if (target != null) this.world.setMoveTo(target);
 
-        this.world.setJumpBy(this.input.getMovement(),this.view.getRotation());
+        //this.world.setJumpBy(this.input.getMovement(),this.view.getRotation());
     }
 
     if (this.world.update()) {
@@ -53,6 +54,43 @@ OuterGame.prototype.update = function() {
 
     this.view.render(this.world.scene);
 
+};
+
+OuterGame.prototype.addKeyboardListeners = function() {
+    var scope = this;
+    window.onkeyup = function(e) {
+        var key = e.keyCode ? e.keyCode : e.which;
+
+        console.log('OuterGame -> onkeyup', key);
+        //this.movementKeys = [{keyCode: 37, isDown: false, movement: new THREE.Vector3(1, 0, 0)}, //leftkey
+        //    {keyCode: 38, isDown: false, movement: new THREE.Vector3(0, 0, 1)}, //upkey
+        //    {keyCode: 39, isDown: false, movement: new THREE.Vector3(-1, 0, 0)}, //rightkey
+        //    {keyCode: 40, isDown: false, movement: new THREE.Vector3(0, 0, -1)}, //downkey
+        //    {keyCode: 33, isDown: false, movement: new THREE.Vector3(0, -1, 0)}, //pageup
+        //    {keyCode: 34, isDown: false, movement: new THREE.Vector3(0, 1, 0)} //pagedown
+        //];
+
+        scope.world.setRotateTo(key);
+
+        var character;
+        switch (key) {
+            case 72: //H
+                character = 'h';
+                break;
+            case 75: //K
+                character = 'k';
+                break;
+            case 85: //U
+                character = 'u';
+                break;
+            case 74: //J
+                character = 'j';
+                break;
+        }
+        if (character) {
+            scope.socket.emit('rotate-' + character, 'rotate-' + character);
+        }
+    }
 };
 
 OuterGame.prototype.playSoundTrack = function () {
