@@ -56,3 +56,7 @@ Use the following snippet to communicate with the multi user server
 
 </script>
 ```
+
+## Deploying to for instance Heroku
+Follow the instructions on https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app
+Example: http://dilemma-vr.herokuapp.com/
