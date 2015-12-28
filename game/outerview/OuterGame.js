@@ -70,6 +70,7 @@ OuterGame.prototype.stopSoundTrack = function () {
 };
 
 OuterGame.prototype.socketEvents = function() {
+    var scope = this;
     this.socket.on('pivot', function(eventData) {
         eventData = JSON.parse(eventData);
         var x = Math.round(eventData.x) / 180 * Math.PI,
@@ -85,7 +86,8 @@ OuterGame.prototype.socketEvents = function() {
             y = Math.round(eventData.y),
             z = Math.round(eventData.z);
 
-        //console.log('worldpos', x, y, z);
+        console.log('worldpos', x, y, z);
+        scope.world.setPlayerIndicator(x,y,z);
         ////hypercube.position.set(x+16,y+14,z+16);
         //hypercube.position.set(x, y, z);
         //marker.mesh.position.set(-x - 8, -y - 7, -z - 8);

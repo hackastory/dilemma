@@ -1,5 +1,6 @@
 {
   "name": "hackastory-dilemma",
+  "repository": "https://github.com/hackastory/dilemma",
   "version": "2.0.0",
   "description": "Dilemma is a multi-user virtual reality game",
   "dependencies": {

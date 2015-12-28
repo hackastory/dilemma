@@ -13,6 +13,8 @@ var OuterWorld = function() {
 
     this.worldObject = new THREE.Object3D();
     this.pivotObject = new THREE.Object3D();
+    this.playerIndicator = null;
+
     this.navNodesObject = new THREE.Object3D();
     this.playerLight = new THREE.PointLight(0xffffff, 1, 20);
     this.globalLight = new THREE.HemisphereLight(0xff0000, 0x89584B, 0.3);
@@ -117,6 +119,7 @@ OuterWorld.prototype.init = function() {
 
     //TODO: use skybox for outerview as well
     //this.scene.add(this.buildSkybox());
+    this.scene.add(this.buildPlayerIndicator());
 
 };
 
@@ -139,12 +142,24 @@ OuterWorld.prototype.buildSkybox = function () {
     return skyBox;
 };
 
+OuterWorld.prototype.buildPlayerIndicator = function() {
+    var geometry = new THREE.BoxGeometry(2.2, 2.2, 2.2);
+    var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+    this.playerIndicator = new THREE.Mesh( geometry, material );
+
+    return this.playerIndicator;
+};
+
 //Creates the world objects from the map
 OuterWorld.prototype.buildWorld = function() {
     // ADDING THINGS TO THINGS
     this.pivotObject.add(this.worldObject);
     this.scene.add(this.pivotObject);
 
+};
+
+OuterWorld.prototype.setPlayerIndicator = function(x, y, z) {
+    this.playerIndicator.position.set(x,y,z);
 };
 
 OuterWorld.prototype.setRotateTo = function (which) {
