@@ -56,9 +56,43 @@
                 left: 75%;
             }
 
+            .hud {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 10;
+
+                display: none;
+            }
+
+            .hud-timer {
+                position: absolute;
+                top: 30px;
+                margin-left: -50px;
+                height: 40px;
+                width: 120px;
+
+                font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+                font-size: 22px;
+                color: #fff;
+            }
+
+            .hud-timer-left {
+                left: 25%;
+            }
+            .hud-timer-right {
+                left: 75%;
+            }
+
         </style>
     </head>
     <body>
+
+        <div class="hud">
+            <div class="hud-timer hud-timer-left"></div>
+            <div class="hud-timer hud-timer-right"></div>
+        </div>
 
         <div class="loaders">
             <img class="loading-left" src="/global/assets/loaders/oval.svg">
@@ -80,6 +114,7 @@
         <script src="/global/js/DesktopControls.js"></script>
         <script src="/global/js/screenfull.js"></script>
         <script src="/global/js/Timer.js"></script>
+        <script src="/global/js/FormatDuration.js"></script>
 
 
         <!-- PlayerChooser -->
