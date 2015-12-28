@@ -27,7 +27,6 @@ var OuterGame = function( timer ) {
     }
 
     this.socketEvents();
-    this.update();
     this.addKeyboardListeners();
 
     window.addEventListener('touchend', function () {
@@ -38,6 +37,10 @@ var OuterGame = function( timer ) {
     });
     
     this.playSoundTrack();
+
+    if ( DEBUG ) {
+        this.onAssetsLoaded();
+    }
 };
 
 OuterGame.prototype.destroy = function () {
@@ -100,17 +103,21 @@ OuterGame.prototype.addKeyboardListeners = function() {
     }
 };
 
+OuterGame.prototype.onAssetsLoaded = function () {
+    var body = document.querySelector('body');
+    body.className = body.className.replace('loading', '');
+
+    this.active = true;
+    this.update();
+};
+
 OuterGame.prototype.playSoundTrack = function () {
 
     createjs.Sound.on('fileload', function () {
 
-        var body = document.querySelector('body');
-        body.className = body.className.replace('loading', '');
-
         createjs.Sound.play('soundMan');
 
-        this.active = true;
-        this.update();
+        this.onAssetsLoaded();
 
     }.bind(this));
 

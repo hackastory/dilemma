@@ -29,9 +29,6 @@ var InnerGame = function( timer ) {
 
     this.socketEvents();
     this.socketUpdate();
-    this.update();
-
-    this.playSoundTrack();
 
     window.addEventListener('touchend', function () {
         console.log('touchend');
@@ -39,6 +36,12 @@ var InnerGame = function( timer ) {
             screenfull.request();
         }
     });
+
+    this.playSoundTrack();
+
+    if ( DEBUG ) {
+        this.onAssetsLoaded();
+    }
 };
 
 InnerGame.prototype.update = function() {
@@ -75,17 +78,22 @@ InnerGame.prototype.destroy = function () {
     this.view.destroy();
 };
 
+
+InnerGame.prototype.onAssetsLoaded = function () {
+    var body = document.querySelector('body');
+    body.className = body.className.replace('loading', '');
+
+    this.active = true;
+    this.update();
+};
+
 InnerGame.prototype.playSoundTrack = function () {
 
     createjs.Sound.on('fileload', function () {
 
-        var body = document.querySelector('body');
-        body.className = body.className.replace('loading', '');
-
         createjs.Sound.play('soundWoman');
 
-        this.active = true;
-        this.update();
+        this.onAssetsLoaded();
 
     }.bind( this ));
 
