@@ -15,7 +15,6 @@ var OuterWorld = function() {
     this.pivotObject = new THREE.Object3D();
     this.playerIndicator = null;
 
-    this.navNodesObject = new THREE.Object3D();
     this.playerLight = new THREE.PointLight(0xffffff, 1, 20);
     this.globalLight = new THREE.HemisphereLight(0xff0000, 0x89584B, 0.3);
     this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
@@ -24,7 +23,6 @@ var OuterWorld = function() {
 
     this.scene = new THREE.Scene();
 
-    this.navPaths = [];
     this.triggerObjects = [];
 
     this.init();
@@ -57,52 +55,15 @@ OuterWorld.prototype.init = function() {
             child.material = material;
 
             if (child.name !== null && child.name.indexOf("Trigger") === 0) {
-                var trigger = {
-                    name: child.name,
-                    pos: {
-                        x: Math.round(child.position.x / 100),
-                        y: Math.round(child.position.y / 100),
-                        z: Math.round(child.position.z / 100)
-                    }
-                };
-
-                this.triggerObjects.push(new TriggerObject(trigger));
-
                 child.visible = false;
             }
 
             if (child.name !== null && child.name.indexOf("NavPath") === 0) {
-                var path = {
-                    name: child.name,
-                    pos: {
-                        x: Math.round(child.position.x / 100),
-                        y: Math.round(child.position.y / 100),
-                        z: Math.round(child.position.z / 100)
-                    },
-                    points: [{
-                        x: Math.round(child.geometry.attributes.position.array[0] / 100),
-                        y: Math.round(child.geometry.attributes.position.array[1] / 100),
-                        z: Math.round(child.geometry.attributes.position.array[2] / 100)
-                    },
-                        {
-                            x: Math.round(child.geometry.attributes.position.array[3] / 100),
-                            y: Math.round(child.geometry.attributes.position.array[4] / 100),
-                            z: Math.round(child.geometry.attributes.position.array[5] / 100)
-                        }]
-                };
-                this.navPaths.push(new NavPath(path));
-                //this.navNodes.push(
-                //    new NavNode({
-                //        name: child.name,
-                //        x: Math.round(child.position.x/100),
-                //        y: Math.round(child.position.y/100),
-                //        z: Math.round(child.position.z/100)
-                //    })
-                //);
                 child.visible = false;
             }
         }.bind(this));
 
+<<<<<<< Updated upstream
         this.navPaths.forEach(function (navPath) {
             navPath.nodes.forEach(function (node) {
                 this.navNodesObject.add(node);
@@ -110,8 +71,10 @@ OuterWorld.prototype.init = function() {
         }, this);
 
         this.worldObject.add(this.navNodesObject);
+=======
+>>>>>>> Stashed changes
         this.worldObject.add(dae);
-        this.updateNodes();
+
     }.bind(this));
 
     //TODO: use skybox for outerview as well
@@ -130,7 +93,7 @@ OuterWorld.prototype.buildSkybox = function () {
     for (var i = 0; i < 6; i++) {
         skyMaterialArray.push(new THREE.MeshBasicMaterial({
             map: THREE.ImageUtils.loadTexture(imagePrefix + directions[i] + imageSuffix),
-            side: THREE.BackSide,
+            side: THREE.BackSide
         }));
     }
     var skyMaterial = new THREE.MeshFaceMaterial(skyMaterialArray);
@@ -281,12 +244,6 @@ OuterWorld.prototype.fixDegrees = function (radArray) {
 
 OuterWorld.prototype.update = function() {
     if (this.rotate() || this.move()) return true;
-};
-
-OuterWorld.prototype.updateNodes = function () {
-    this.navPaths.forEach(function (navPath) {
-        navPath.setVisible(this.worldObject.position);
-    }, this);
 };
 
 OuterWorld.prototype.isBusy = function() {
