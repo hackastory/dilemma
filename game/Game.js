@@ -12,14 +12,24 @@ var Game = {
     },
 
     handleIntroFinished: function () {
+
+        // Timer
+        var timer = new Timer( 180000 );
+        timer.on('end', function () {
+            console.log('timer ended');
+            socket.emit('lost');
+        });
+
+        timer.start();
+
         switch ( Game.choice ) {
 
             case 'innerView':
-                new InnerGame();
+                new InnerGame( timer );
                 break;
 
             case 'outerView':
-                new OuterGame();
+                new OuterGame( timer );
                 break;
         }
     },

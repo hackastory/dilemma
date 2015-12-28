@@ -1,4 +1,5 @@
-var InnerGame = function() {
+var InnerGame = function( timer ) {
+
     this.world = new InnerWorld();
     this.view = new InnerView();
     this.gaze = new GazeControls(this.world.scene);
@@ -9,14 +10,31 @@ var InnerGame = function() {
 
     this.active = true;
 
+    if ( timer ) {
+        this.timer = timer;
+    } else {
+        // You are probably playing this game standalone
+        this.timer = new Timer( 180000 );
+        this.timer.on('end', function () {
+            console.log('timer ended');
+            this.socket.emit('lost');
+        }.bind( this ));
+
+        this.timer.on('progress', function ( milliSecondsPassed ) {
+            //console.log( Math.floor( milliSecondsPassed / 1000 ), ' seconds past.' );
+        });
+
+        this.timer.start();
+    }
+
     this.socketEvents();
     this.socketUpdate();
     this.update();
 
     this.playSoundTrack();
 
-    window.addEventListener("touchend", function () {
-        console.log("touchend");
+    window.addEventListener('touchend', function () {
+        console.log('touchend');
         if (screenfull.enabled) {
             screenfull.request();
         }
@@ -58,6 +76,8 @@ InnerGame.prototype.destroy = function () {
 };
 
 InnerGame.prototype.playSoundTrack = function () {
+
+    var socket = this.socket;
 
     createjs.Sound.on('fileload', function () {
         createjs.Sound.play('soundWoman');

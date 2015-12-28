@@ -1,4 +1,4 @@
-var OuterGame = function() {
+var OuterGame = function( timer ) {
     this.world = new OuterWorld();
     this.view = new OuterView();
     this.gaze = new GazeControls(this.world.scene);
@@ -9,12 +9,29 @@ var OuterGame = function() {
 
     this.active = true;
 
+    if ( timer ) {
+        this.timer = timer;
+    } else {
+        // You are probably playing this game standalone
+        this.timer = new Timer( 180000 );
+        this.timer.on('end', function () {
+            console.log('timer ended');
+            this.socket.emit('lost');
+        }.bind( this ));
+
+        this.timer.on('progress', function ( milliSecondsPassed ) {
+            //console.log( Math.floor( milliSecondsPassed / 1000 ), ' seconds past.' );
+        });
+
+        this.timer.start();
+    }
+
     this.socketEvents();
     this.socketUpdate();
     this.update();
     this.addKeyboardListeners();
 
-    window.addEventListener("touchend", function () {
+    window.addEventListener('touchend', function () {
         console.log("touchend");
         if (screenfull.enabled) {
             screenfull.request();
