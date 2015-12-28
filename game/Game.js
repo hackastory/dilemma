@@ -15,11 +15,13 @@ var Game = {
     handleIntroFinished: function () {
 
         // Timer
+
         var timer = new Timer( 180000 );
         timer.on('end', function () {
             console.log('timer ended');
             socket.emit('lost');
         });
+
 
         timer.start();
 
@@ -30,17 +32,25 @@ var Game = {
                 break;
 
             case 'outerView':
+                $('.hud' ).show();
+                var hudTimers = $('.hud-timer');
+                timer.on('progress', function ( milliSecondsPassed ) {
+                    var durationLeft = new FormatDuration( 180000 - milliSecondsPassed );
+                    hudTimers.html( durationLeft.getMinutesSeconds() );
+                });
+
                 new OuterGame( timer );
                 break;
         }
     },
 
     handleLost: function () {
+        $('.hud' ).hide();
         new Outro( false );
     },
 
     handleOutroFinished: function () {
-
+        console.log('outro-finished');
         socket.emit('reset');
     },
 
@@ -50,6 +60,9 @@ var Game = {
     },
 
     handleStart: function () {
+
+        var body = document.querySelector('body');
+        body.className = body.className +' loading';
 
         Game.choice = Game.playerChoice.getChoice();
 
@@ -66,6 +79,7 @@ var Game = {
     },
 
     handleWon: function () {
+        $('.hud' ).hide();
         new Outro( true );
     },
 

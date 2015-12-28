@@ -6,10 +6,8 @@
 
 var GameEngine = function ( socket ) {
 
-    this.state = {
-        innerWorldChosen: false,
-        outerWorldChosen: false
-    };
+    this.state = {};
+    this.reset(); // set's the initial state of the game
 
     this.socket = socket;
 
@@ -47,19 +45,28 @@ GameEngine.prototype = {
 
     handleIntroFinished : function () {
 
-        console.log('intro finished!');
-        this.socket.emit('intro-finished');
+        if ( ! this.state.introFinished ) {
+            this.state.introFinished = true;
+            console.log( 'intro finished!' );
+            this.socket.emit( 'intro-finished' );
+        }
     },
 
     handleLost : function () {
-
-        console.log('lost');
-        this.socket.emit('lost');
+        if ( ! this.state.lost ) {
+            this.state.lost = true;
+            console.log( 'lost' );
+            this.socket.emit( 'lost' );
+        }
     },
 
     handleOutroFinished: function () {
-        console.log('outro-finished');
-        this.socket.emit('outro-finished');
+
+        if ( ! this.state.outroFinished ) {
+            this.state.outroFinished = true;
+            console.log( 'outro-finished' );
+            this.socket.emit( 'outro-finished' );
+        }
     },
 
     handlePivot: function ( client, pivotXYZ ) {
@@ -91,6 +98,7 @@ GameEngine.prototype = {
         this.socket.emit('player-taken', loginData );
 
         if ( this.state.innerViewChosen && this.state.outerViewChosen ) {
+            this.state.reset = false;
             this.socket.emit('start');
         }
 
@@ -106,11 +114,13 @@ GameEngine.prototype = {
 
     handleReset : function () {
 
-        this.state.innerViewChosen = false;
-        this.state.outerViewChosen = false;
+        if ( ! this.state.reset ) {
+            this.state.reset = true;
+            this.reset();
 
-        console.log('reset');
-        this.socket.emit( 'reset' );
+            console.log( 'reset' );
+            this.socket.emit( 'reset' );
+        }
     },
 
     handleRotation : function ( rotation ) {
@@ -120,8 +130,11 @@ GameEngine.prototype = {
 
     handleWon : function () {
 
-        console.log('won');
-        this.socket.emit('won');
+        if ( ! this.state.won ) {
+            this.state.won = true;
+            console.log( 'won' );
+            this.socket.emit( 'won' );
+        }
     },
 
 
@@ -129,6 +142,16 @@ GameEngine.prototype = {
         console.log('world-pos', posXYZ );
 
         this.socket.emit( 'world-position', posXYZ );
+    },
+
+    reset: function () {
+
+        this.state.lost = false;
+        this.state.won = false;
+        this.state.introFinished = false;
+        this.state.outroFinished = false;
+        this.state.innerWorldChosen = false;
+        this.state.outerWorldChosen = false;
     }
 };
 
