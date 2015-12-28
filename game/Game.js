@@ -7,6 +7,7 @@ var Game = {
         socket.on( 'start', Game.handleStart );
         socket.on( 'intro-finished', Game.handleIntroFinished );
         socket.on( 'outro-finished', Game.handleOutroFinished );
+        socket.on( 'reset', Game.handleReset );
         socket.on( 'lost', Game.handleLost );
         socket.on( 'won', Game.handleWon );
     },
@@ -40,7 +41,12 @@ var Game = {
 
     handleOutroFinished: function () {
 
-        // now what? :)
+        socket.emit('reset');
+    },
+
+    handleReset: function () {
+        delete Game.choice;
+        Game.playerChoice = new PlayerChoice();
     },
 
     handleStart: function () {
