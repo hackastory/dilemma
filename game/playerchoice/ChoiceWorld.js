@@ -24,11 +24,11 @@ ChoiceWorld.prototype.init = function() {
 
     var geometry = new THREE.BoxGeometry(1, 1, 1);
 
-    this.innerChoice =  new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x123fe5 } ) );
+    this.innerChoice =  new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf630a5 } ) );
     this.innerChoice.position.set( 3, 1, -10 );
     this.innerChoice.name = 'inner';
 
-    this.outerChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xf630a5 } ) );
+    this.outerChoice = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0x123fe5 } ) );
     this.outerChoice.position.set( -3, 1, -10 );
     this.outerChoice.name = 'outer';
 

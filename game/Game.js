@@ -50,7 +50,7 @@ var Game = {
     },
 
     handleOutroFinished: function () {
-
+        console.log('outro-finished');
         socket.emit('reset');
     },
 

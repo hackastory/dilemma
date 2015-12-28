@@ -27,6 +27,8 @@ PlayerChoice.prototype.destroy = function () {
     // clean up the PlayerChoice World.
     this.active = false;
     this.view.destroy();
+
+    document.body.removeChild( this.view.renderer.domElement );
 };
 
 PlayerChoice.prototype.getChoice = function () {

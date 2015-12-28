@@ -76,6 +76,8 @@ InnerGame.prototype.destroy = function () {
     // clean up the InnerGame World.
     this.active = false;
     this.view.destroy();
+
+    document.body.removeChild( this.view.renderer.domElement );
 };
 
 
