@@ -8,6 +8,8 @@ var OuterView = function() {
     this.phi = 0;
     this.theta = 0;
 
+    this.rotationYOffset = 0;
+
     this.renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     this.effect = new THREE.StereoEffect(this.renderer);
 
@@ -55,6 +57,10 @@ OuterView.prototype.setOrientationControls = function(e){
     this.controls = new THREE.DeviceOrientationControls(this.camera);
     this.controls.connect();
     this.controls.update();
+    //alert('A'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
+    this.camera.lookAt(this.cameraTarget);
+    //alert('B'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
+
 
     window.removeEventListener('deviceorientation', this.eventOrientationHandler, true );
 };
@@ -77,6 +83,13 @@ OuterView.prototype.rotateCamera = function(rot){
         this.camera.position.setLength(this.cameraDistance);
 
         this.camera.lookAt(this.cameraTarget);
+
+        // offset detected in first loop, when controls are not present yet.
+        this.rotationYOffset = this.camera.rotation.y;
+    } else {
+        // offset applied in every loop for mobile devices.
+        this.camera.rotation.y = (this.camera.rotation.y - this.rotationYOffset);
+        //document.querySelector('#pos').textContent = (this.camera.rotation.y);
     }
 };
 
