@@ -63,16 +63,6 @@ OuterWorld.prototype.init = function() {
             }
         }.bind(this));
 
-<<<<<<< Updated upstream
-        this.navPaths.forEach(function (navPath) {
-            navPath.nodes.forEach(function (node) {
-                this.navNodesObject.add(node);
-            }, this);
-        }, this);
-
-        this.worldObject.add(this.navNodesObject);
-=======
->>>>>>> Stashed changes
         this.worldObject.add(dae);
 
     }.bind(this));

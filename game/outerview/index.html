@@ -10,10 +10,40 @@
             background-size: cover;
         }
         canvas { width: 100%; height: 100% }
+
+
+        .loaders {
+            display: none;
+        }
+
+        .loading .loaders {
+            display: block;
+        }
+
+        .loading img {
+            position: absolute;
+            top: 50%;
+            width: 38px;
+            height: 38px;
+            margin-top: -19px;
+            margin-left: -19px;
+        }
+
+        .loading-left {
+            left: 25%;
+        }
+
+        .loading-right {
+            left: 75%;
+        }
+
     </style>
 </head>
-<body>
-<div id="game"></div>
+<body class="loading">
+<div class="loaders">
+    <img class="loading-left" src="../global/assets/loaders/oval.svg">
+    <img class="loading-right" src="../global/assets/loaders/oval.svg">
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="../global/js/soundjs.min.js"></script>

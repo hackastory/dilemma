@@ -7,7 +7,7 @@ var OuterGame = function( timer ) {
 
     this.lastMessage = {pivot: "", pos: ""};
 
-    this.active = true;
+    this.active = false;
 
     if ( timer ) {
         this.timer = timer;
@@ -103,8 +103,16 @@ OuterGame.prototype.addKeyboardListeners = function() {
 OuterGame.prototype.playSoundTrack = function () {
 
     createjs.Sound.on('fileload', function () {
+
+        var body = document.querySelector('body');
+        body.className = body.className.replace('loading', '');
+
         createjs.Sound.play('soundMan');
-    });
+
+        this.active = true;
+        this.update();
+
+    }.bind(this));
 
     createjs.Sound.registerSound('/global/assets/audio/soundscape-outside-man-final.mp3', 'soundMan');
 };
