@@ -77,9 +77,9 @@ OuterView.prototype.rotateCamera = function(rot){
         var phi = ( 90 - this.lat ) * Math.PI / 180;
         var theta = this.lon * Math.PI / 180;
 
-        this.camera.position.x = Math.sin( phi ) * Math.cos( theta );
-        this.camera.position.y = Math.cos( phi );
-        this.camera.position.z = Math.sin( phi ) * Math.sin( theta );
+        //this.camera.position.x = 4;
+        //this.camera.position.y = -70;
+        this.camera.position.z = 1;
         this.camera.position.setLength(this.cameraDistance);
 
         this.camera.lookAt(this.cameraTarget);
@@ -88,8 +88,12 @@ OuterView.prototype.rotateCamera = function(rot){
         this.rotationYOffset = this.camera.rotation.y;
     } else {
         // offset applied in every loop for mobile devices.
-        this.camera.rotation.y = (this.camera.rotation.y - this.rotationYOffset);
-        //document.querySelector('#pos').textContent = (this.camera.rotation.y);
+        var originalRotY = Math.PI - ((this.camera.rotation.y + Math.PI) % Math.PI);
+        //this.camera.rotation.y = (this.camera.rotation.y - this.rotationYOffset);
+        //this.camera.position.y = 7 - (this.camera.rotation.x * 20);
+        ////this.camera.position.x = 5;
+        //this.camera.position.z = -10;// - (originalRotY * 10);
+        document.querySelector('#debug').textContent = (originalRotY);
     }
 };
 

@@ -22,9 +22,13 @@ RotationControls.prototype.initAxes = function() {
         a.add(mesh);
     });
 
-    a.position.x = 4;
-    a.position.y = 7;
-    a.position.z = -10;
+    //a.position.x = 4;
+    //a.position.y = 7;
+    //a.position.z = -10;
+
+    a.position.x = 0;
+    a.position.y = 0;
+    a.position.z = 0;
 
     return a;
 };
@@ -51,8 +55,8 @@ RotationControls.prototype.initControls = function() {
 
         c.add(mesh);
     });
-    c.position.x = 4;
-    c.position.y = 7;
-    c.position.z = -10;
+    //c.position.x = 4;
+    //c.position.y = 7;
+    //c.position.z = -10;
     return c;
 };

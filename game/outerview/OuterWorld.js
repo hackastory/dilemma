@@ -102,7 +102,12 @@ OuterWorld.prototype.buildPlayerIndicator = function() {
 
 //Creates the world objects from the map
 OuterWorld.prototype.buildWorld = function() {
-    // ADDING THINGS TO THINGS
+    // Nesting world inside pivotObject, with half its size as offset.
+
+    this.worldObject.position.x = -4;
+    this.worldObject.position.y = -7;
+    this.worldObject.position.z = 10;
+
     this.pivotObject.add(this.worldObject);
     this.scene.add(this.pivotObject);
 
@@ -133,6 +138,14 @@ OuterWorld.prototype.setRotateTo = function (which) {
             break;
         case 74: //J
             this.props.vectorRotationTarget.x = this.props.vectorRotationTarget.x + (Math.PI * .5);
+            break;
+
+        //Y axis for internal testing use only
+        case 78: //N
+            this.props.vectorRotationTarget.y = this.props.vectorRotationTarget.y - (Math.PI * .5);
+            break;
+        case 77: //M
+            this.props.vectorRotationTarget.y = this.props.vectorRotationTarget.y + (Math.PI * .5);
             break;
     }
 
@@ -172,6 +185,7 @@ OuterWorld.prototype.rotate = function() {
 };
 
 OuterWorld.prototype.rotateOneTick = function () {
+    console.log('OuterWorld -> rotateOneTick', this.props.vectorRotationCurrent.z);
     this.pivotObject.rotation.x = this.props.vectorRotationCurrent.x;
     this.pivotObject.rotation.y = this.props.vectorRotationCurrent.y;
     this.pivotObject.rotation.z = this.props.vectorRotationCurrent.z;
