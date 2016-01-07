@@ -38,17 +38,18 @@ RotationControls.prototype.initControls = function() {
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
     var controls = [
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:-16}, name: 'aap'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:16}},
-        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:-16,y:0,z:0}},
-        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:16,y:0,z:0}},
-        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:-16,z:0}},
-        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:16,z:0}}
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:-16},  id: 'za'},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:16},   id: 'zb'},
+        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:-16,y:0,z:0},  id: 'xa'},
+        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:16,y:0,z:0},   id: 'xb'},
+        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:-16,z:0},  id: 'ya'},
+        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:16,z:0},   id: 'yb'}
     ];
 
     controls.forEach( function(control) {
         var mesh = new THREE.Mesh(control.geometry, material);
 
+        mesh.id = control.id;
         mesh.position.x = control.pos.x;
         mesh.position.y = control.pos.y;
         mesh.position.z = control.pos.z;

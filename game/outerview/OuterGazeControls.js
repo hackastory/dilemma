@@ -51,6 +51,8 @@ OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
                         (position.z) + intersects[0].object.position.z
                     );
 
+                    console.log('OuterGazeControls -> getGaze', this.lookingAt.id);
+
                     return moveMe;
 
                 }
