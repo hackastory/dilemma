@@ -12,8 +12,10 @@ OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
         return;
 
     navNodes.forEach(function (n) {
-        n.material.color.set(0xffffff);
+        n.material.color.set(0x00ff00);
     });
+
+    //console.log('child=', navNodes.getObjectByName('aap'));
 
     this.rayCaster.setFromCamera( this.rayVector, camera );
 

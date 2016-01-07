@@ -38,7 +38,7 @@ RotationControls.prototype.initControls = function() {
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
     var controls = [
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:-16}},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:-16}, name: 'aap'},
         {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:16}},
         {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:-16,y:0,z:0}},
         {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:16,y:0,z:0}},
