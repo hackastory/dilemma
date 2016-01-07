@@ -108,6 +108,10 @@ OuterWorld.prototype.buildWorld = function() {
     this.worldObject.position.y = -7;
     this.worldObject.position.z = 10;
 
+    //this.pivotObject.rotation.x = Math.PI/-4;
+    //this.pivotObject.rotation.y = Math.PI/-8;
+    //this.pivotObject.rotation.z = Math.PI/4;
+
     this.pivotObject.add(this.worldObject);
     this.scene.add(this.pivotObject);
 
