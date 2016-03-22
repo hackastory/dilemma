@@ -1,6 +1,9 @@
 var OuterGame = function( timer ) {
     this.world = new OuterWorld();
-    this.view = new OuterView();
+
+    var maze = this.world.pivotObject;
+    this.view = new OuterView(maze);
+
     this.gaze = new OuterGazeControls(this.world.scene);
     this.input = new DesktopControls();
     this.rotation = new RotationControls(this.world.pivotObject);

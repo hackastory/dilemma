@@ -1,8 +1,11 @@
-var OuterView = function() {
+var OuterView = function(maze) {
+    console.log('OuterView -> OuterView', maze);
+    this.maze = maze;
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
     this.cameraDistance = 30;
     this.cameraTarget = new THREE.Vector3();
+    this.cameraTarget.y = 20;
     this.lat = 0;
     this.lon = 0;
     this.phi = 0;
@@ -54,11 +57,11 @@ OuterView.prototype.setOrientationControls = function(e){
         return;
     }
 
-    this.controls = new THREE.DeviceOrientationControls(this.camera);
+    this.controls = new THREE.DeviceOrientationControls(this.maze);
     this.controls.connect();
     this.controls.update();
     //alert('A'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
-    this.camera.lookAt(this.cameraTarget);
+    //this.camera.lookAt(this.cameraTarget);
     //alert('B'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
 
 
@@ -79,9 +82,11 @@ OuterView.prototype.rotateCamera = function(rot){
 
         //this.camera.position.x = 4;
         //this.camera.position.y = -70;
-        this.camera.position.z = 1;
-        this.camera.position.setLength(this.cameraDistance);
+        //this.camera.position.z = 1;
+        //this.camera.position.setLength(this.cameraDistance);
+        //
 
+        this.camera.position.set(0,0,-30);
         this.camera.lookAt(this.cameraTarget);
 
         // offset detected in first loop, when controls are not present yet.
@@ -93,7 +98,8 @@ OuterView.prototype.rotateCamera = function(rot){
         //this.camera.position.y = 7 - (this.camera.rotation.x * 20);
         ////this.camera.position.x = 5;
         //this.camera.position.z = -10;// - (originalRotY * 10);
-        document.querySelector('#debug').textContent = (originalRotY);
+
+        ////document.querySelector('#debug').textContent = (originalRotY);
     }
 };
 

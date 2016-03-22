@@ -13,6 +13,7 @@ var OuterWorld = function() {
 
     this.worldObject = new THREE.Object3D();
     this.pivotObject = new THREE.Object3D();
+    //this.pivotObject.y = -20;
     this.playerIndicator = null;
 
     this.playerLight = new THREE.PointLight(0xffffff, 1, 20);
