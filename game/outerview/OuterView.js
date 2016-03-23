@@ -3,11 +3,14 @@ var OuterView = function(maze) {
     this.maze = maze;
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-    var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
-    var geometry = new THREE.BoxGeometry(1,1,1);
+    var material = new THREE.MeshPhongMaterial({color: 0xff0000, opacity: 1, transparent: false});
+    var geometry = new THREE.BoxGeometry(2,2,2);
+
     this.gazeTarget = new THREE.Mesh(geometry, material);
-    this.gazeTarget.position.set(0,0,-20);
-    this.gazeTarget = new THREE.Vector3();
+    this.gazeTarget.position.set(0,0,20);
+    //this.gazeTarget = new THREE.Vector3();
+
+    this.maze.add(this.gazeTarget);
 
 
     this.cameraDistance = 30;
