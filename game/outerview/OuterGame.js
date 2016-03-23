@@ -68,7 +68,7 @@ OuterGame.prototype.update = function() {
     requestAnimationFrame( this.update.bind( this ) );
 
     if(!this.world.isBusy()) {
-        var target = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.centerPosition);
+        var target = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.view.gazeTarget);
         //if (target != null) this.world.setMoveTo(target);
 
         //this.world.setJumpBy(this.input.getMovement(),this.view.getRotation());
