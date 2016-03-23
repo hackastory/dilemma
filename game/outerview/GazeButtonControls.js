@@ -8,10 +8,10 @@ GazeButtonControls.prototype.initControls = function() {
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
     var controls = [
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:5},  id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:5},   id: 'nav-zb'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:5},  id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:5},   id: 'nav-zb'}
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:0},  id: 'nav-za'},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:0},   id: 'nav-zb'},
+        //{geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:5},  id: 'nav-za'},
+        //{geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:5},   id: 'nav-zb'}
     ];
 
     controls.forEach( function(control) {

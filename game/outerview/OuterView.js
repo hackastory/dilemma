@@ -3,6 +3,13 @@ var OuterView = function(maze) {
     this.maze = maze;
     this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
+    var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
+    var geometry = new THREE.BoxGeometry(1,1,1);
+    this.gazeTarget = new THREE.Mesh(geometry, material);
+    this.gazeTarget.position.set(0,0,-20);
+    this.gazeTarget = new THREE.Vector3();
+
+
     this.cameraDistance = 30;
     this.cameraTarget = new THREE.Vector3();
     this.cameraTarget.y = 0;
@@ -87,7 +94,7 @@ OuterView.prototype.rotateCamera = function(rot){
         //this.camera.position.setLength(this.cameraDistance);
         //
 
-        this.camera.position.set(0,0,-30);
+        this.camera.position.set(0,0,-this.cameraDistance);
         this.camera.lookAt(this.cameraTarget);
 
         // offset detected in first loop, when controls are not present yet.

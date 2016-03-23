@@ -14,10 +14,10 @@ var OuterWorld = function() {
     this.worldObject = new THREE.Object3D();
     this.pivotObject = new THREE.Object3D();
 
-    var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
+    var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 0.1, transparent: true});
     var geometry = new THREE.BoxGeometry(1,1,1);
     this.gazeButtonHolder = new THREE.Mesh(geometry, material);
-    this.gazeButtonHolder.position.set(0,0,-20);
+    this.gazeButtonHolder.position.set(0,0,-15);
 
 
     //this.pivotObject.y = -20;
