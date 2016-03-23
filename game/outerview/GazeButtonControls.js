@@ -10,8 +10,8 @@ GazeButtonControls.prototype.initControls = function() {
     var controls = [
         {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: -8, y: 7, z: 0}, id: 'nav-za'},
         {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: 8, y: 7, z: 0}, id: 'nav-zb'},
-        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: -8, y: -7, z: 0}, id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: 8, y: -7, z: 0}, id: 'nav-zb'}
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: -8, y: -7, z: 0}, id: 'nav-ya'},
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: 8, y: -7, z: 0}, id: 'nav-yb'}
     ];
 
     controls.forEach(function(control) {
