@@ -1,6 +1,6 @@
-var GazeButtonControls = function (pivotObject) {
+var GazeButtonControls = function(gazeButtonsHolder) {
     this.controls = this.initControls();
-    pivotObject.add(this.controls);
+    gazeButtonsHolder.add(this.controls);
 };
 
 GazeButtonControls.prototype.initControls = function() {
@@ -8,13 +8,13 @@ GazeButtonControls.prototype.initControls = function() {
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
     var controls = [
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-8,y:7,z:0},  id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:8,y:7,z:0},   id: 'nav-zb'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-8,y:-7,z:0},  id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:8,y:-7,z:0},   id: 'nav-zb'}
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: -8, y: 7, z: 0}, id: 'nav-za'},
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: 8, y: 7, z: 0}, id: 'nav-zb'},
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: -8, y: -7, z: 0}, id: 'nav-za'},
+        {geometry: new THREE.BoxGeometry(4, 4, 1), pos: {x: 8, y: -7, z: 0}, id: 'nav-zb'}
     ];
 
-    controls.forEach( function(control) {
+    controls.forEach(function(control) {
         var mesh = new THREE.Mesh(control.geometry, material);
 
         mesh.id = control.id;
