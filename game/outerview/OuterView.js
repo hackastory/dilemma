@@ -60,6 +60,7 @@ OuterView.prototype.setOrientationControls = function(e){
     this.controls = new THREE.DeviceOrientationControls(this.maze);
     this.controls.connect();
     this.controls.update();
+
     //alert('A'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
     //this.camera.lookAt(this.cameraTarget);
     //alert('B'+this.camera.rotation.x + ',' + this.camera.rotation.y + ',' + this.camera.rotation.z);
@@ -100,6 +101,9 @@ OuterView.prototype.rotateCamera = function(rot){
         //this.camera.position.z = -10;// - (originalRotY * 10);
 
         ////document.querySelector('#debug').textContent = (originalRotY);
+        this.maze.rotation.x = -this.maze.rotation.x;
+        this.maze.rotation.y = -this.maze.rotation.y;
+        this.maze.rotation.z = 0;
     }
 };
 
