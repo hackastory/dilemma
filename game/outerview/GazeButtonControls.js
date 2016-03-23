@@ -1,49 +1,17 @@
-var RotationControls = function (pivotObject) {
-    this.axes = this.initAxes();
-    pivotObject.add(this.axes);
-
+var GazeButtonControls = function (pivotObject) {
     this.controls = this.initControls();
     pivotObject.add(this.controls);
 };
 
-RotationControls.prototype.initAxes = function() {
-    var a = new THREE.Object3D();
-
-    var material = new THREE.MeshPhongMaterial({color: 0x333333, opacity: 1, transparent: false});
-    var geometry = [
-        new THREE.BoxGeometry(0.5,32,0.5),
-        new THREE.BoxGeometry(32,0.5,0.5),
-        new THREE.BoxGeometry(0.5,0.5,32 )
-    ];
-
-    geometry.forEach( function(geo) {
-        var mesh = new THREE.Mesh(geo, material);
-
-        a.add(mesh);
-    });
-
-    //a.position.x = 4;
-    //a.position.y = 7;
-    //a.position.z = -10;
-
-    a.position.x = 0;
-    a.position.y = 0;
-    a.position.z = 0;
-
-    return a;
-};
-
-RotationControls.prototype.initControls = function() {
+GazeButtonControls.prototype.initControls = function() {
     var c = new THREE.Object3D();
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 1, transparent: false});
     var controls = [
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:-16},  id: 'nav-za'},
-        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:0,y:0,z:16},   id: 'nav-zb'},
-        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:-16,y:0,z:0},  id: 'nav-xa'},
-        {geometry: new THREE.BoxGeometry(1,4,4), pos: {x:16,y:0,z:0},   id: 'nav-xb'},
-        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:-16,z:0},  id: 'nav-ya'},
-        {geometry: new THREE.BoxGeometry(4,1,4), pos: {x:0,y:16,z:0},   id: 'nav-yb'}
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:5},  id: 'nav-za'},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:5},   id: 'nav-zb'},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:-5,y:7,z:5},  id: 'nav-za'},
+        {geometry: new THREE.BoxGeometry(4,4,1), pos: {x:5,y:7,z:5},   id: 'nav-zb'}
     ];
 
     controls.forEach( function(control) {

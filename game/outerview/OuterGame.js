@@ -7,8 +7,8 @@ var OuterGame = function( timer ) {
     this.gaze = new OuterGazeControls(this.world.scene);
     this.input = new DesktopControls();
 
-    this.rotation = new GazeButtonControls(this.world.worldObject);
-    this.rotation = new RotationControls(this.world.pivotObject);
+    this.rotation = new GazeButtonControls(this.world.gazeButtonHolder);
+    //this.rotation = new RotationControls(this.world.pivotObject);
     this.socket = io(document.location.origin);
 
     console.log('OuterGame -> OuterGame', this.rotation.controls.children);
