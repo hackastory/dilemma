@@ -8,14 +8,16 @@ var OuterGazeControls = function(scene) {
 
 OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
 
-    if (Date.now() - this.lookingAt.cooldown < this.lookingAt.delay)
+    if (Date.now() - this.lookingAt.cooldown < this.lookingAt.delay) {
         return;
+    }
 
     navNodes.forEach(function (n) {
         n.material.color.set(0x00ff00);
     });
 
     //console.log('child=', navNodes.getObjectByName('aap'));
+    //console.log('OuterGazeControls -> getGaze', position);
 
     this.rayCaster.setFromCamera( this.rayVector, camera );
 
@@ -26,7 +28,10 @@ OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
             intersects.splice(i);
     }
 
-    if (intersects.length > 0 && intersects[0].object.name.indexOf("NavPath") === 0) {
+
+
+    if (intersects.length > 0 && intersects[0].object.name.indexOf("nav-") === 0) {
+        console.log('OuterGazeControls -> getGaze', intersects);
 
         if (this.lookingAt.id === intersects[0].object.id) {
 
@@ -51,7 +56,7 @@ OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
                         (position.z) + intersects[0].object.position.z
                     );
 
-                    console.log('OuterGazeControls -> getGaze', this.lookingAt.id);
+                    console.log('OuterGazeControls -> getGaze', this.lookingAt);
 
                     return moveMe;
 

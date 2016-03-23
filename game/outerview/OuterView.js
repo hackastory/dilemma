@@ -5,7 +5,7 @@ var OuterView = function(maze) {
 
     this.cameraDistance = 30;
     this.cameraTarget = new THREE.Vector3();
-    this.cameraTarget.y = 20;
+    this.cameraTarget.y = 0;
     this.lat = 0;
     this.lon = 0;
     this.phi = 0;

@@ -6,9 +6,14 @@ var OuterGame = function( timer ) {
 
     this.gaze = new OuterGazeControls(this.world.scene);
     this.input = new DesktopControls();
+
+    this.rotation = new GazeButtonControls(this.world.worldObject);
     this.rotation = new RotationControls(this.world.pivotObject);
     this.socket = io(document.location.origin);
 
+    console.log('OuterGame -> OuterGame', this.rotation.controls.children);
+
+    this.centerPosition = new THREE.Vector3(0,0,100);
     this.lastMessage = {pivot: "", pos: ""};
 
     this.active = false;
@@ -63,8 +68,7 @@ OuterGame.prototype.update = function() {
     requestAnimationFrame( this.update.bind( this ) );
 
     if(!this.world.isBusy()) {
-
-        var target = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.world.worldObject.position);
+        var target = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.centerPosition);
         //if (target != null) this.world.setMoveTo(target);
 
         //this.world.setJumpBy(this.input.getMovement(),this.view.getRotation());
