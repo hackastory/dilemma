@@ -44,7 +44,7 @@ var OuterGame = function( timer ) {
             screenfull.request();
         }
     });
-    
+
     this.playSoundTrack();
 
     if ( DEBUG ) {
@@ -68,8 +68,11 @@ OuterGame.prototype.update = function() {
     requestAnimationFrame( this.update.bind( this ) );
 
     if(!this.world.isBusy()) {
-        var target = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.view.gazeTarget);
-        //if (target != null) this.world.setMoveTo(target);
+        var buttonId = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.view.gazeTarget);
+        if (buttonId != null) {
+            //send signal via socket
+            this.socketEmitById(buttonId);
+        }
 
         //this.world.setJumpBy(this.input.getMovement(),this.view.getRotation());
     }
@@ -83,6 +86,27 @@ OuterGame.prototype.update = function() {
     this.view.render(this.world.scene);
 
 };
+
+OuterGame.prototype.socketEmitById = function(buttonId) {
+    var character;
+    switch (buttonId) {
+        case 'nav-topleft':
+            character = 'h';
+            break;
+        case 'nav-topright':
+            character = 'k';
+            break;
+        case 'nav-bottomleft':
+            character = 'u';
+            break;
+        case 'nav-bottomright':
+            character = 'j';
+            break;
+    }
+    if (character) {
+        scope.socket.emit('rotate-' + character);
+    }
+}
 
 OuterGame.prototype.addKeyboardListeners = function() {
     var scope = this;

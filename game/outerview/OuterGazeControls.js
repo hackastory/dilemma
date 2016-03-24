@@ -50,15 +50,9 @@ OuterGazeControls.prototype.getGaze = function (camera, navNodes, position) {
                     this.lookingAt.cooldown = Date.now();
 
 
-                    var moveMe = new THREE.Vector3(
-                        (position.x) + intersects[0].object.position.x,
-                        (position.y) + intersects[0].object.position.y,
-                        (position.z) + intersects[0].object.position.z
-                    );
+                    console.log('getGaze found a button:', this.lookingAt.id);
 
-                    console.log('OuterGazeControls -> getGaze', this.lookingAt);
-
-                    return moveMe;
+                    return this.lookingAt.id;
 
                 }
             }
