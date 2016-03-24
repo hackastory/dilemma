@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dilemma - Player Choice stand alone </title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <style>
+            body {
+                background-color: #000;
+                margin: 0;
+                padding: 0;
+            }
+
+
+            .player-choice {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
+            .player-choice-title,
+            .player-choice-subtitle,
+            .player-choice a {
+                font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: white;
+            }
+
+            .player-choice-title {
+                font-size: 22px;
+                margin: 0;
+                padding: 10px;
+            }
+
+            .player-choice-subtitle {
+                font-size: 18px;
+                margin: 0;
+                padding: 5px 5px 10px;
+            }
+
+            .player-choice a {
+                display: block;
+                padding: 40px 0;
+                text-decoration: none;
+            }
+
+            .player-choice-inner {
+                background-color: hotpink;
+            }
+            .player-choice-inner:hover {
+                background-color: pink;
+            }
+
+            .player-choice-outer {
+                background-color: blue;
+            }
+
+            .player-choice-outer:hover {
+                background-color: dodgerblue;
+            }
+
+            .player-choice a.disabled {
+                background-color: grey;
+                opacity: 0.6;
+                cursor: default;
+            }
+
+            @media all and ( min-width: 500px ) {
+
+                .player-choice-inner {
+                    position: absolute;
+                    top: 90px;
+                    right: 50%;
+                    bottom: 0;
+                    left: 0;
+
+                    padding: 0;
+                }
+
+                .player-choice-outer {
+                    position: absolute;
+                    top: 90px;
+                    right: 0;
+                    bottom: 0;
+                    left: 50%;
+
+                    padding: 0;
+                }
+
+                .player-choice-label {
+                    position: absolute;
+                    top: 40%;
+                    right: 0;
+                    left: 0;
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="../global/js/jquery.min.js"></script>
+    <script src="PlayerChoice.js"></script>
+    <script>
+
+        // To test the player choice
+        var playerChoice = new PlayerChoice();
+
+    </script>
+    </body>
+</html>

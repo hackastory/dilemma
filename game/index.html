@@ -85,6 +85,100 @@
                 left: 75%;
             }
 
+            /******
+             * Player Choice classes
+             ******/
+
+
+            .player-choice {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+
+            .player-choice-title,
+            .player-choice-subtitle,
+            .player-choice a {
+                font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: white;
+            }
+
+            .player-choice-title {
+                font-size: 22px;
+                margin: 0;
+                padding: 10px;
+            }
+
+            .player-choice-subtitle {
+                font-size: 18px;
+                margin: 0;
+                padding: 5px 5px 10px;
+            }
+
+            .player-choice a {
+                display: block;
+                padding: 40px 0;
+                text-decoration: none;
+            }
+
+            .player-choice-inner {
+                background-color: hotpink;
+            }
+            .player-choice-inner:hover {
+                background-color: pink;
+            }
+
+            .player-choice-outer {
+                background-color: blue;
+            }
+
+            .player-choice-outer:hover {
+                background-color: dodgerblue;
+            }
+
+            .player-choice a.disabled {
+                background-color: grey;
+                opacity: 0.6;
+                cursor: default;
+            }
+
+            @media all and ( min-width: 500px ) {
+
+                .player-choice-inner {
+                    position: absolute;
+                    top: 90px;
+                    right: 50%;
+                    bottom: 0;
+                    left: 0;
+
+                    padding: 0;
+                }
+
+                .player-choice-outer {
+                    position: absolute;
+                    top: 90px;
+                    right: 0;
+                    bottom: 0;
+                    left: 50%;
+
+                    padding: 0;
+                }
+
+                .player-choice-label {
+                    position: absolute;
+                    top: 40%;
+                    right: 0;
+                    left: 0;
+                }
+            }
+
+            /******
+             * End Player Choice classes
+             ******/
+
         </style>
     </head>
     <body>
@@ -117,11 +211,14 @@
         <script src="/global/js/FormatDuration.js"></script>
 
 
-        <!-- PlayerChooser -->
-        <script src="/playerchoice/PlayerChoiceGazeControls.js"></script>
-        <script src="/playerchoice/ChoiceWorld.js"></script>
-        <script src="/playerchoice/ChoiceView.js"></script>
-        <script src="/playerchoice/PlayerChoice.js"></script>
+        <!-- PlayerChooser 3D -->
+        <!--<script src="/playerchoice-3d/PlayerChoiceGazeControls.js"></script>-->
+        <!--<script src="/playerchoice-3d/ChoiceWorld.js"></script>-->
+        <!--<script src="/playerchoice-3d/ChoiceView.js"></script>-->
+        <!--<script src="/playerchoice-3d/PlayerChoice.js"></script>-->
+
+        <!-- PlayerChooser 2D -->
+        <script src="/playerchoice-2d/PlayerChoice.js"></script>
 
         <!-- Intro's -->
         <script src="/innerintro/InnerIntro.js"></script>
@@ -137,10 +234,11 @@
 
         <!-- Outer Game -->
         <script src="/outerview/OuterGazeControls.js"></script>
-        <script src="/outerview/RotationControls.js"></script>
         <script src="/outerview/OuterWorld.js"></script>
         <script src="/outerview/OuterView.js"></script>
         <script src="/outerview/OuterGame.js"></script>
+        <script src="/outerview/RotationControls.js"></script>
+        <script src="/outerview/GazeButtonControls.js"></script>
 
         <!-- Outro -->
         <script src="/outro/Outro.js"></script>
