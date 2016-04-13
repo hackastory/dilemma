@@ -150,8 +150,8 @@ GameEngine.prototype = {
         this.state.won = false;
         this.state.introFinished = false;
         this.state.outroFinished = false;
-        this.state.innerWorldChosen = false;
-        this.state.outerWorldChosen = false;
+        this.state.innerViewChosen = false;
+        this.state.innerViewChosen = false;
     }
 };
 
