@@ -19,7 +19,7 @@ var Game = {
         var timer = new Timer( 180000 );
         timer.on('end', function () {
             console.log('timer ended');
-            //socket.emit('lost');
+            socket.emit('lost');
         });
 
 
@@ -35,8 +35,8 @@ var Game = {
                 $('.hud' ).show();
                 var hudTimers = $('.hud-timer');
                 timer.on('progress', function ( milliSecondsPassed ) {
-              //      var durationLeft = new FormatDuration( 180000 - milliSecondsPassed );
-              //      hudTimers.html( durationLeft.getMinutesSeconds() );
+                    var durationLeft = new FormatDuration( 180000 - milliSecondsPassed );
+                    hudTimers.html( durationLeft.getMinutesSeconds() );
                 });
 
                 new OuterGame( timer );
