@@ -67,8 +67,17 @@ OuterGame.prototype.update = function() {
     }
     requestAnimationFrame( this.update.bind( this ) );
 
-    if(!this.world.isBusy()) {
-        var buttonId = this.gaze.getGaze(this.view.camera, this.rotation.controls.children, this.view.gazeTarget);
+    if( ! this.world.isBusy() ) {
+
+        var gazeTargetPos = new THREE.Vector3();
+
+        gazeTargetPos.setFromMatrixPosition( this.view.gazeTarget.matrixWorld );
+
+        this.world.gazeTargetHelper.position.x = gazeTargetPos.x;
+        this.world.gazeTargetHelper.position.y = gazeTargetPos.y;
+        this.world.gazeTargetHelper.position.z = gazeTargetPos.z;
+
+        var buttonId = this.gaze.getGaze( this.rotation.controls.children, this.world.gazeTargetHelper );
         if (buttonId != null) {
             //send signal via socket
             this.socketEmitById(buttonId);
@@ -81,7 +90,7 @@ OuterGame.prototype.update = function() {
         this.checkTriggers();
     }
 
-    this.view.rotateCamera(this.input.getMouse());
+    this.view.rotateCamera(this.input.getLastMouseEvent());
 
     this.view.render(this.world.scene);
 
@@ -104,7 +113,7 @@ OuterGame.prototype.socketEmitById = function(buttonId) {
             break;
     }
     if (character) {
-        scope.socket.emit('rotate-' + character);
+        this.socket.emit('rotate-' + character, 'rotate-' + character );
     }
 }
 
@@ -132,7 +141,7 @@ OuterGame.prototype.addKeyboardListeners = function() {
                 break;
         }
         if (character) {
-            scope.socket.emit('rotate-' + character);
+            scope.socket.emit('rotate-' + character, 'rotate-' + character);
         }
     }
 };

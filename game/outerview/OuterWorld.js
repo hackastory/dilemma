@@ -16,9 +16,13 @@ var OuterWorld = function() {
 
     var material = new THREE.MeshPhongMaterial({color: 0x555555, opacity: 0.1, transparent: true});
     var geometry = new THREE.BoxGeometry(1,1,1);
+    var geometry2 = new THREE.BoxGeometry(2,2,2);
     this.gazeButtonHolder = new THREE.Mesh(geometry, material);
     this.gazeButtonHolder.position.set(0,0,-15);
 
+    // will represent the gaze target as an object in the root world.
+    this.gazeTargetHelper = new THREE.Mesh( geometry2, new THREE.MeshPhongMaterial({color: 0x500005, opacity: 0, transparent: true}) );
+    this.gazeTargetHelper.position.set(0,0, 5);
 
     //this.pivotObject.y = -20;
     this.playerIndicator = null;
@@ -123,6 +127,7 @@ OuterWorld.prototype.buildWorld = function() {
     this.pivotObject.add(this.worldObject);
     this.scene.add(this.pivotObject);
     this.scene.add(this.gazeButtonHolder);
+    this.scene.add(this.gazeTargetHelper);
 
 };
 

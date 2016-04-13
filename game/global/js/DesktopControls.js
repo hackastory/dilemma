@@ -32,6 +32,7 @@ DesktopControls.prototype.updateKey = function(input){
 };
 
 DesktopControls.prototype.updateMouse = function(input){
+    this.mouseEvent = input;
     this.mouseChanged.x += input.movementX;
     this.mouseChanged.y += input.movementY;
 };
@@ -51,4 +52,9 @@ DesktopControls.prototype.getMouse = function(){
     var r = {x: this.mouseChanged.x, y: this.mouseChanged.y};
     this.mouseChanged.x = this.mouseChanged.y = 0;
     return r;
+};
+
+
+DesktopControls.prototype.getLastMouseEvent = function(){
+    return this.mouseEvent;
 };

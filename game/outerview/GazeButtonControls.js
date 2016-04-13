@@ -17,7 +17,7 @@ GazeButtonControls.prototype.initControls = function() {
     controls.forEach(function(control) {
         var mesh = new THREE.Mesh(control.geometry, material);
 
-        mesh.id = control.id;
+        mesh.name = control.id;
         mesh.position.x = control.pos.x;
         mesh.position.y = control.pos.y;
         mesh.position.z = control.pos.z;

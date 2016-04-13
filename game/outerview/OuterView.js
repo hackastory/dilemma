@@ -12,7 +12,6 @@ var OuterView = function(maze) {
 
     this.maze.add(this.gazeTarget);
 
-
     this.cameraDistance = 30;
     this.cameraTarget = new THREE.Vector3();
     this.cameraTarget.y = 0;
@@ -79,29 +78,37 @@ OuterView.prototype.setOrientationControls = function(e){
     window.removeEventListener('deviceorientation', this.eventOrientationHandler, true );
 };
 
-OuterView.prototype.rotateCamera = function(rot){
+OuterView.prototype.rotateCamera = function( mouseEvent ){
 
     if ( ! this.controls ) {
         // we're dealing with desktop here, no mobile orientation controls
         // so now we may manually adjust the camera rotation
 
-        this.lon += rot.x;
-        this.lat -= rot.y;
-        this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
-        var phi = ( 90 - this.lat ) * Math.PI / 180;
-        var theta = this.lon * Math.PI / 180;
+        if ( mouseEvent ) {
+            var halfWidth = window.innerWidth / 2;
+            var halfHeight = window.innerHeight / 2;
 
-        //this.camera.position.x = 4;
-        //this.camera.position.y = -70;
-        //this.camera.position.z = 1;
-        //this.camera.position.setLength(this.cameraDistance);
-        //
+            var rotateX = ( Math.abs( mouseEvent.clientX - halfWidth ) / halfWidth ) * ( Math.PI );
+
+            if ( mouseEvent.clientX < halfWidth ) {
+                rotateX = -rotateX;
+            }
+
+            var rotateY = ( Math.abs( mouseEvent.clientY - halfHeight ) / halfHeight ) * ( Math.PI );
+            if ( mouseEvent.clientY < halfHeight ) {
+                rotateY = -rotateY;
+            }
+
+            this.maze.rotation.y = -rotateX;
+            this.maze.rotation.x = rotateY;
+        }
 
         this.camera.position.set(0,0,-this.cameraDistance);
         this.camera.lookAt(this.cameraTarget);
 
         // offset detected in first loop, when controls are not present yet.
         this.rotationYOffset = this.camera.rotation.y;
+
     } else {
         // offset applied in every loop for mobile devices.
         var originalRotY = Math.PI - ((this.camera.rotation.y + Math.PI) % Math.PI);
@@ -122,7 +129,7 @@ OuterView.prototype.getRotation = function() {
 };
 
 OuterView.prototype.render = function(scene) {
-    //console.log(scene.children.length);
+
     this.renderer.render(scene, this.camera);
     this.effect.render(scene,this.camera);
 

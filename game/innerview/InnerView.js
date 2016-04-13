@@ -65,7 +65,7 @@ InnerView.prototype.rotateCamera = function(rot){
         // so now we may manually adjust the camera rotation
 
         this.lon += rot.x;
-        //this.lat -= rot.y;
+        this.lat -= rot.y;
         this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
         var phi = ( 90 - this.lat ) * Math.PI / 180;
         var theta = this.lon * Math.PI / 180;
