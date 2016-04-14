@@ -151,7 +151,7 @@ GameEngine.prototype = {
         this.state.introFinished = false;
         this.state.outroFinished = false;
         this.state.innerViewChosen = false;
-        this.state.innerViewChosen = false;
+        this.state.outerViewChosen = false;
     }
 };
 
