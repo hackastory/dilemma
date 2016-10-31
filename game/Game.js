@@ -1,5 +1,5 @@
 var socket = io( document.location.origin );
-
+var noSleep = new NoSleep();
 var Game = {
 
     bindSocketEvents: function () {
@@ -56,7 +56,7 @@ var Game = {
 
     handleReset: function () {
         delete Game.choice;
-        Game.playerChoice = new PlayerChoice();
+        Game.playerChoice = new PlayerChoice( noSleep );
     },
 
     handleStart: function () {
@@ -87,6 +87,6 @@ var Game = {
 
         Game.bindSocketEvents();
 
-        Game.playerChoice = new PlayerChoice();
+        Game.playerChoice = new PlayerChoice( noSleep );
     }
 };

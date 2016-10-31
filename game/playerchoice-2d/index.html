@@ -103,13 +103,14 @@
     <body>
 
     <script src="/socket.io/socket.io.js"></script>
-
+    <script src="../global/js/NoSleep.min.js"></script>
     <script src="../global/js/jquery.min.js"></script>
     <script src="PlayerChoice.js"></script>
     <script>
 
         // To test the player choice
-        var playerChoice = new PlayerChoice();
+        var noSleep = new NoSleep();
+        var playerChoice = new PlayerChoice( noSleep );
 
     </script>
     </body>

@@ -1,5 +1,8 @@
 var OuterGame = function( timer ) {
-    this.world = new OuterWorld();
+    this.world = new OuterWorld( this.onInitWorld.bind( this, timer ) );
+};
+
+OuterGame.prototype.onInitWorld = function ( timer ) {
 
     var maze = this.world.pivotObject;
     this.view = new OuterView(maze);
@@ -47,9 +50,7 @@ var OuterGame = function( timer ) {
 
     this.playSoundTrack();
 
-    if ( DEBUG ) {
-        this.onAssetsLoaded();
-    }
+    this.onAssetsLoaded();
 };
 
 OuterGame.prototype.destroy = function () {
@@ -160,7 +161,9 @@ OuterGame.prototype.playSoundTrack = function () {
 
         createjs.Sound.play('soundMan');
 
-        this.onAssetsLoaded();
+        // #1 in DEBUG mode assets loaded was triggered directly, which correctly
+        // created the outer world
+        //this.onAssetsLoaded();
 
     }.bind(this));
 

@@ -1,6 +1,7 @@
-var PlayerChoice = function () {
-    this.active = true;
 
+var PlayerChoice = function ( noSleep ) {
+    this.active = true;
+    this.noSleep = noSleep;
     this.socket = io( document.location.origin );
 
     this.create();
@@ -22,6 +23,8 @@ PlayerChoice.prototype.bindChoiceButtonEvents = function () {
         e.stopPropagation();
 
         if ( $target != null && ! $target.is('.disabled') && ! this.choice ) {
+
+            this.noSleep.enable();
 
             this.choice = $target.attr('href').slice( 1 );
 

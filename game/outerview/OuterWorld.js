@@ -1,4 +1,4 @@
-var OuterWorld = function() {
+var OuterWorld = function( onInit ) {
 
     this.props = {
         rotationSpeed : 0.03,
@@ -37,11 +37,11 @@ var OuterWorld = function() {
 
     this.triggerObjects = [];
 
-    this.init();
+    this.init( onInit );
 };
 
 //Init
-OuterWorld.prototype.init = function() {
+OuterWorld.prototype.init = function( onInit ) {
 
     this.buildWorld();
 
@@ -53,7 +53,7 @@ OuterWorld.prototype.init = function() {
 
     //var material =  new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture("/global/assets/textures/UV_Grid_Sm.jpg")});
     var material = new THREE.MeshPhongMaterial({color: 0xFCC22F, opacity: 1, transparent: false});
-    var finishMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
+    var finishMaterial = new THREE.MeshPhongMaterial({color: 0x000FFF, opacity: 1, transparent: false});
 
 
     var loader = new THREE.ColladaLoader();
@@ -67,7 +67,9 @@ OuterWorld.prototype.init = function() {
             child.material = material;
 
             if (child.name !== null && child.name.indexOf("Trigger") === 0) {
-                child.visible = false;
+                //child.visible = false;
+                child.scale.x = child.scale.y = child.scale.z = 1.1;
+                child.material = finishMaterial;
             }
 
             if (child.name !== null && child.name.indexOf("NavPath") === 0) {
@@ -77,12 +79,13 @@ OuterWorld.prototype.init = function() {
 
         this.worldObject.add(dae);
 
+        //TODO: use skybox for outerview as well
+        //this.scene.add(this.buildSkybox());
+        this.worldObject.add(this.buildPlayerIndicator());
+
+        onInit();
+
     }.bind(this));
-
-    //TODO: use skybox for outerview as well
-    //this.scene.add(this.buildSkybox());
-    this.worldObject.add(this.buildPlayerIndicator());
-
 };
 
 OuterWorld.prototype.buildSkybox = function () {
