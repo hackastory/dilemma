@@ -10,12 +10,14 @@ InnerIntro.prototype = {
     create: function () {
 
         this.video = document.createElement('video');
+        this.video.autoplay = true;
+        this.video.controls = true;
         this.video.src = '/global/assets/video/hell_intro.mp4';
 
         document.body.appendChild( this.video );
 
-        if ( this.video.requestFullscreen ) {
-            this.video.requestFullscreen();
+        if ( this.video.requestFullScreen ) {
+            this.video.requestFullScreen();
         } else {
             if ( this.video.mozRequestFullScreen ) {
                 this.video.mozRequestFullScreen();
@@ -30,13 +32,18 @@ InnerIntro.prototype = {
 
             var video = this.video;
 
-            video.webkitExitFullScreen();
+            try {
+                video.webkitExitFullScreen();
+            } catch( e ) {
+
+            }
+
              $( video ).fadeOut( 2000, function () {
 
                  document.body.removeChild( video );
              } );
 
-             this.socket.emit( 'intro-finished' );
+            this.socket.emit( 'intro-finished' );
 
         }.bind( this ), false );
 

@@ -9,7 +9,7 @@ var PlayerChoice = function ( noSleep ) {
     this.socketEvents();
     this.bindChoiceButtonEvents();
 
-        // Check whether a player is already chosen and remove that option
+    // Check whether a player is already chosen and remove that option
     this.socket.emit('player-chosen-state');
 };
 
